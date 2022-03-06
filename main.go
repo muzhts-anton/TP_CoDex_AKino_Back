@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -17,9 +18,14 @@ func main() {
 	router.HandleFunc("/logout", handler.LogoutPage)
 	router.HandleFunc("/", handler.MainPage)
 
-	fmt.Println("connecting to port 3000")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
 
-	if err := http.ListenAndServe(":3000", router); err != nil {
+	fmt.Println("connecting to port " + port)
+
+	if err := http.ListenAndServe(":"+port, router); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
