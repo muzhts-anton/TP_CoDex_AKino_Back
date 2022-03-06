@@ -17,9 +17,9 @@ func main() {
 	router.HandleFunc("/logout", handler.LogoutPage)
 	router.HandleFunc("/", handler.MainPage)
 
-	fmt.Println("connecting to port 8000")
+	fmt.Println("connecting to port 3000")
 
-	if err := http.ListenAndServe(":8000", router); err != nil {
+	if err := http.ListenAndServe(":3000", router); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
