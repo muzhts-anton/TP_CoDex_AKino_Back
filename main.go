@@ -28,9 +28,9 @@ func CorsMiddleware(next http.Handler) http.Handler {
 func main() {
 	handler := handlers.NewMyHandler()
 	router := mux.NewRouter()
-	api := router.PathPrefix("/api/v1").Subrouter()
-
-	//api.Use(CorsMiddleware)
+	api := router.PathPrefix("").Subrouter()
+	
+	api.Use(CorsMiddleware)
 
 	api.HandleFunc("/", handler.MainPage).Methods("GET", "OPTIONS")
 	api.HandleFunc("/profile", handler.ProfilePage).Methods("GET", "OPTIONS")
@@ -44,7 +44,7 @@ func main() {
 	}
 
 	server := http.Server{
-		Addr:    port,
+		Addr:    ":" + port,
 		Handler: router,
 	}
 
