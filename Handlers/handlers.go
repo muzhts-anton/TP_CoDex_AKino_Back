@@ -50,7 +50,7 @@ func RandStringRunes(n int) string {
 }
 
 func isValidLogin(login string) error {
-	// login = strings.Trim(login," ")
+	login = strings.Trim(login," ")
 
 	if len(login) < minUsernameLength {
 		return errors.New("Too short username" + login + strconv.Itoa(len(login)))
