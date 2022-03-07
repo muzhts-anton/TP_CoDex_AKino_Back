@@ -1,9 +1,9 @@
 package handlers
 
 import (
+	"codex/Collections"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"math/rand"
 	"net/http"
 	"net/mail"
@@ -96,19 +96,6 @@ func isValidEmail(email string) error {
 	return nil
 }
 
-// {description: "Топ 256", imgSrc: "top.png", page: "movies", number: "1"}
-
-type JSONCHIK struct {
-	Description string `json:"description"`
-	ImgSrc      string `json:"imgSrc"`
-	Page        string `json:"page"`
-	Number      string `json:"number"`
-}
-
-type Collection struct {
-	Coll []JSONCHIK `json:"collectionList"`
-}
-
 func (api *MyHandler) MainPage(w http.ResponseWriter, r *http.Request) {
 	// authorized := false
 	// session, err := r.Cookie("session_id")
@@ -122,12 +109,7 @@ func (api *MyHandler) MainPage(w http.ResponseWriter, r *http.Request) {
 	// 	w.Write([]byte("not autrorized"))
 	// }
 
-	jsonchik := make([]JSONCHIK, 1)
-	jsonchik[0] = JSONCHIK{"Top 256", "top.png", "movies", "1"}
-	fmt.Println(jsonchik)
-	coll := Collection{jsonchik}
-	fmt.Println(coll)
-	b, err := json.Marshal(coll)
+	b, err := json.Marshal(collections.Alabdsel)
 	if err != nil {
 		http.Error(w, "lolkek", http.StatusInternalServerError)
 		return
