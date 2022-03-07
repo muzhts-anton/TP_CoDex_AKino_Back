@@ -66,6 +66,72 @@ var Alabdsel = FilmSelection{
 			Page: "movies",
 			Number: "1",
 		},
+		{
+			Description: "Приключения",
+			ImgSrc: "adventures.png",
+			Page: "movies",
+			Number: "2",
+		},
+		{
+			Description: "Для детей",
+			ImgSrc: "childish.png",
+			Page: "movies",
+			Number: "3",
+		},
+		{
+			Description: "Фильмы по комиксам",
+			ImgSrc: "comics.png",
+			Page: "movies",
+			Number: "4",
+		},
+		{
+			Description: "Драмы",
+			ImgSrc: "drama.png",
+			Page: "movies",
+			Number: "5",
+		},
+		{
+			Description: "Для всей семьи",
+			ImgSrc: "family.png",
+			Page: "movies",
+			Number: "6",
+		},
+		{
+			Description: "Рекомендации редакции",
+			ImgSrc: "ourTop.png",
+			Page: "movies",
+			Number: "7",
+		},
+		{
+			Description: "Романтические",
+			ImgSrc: "romantic.png",
+			Page: "movies",
+			Number: "8",
+		},
+		{
+			Description: "Спасение мира",
+			ImgSrc: "saveTheWorld.png",
+			Page: "movies",
+			Number: "9",
+		},
+		{
+			Description: "Советское кино",
+			ImgSrc: "soviet.png",
+			Page: "movies",
+			Number: "10",
+		},
+		{
+			Description: "Про шпионов",
+			ImgSrc: "spy.png",
+			Page: "movies",
+			Number: "11",
+		},
+		{
+			Description: "Сказки",
+			ImgSrc: "tales.png",
+			Page: "movies",
+			Number: "12",
+		},
 	},
 }
 
