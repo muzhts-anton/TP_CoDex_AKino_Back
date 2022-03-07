@@ -3,6 +3,7 @@ package main
 import (
 	"codex/Collections"
 	"codex/Handlers"
+	"codex/Authorization"
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
@@ -35,7 +36,8 @@ func main() {
 
 	api.HandleFunc("/", handler.MainPage)           //.Methods("GET", "OPTIONS")
 	api.HandleFunc("/profile", handler.ProfilePage) //.Methods("GET", "OPTIONS")
-	api.HandleFunc("/signup", handler.SignupPage)   //.Methods("POST", "OPTIONS")
+	// api.HandleFunc("/signup", handler.SignupPage)   //.Methods("POST", "OPTIONS")
+	api.HandleFunc("/signup", authorization.Register)   //.Methods("POST", "OPTIONS")
 	api.HandleFunc("/login", handler.LoginPage)     //.Methods("POST", "OPTIONS")
 	api.HandleFunc("/logout", handler.LogoutPage)   //.Methods("GET", "OPTIONS")
 

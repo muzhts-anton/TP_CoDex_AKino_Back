@@ -18,6 +18,8 @@ var maxPasswordLength = 14
 var minUsernameLength = 4
 var maxUsernameLength = 14
 
+
+// TODO: delete
 type User struct {
 	ID       uint   `json:"id"`
 	Username string `json:"username"`
