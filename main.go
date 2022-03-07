@@ -1,6 +1,7 @@
 package main
 
 import (
+	"codex/Collections"
 	"codex/Handlers"
 	"fmt"
 	"github.com/gorilla/mux"
@@ -37,6 +38,8 @@ func main() {
 	api.HandleFunc("/signup", handler.SignupPage)   //.Methods("POST", "OPTIONS")
 	api.HandleFunc("/login", handler.LoginPage)     //.Methods("POST", "OPTIONS")
 	api.HandleFunc("/logout", handler.LogoutPage)   //.Methods("GET", "OPTIONS")
+
+	api.HandleFunc("/collections/collection/{id:[0-9]+}", collections.GetCol)
 
 	port := os.Getenv("PORT") // to get port from Heroku
 	if port == "" {
