@@ -35,7 +35,7 @@ type CollType struct {
 
 var Alabdcoll = []CollType{
 	{
-		Title:       "Топ 256",
+		Title:       "Топ 255",
 		Description: "Вот такая вот подборочка :)",
 		MovieList: []MovieType{
 			{
