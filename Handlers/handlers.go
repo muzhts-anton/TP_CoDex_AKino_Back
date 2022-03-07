@@ -36,7 +36,7 @@ func NewMyHandler() *MyHandler {
 	return &MyHandler{
 		sessions: make(map[string]uint, 10),
 		users: map[string]*User{
-			"rvasily": {2, "rvasily", "love", "123@gmail.com"},
+			"rvasily": {2, "rvasily", "loveee", "123@gmail.com"},
 		},
 	}
 }
@@ -53,10 +53,10 @@ func isValidLogin(login string) error {
 	login = strings.Trim(login," ")
 
 	if len(login) < minUsernameLength {
-		return errors.New("Too short username" + login + strconv.Itoa(len(login)))
+		return errors.New("Too short username " + login + strconv.Itoa(len(login)))
 	}
 	if len(login) > maxUsernameLength {
-		return errors.New("Too long username")
+		return errors.New("Too long username ")
 	}
 	for _, symbol := range login {
 		if !(unicode.IsLetter(symbol) || unicode.IsDigit(symbol) || symbol != []rune("_")[0]) {

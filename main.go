@@ -10,8 +10,8 @@ import (
 )
 
 func CorsMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "https://xenodochial-mayer-d916ec.netlify.app/") // url to deployed front
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { // http://localhost:3000
+		w.Header().Set("Access-Control-Allow-Origin", "https://xenodochial-mayer-d916ec.netlify.app/") // url to deployed front 
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, Authorization, X-CSRF-Token, Location")
@@ -28,15 +28,15 @@ func CorsMiddleware(next http.Handler) http.Handler {
 func main() {
 	handler := handlers.NewMyHandler()
 	router := mux.NewRouter()
-	api := router.PathPrefix("").Subrouter()
-	
+	api := router.PathPrefix("/api/v1").Subrouter()
+
 	api.Use(CorsMiddleware)
 
-	api.HandleFunc("/", handler.MainPage).Methods("GET", "OPTIONS")
-	api.HandleFunc("/profile", handler.ProfilePage).Methods("GET", "OPTIONS")
-	api.HandleFunc("/signup", handler.SignupPage).Methods("POST", "OPTIONS")
-	api.HandleFunc("/login", handler.LoginPage).Methods("POST", "OPTIONS")
-	api.HandleFunc("/logout", handler.LogoutPage).Methods("GET", "OPTIONS")
+	api.HandleFunc("/", handler.MainPage)           //.Methods("GET", "OPTIONS")
+	api.HandleFunc("/profile", handler.ProfilePage) //.Methods("GET", "OPTIONS")
+	api.HandleFunc("/signup", handler.SignupPage)   //.Methods("POST", "OPTIONS")
+	api.HandleFunc("/login", handler.LoginPage)     //.Methods("POST", "OPTIONS")
+	api.HandleFunc("/logout", handler.LogoutPage)   //.Methods("GET", "OPTIONS")
 
 	port := os.Getenv("PORT") // to get port from Heroku
 	if port == "" {
