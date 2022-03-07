@@ -59,11 +59,17 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if userForm.Email == "" || userForm.Password == "" {
+	if userForm.Email == "" || userForm.Username == "" || userForm.Password == "" || userForm.RepeatPassword == "" {
 		http.Error(w, errorBadInput, http.StatusBadRequest)
 		return
 	}
 	_, err = db.FindEmail(userForm.Email)
+	if err == nil {
+		http.Error(w, errorAlreadyIn, http.StatusConflict)
+		return
+	}
+	
+	_, err = db.FindUsername(userForm.Username)
 	if err == nil {
 		http.Error(w, errorAlreadyIn, http.StatusConflict)
 		return

@@ -16,6 +16,7 @@ type User struct {
 	ID       uint64   `json:"id"`
 	Username string `json:"username"`
 	Password string `json:"password"`
+	RepeatPassword string `json:"repeatpassword"`
 	Email    string `json:"email"`
 }
 
@@ -63,6 +64,18 @@ func (db *UserMockDatabase) FindEmail(email string) (User, error) {
 	// loweredEmail := strings.ToLower(email)
 	for _, us := range db.users {
 		if us.Email == email {
+			return us, nil
+		}
+	}
+	return User{}, errorNoUser
+}
+
+func (db *UserMockDatabase) FindUsername(username string) (User, error) {
+	db.RLock()
+	defer db.RUnlock()
+	// loweredEmail := strings.ToLower(email)
+	for _, us := range db.users {
+		if us.Username == username {
 			return us, nil
 		}
 	}
