@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"errors"
 	"math/rand"
 	"net/http"
@@ -50,7 +51,7 @@ func RandStringRunes(n int) string {
 }
 
 func isValidLogin(login string) error {
-	login = strings.Trim(login," ")
+	login = strings.Trim(login, " ")
 
 	if len(login) < minUsernameLength {
 		return errors.New("Too short username " + login + strconv.Itoa(len(login)))
@@ -94,18 +95,41 @@ func isValidEmail(email string) error {
 	return nil
 }
 
-func (api *MyHandler) MainPage(w http.ResponseWriter, r *http.Request) {
-	authorized := false
-	session, err := r.Cookie("session_id")
-	if err == nil && session != nil {
-		_, authorized = api.sessions[session.Value]
-	}
+// {description: "Топ 256", imgSrc: "top.png", page: "movies", number: "1"}
 
-	if authorized {
-		w.Write([]byte("autrorized"))
-	} else {
-		w.Write([]byte("not autrorized"))
+type JSONCHIK struct {
+	description string `json:"description"`
+	imgSrc      string `json:"imgSrc"`
+	page        string `json:"page"`
+	number      string `json:"number"`
+}
+
+type Collection struct {
+	coll []JSONCHIK
+}
+
+func (api *MyHandler) MainPage(w http.ResponseWriter, r *http.Request) {
+	// authorized := false
+	// session, err := r.Cookie("session_id")
+	// if err == nil && session != nil {
+	// 	_, authorized = api.sessions[session.Value]
+	// }
+
+	// if authorized {
+	// 	w.Write([]byte("autrorized"))
+	// } else {
+	// 	w.Write([]byte("not autrorized"))
+	// }
+
+	jsonchik := make([]JSONCHIK, 1)
+	jsonchik[0] = JSONCHIK{"Top 256", "top.png", "movies", "1"}
+	coll := Collection{jsonchik}
+	b, err := json.Marshal(coll)
+	if err != nil {
+		http.Error(w, "lolkek", http.StatusInternalServerError)
+		return
 	}
+	w.Write(b)
 }
 
 func (api *MyHandler) LoginPage(w http.ResponseWriter, r *http.Request) {
