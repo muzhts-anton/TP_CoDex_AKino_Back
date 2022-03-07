@@ -34,12 +34,18 @@ func main() {
 
 	api.Use(CorsMiddleware)
 
+	// api.HandleFunc("/", handler.MainPage)           //.Methods("GET", "OPTIONS")
+	// api.HandleFunc("/profile", handler.ProfilePage) //.Methods("GET", "OPTIONS")
+	// api.HandleFunc("/signup", handler.SignupPage)   //.Methods("POST", "OPTIONS")
+	// api.HandleFunc("/login", handler.LoginPage)     //.Methods("POST", "OPTIONS")
+	// api.HandleFunc("/logout", handler.LogoutPage)   //.Methods("GET", "OPTIONS")
+
 	api.HandleFunc("/", handler.MainPage)           //.Methods("GET", "OPTIONS")
 	api.HandleFunc("/profile", handler.ProfilePage) //.Methods("GET", "OPTIONS")
-	// api.HandleFunc("/signup", handler.SignupPage)   //.Methods("POST", "OPTIONS")
 	api.HandleFunc("/signup", authorization.Register)   //.Methods("POST", "OPTIONS")
-	api.HandleFunc("/login", handler.LoginPage)     //.Methods("POST", "OPTIONS")
-	api.HandleFunc("/logout", handler.LogoutPage)   //.Methods("GET", "OPTIONS")
+	api.HandleFunc("/login", authorization.Login)     //.Methods("POST", "OPTIONS")
+	api.HandleFunc("/logout", authorization.Logout)   //.Methods("GET", "OPTIONS")
+
 
 	api.HandleFunc("/collections/collection/{id:[0-9]+}", collections.GetCol)
 
