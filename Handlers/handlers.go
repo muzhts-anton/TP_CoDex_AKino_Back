@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"math/rand"
 	"net/http"
 	"net/mail"
@@ -98,14 +99,14 @@ func isValidEmail(email string) error {
 // {description: "Топ 256", imgSrc: "top.png", page: "movies", number: "1"}
 
 type JSONCHIK struct {
-	description string `json:"description"`
-	imgSrc      string `json:"imgSrc"`
-	page        string `json:"page"`
-	number      string `json:"number"`
+	Description string `json:"description"`
+	ImgSrc      string `json:"imgSrc"`
+	Page        string `json:"page"`
+	Number      string `json:"number"`
 }
 
 type Collection struct {
-	coll []JSONCHIK
+	Coll []JSONCHIK `json:"collectionList"`
 }
 
 func (api *MyHandler) MainPage(w http.ResponseWriter, r *http.Request) {
@@ -123,7 +124,9 @@ func (api *MyHandler) MainPage(w http.ResponseWriter, r *http.Request) {
 
 	jsonchik := make([]JSONCHIK, 1)
 	jsonchik[0] = JSONCHIK{"Top 256", "top.png", "movies", "1"}
+	fmt.Println(jsonchik)
 	coll := Collection{jsonchik}
+	fmt.Println(coll)
 	b, err := json.Marshal(coll)
 	if err != nil {
 		http.Error(w, "lolkek", http.StatusInternalServerError)
