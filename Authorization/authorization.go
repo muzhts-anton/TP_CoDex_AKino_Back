@@ -10,8 +10,9 @@ import (
 	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/gorilla/securecookie"
 	"time"
+
+	"github.com/gorilla/securecookie"
 )
 
 type userForLogin struct {
@@ -40,14 +41,14 @@ func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user.OmitPassword()
-	b, err := json.Marshal(user)
+	userInfoJson, err := json.Marshal(user)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	_, err = w.Write(b)
+	_, err = w.Write(userInfoJson)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
@@ -55,8 +56,6 @@ func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-
-
 
 	cookie := &http.Cookie{
 		Name:    "session_id_Register_Without_Encoding",
@@ -73,12 +72,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 	if encoded, err := s.Encode("session_id_register", value); err == nil {
 		cookie := &http.Cookie{
-			Name:  "session_id_register",
-			Value: encoded,
-			Path:  "/",
-			Secure: true,
+			Name:     "session_id_register",
+			Value:    encoded,
+			Path:     "/",
+			Secure:   true,
 			HttpOnly: true,
-			Expires: time.Now().Add(10 * time.Hour),
+			Expires:  time.Now().Add(10 * time.Hour),
 		}
 		http.SetCookie(w, cookie)
 	}
@@ -114,13 +113,13 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	userForm.OmitPassword()
-	b, err := json.Marshal(userForm)
+	userInfoJson, err := json.Marshal(userForm)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
-	_, err = w.Write(b)
+	_, err = w.Write(userInfoJson)
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -147,7 +146,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user.OmitPassword()
-	b, err := json.Marshal(user)
+	userInfoJson, err := json.Marshal(user)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
@@ -160,7 +159,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	_, err = w.Write(b)
+	_, err = w.Write(userInfoJson)
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
@@ -189,11 +188,11 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userInfo := DB.User{ID: userID}
-	b, err := json.Marshal(userInfo)
+	userInfoJson, err := json.Marshal(userInfo)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	_, err = w.Write(b)
+	_, err = w.Write(userInfoJson)
 }
