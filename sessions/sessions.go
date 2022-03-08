@@ -25,7 +25,7 @@ func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 		MaxAge:   100000, // ~27 hours
 		Secure:   true,
 		HttpOnly: true,
-		SameSite: http.SameSiteNoneMode,
+		// SameSite: http.SameSiteNoneMode,
 		Path:     "/",
 	}
 	err := session.Save(r, w)
