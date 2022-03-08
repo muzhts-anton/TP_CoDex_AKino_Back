@@ -45,7 +45,8 @@ func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 		Secure:   true,
 		HttpOnly: true,
 		// SameSite: http.SameSiteNoneMode,
-		SameSite: http.SameSiteLaxMode,
+		// SameSite: http.SameSiteLaxMode,
+		SameSite: 4,
 		Path:     "/",
 	}
 	err := session.Save(r, w)
