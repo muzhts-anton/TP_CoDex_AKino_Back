@@ -60,11 +60,13 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	cookie := &http.Cookie{
 		Name:    "session_id_Register_Without_Encoding",
 		Value:   "123",
-		Path: "/",
-		Secure:   true,
 		HttpOnly: true,
-		SameSite: 4,
 		Expires: time.Now().Add(10 * time.Hour),
+		SameSite: http.SameSiteNoneMode,
+		// SameSite: 4,
+		Secure:   true,
+		Path: "https://xenodochial-mayer-d916ec.netlify.app",
+		// Path: "/",
 	}
 	http.SetCookie(w, cookie)
 
