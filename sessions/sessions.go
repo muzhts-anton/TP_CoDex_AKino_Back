@@ -2,9 +2,10 @@ package sessions
 
 import (
 	"errors"
+	"net/http"
+
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
-	"net/http"
 )
 
 var ErrUserNotLoggedIn = errors.New("user not logged in")
@@ -13,19 +14,35 @@ var errUint64Cast = errors.New("id uint64 cast error")
 var store = sessions.NewCookieStore(securecookie.GenerateRandomKey(32))
 var sessionName = "session-name"
 
-// MaxAge=0 means no Max-Age attribute specified and the cookie will be
-// deleted after the browser session ends.
-// MaxAge<0 means delete cookie immediately.
-// MaxAge>0 means Max-Age attribute present and given in seconds.
+var hashKey = []byte("very-secret")
+var blockKey = []byte("a-lot-secret")
+var s = securecookie.New(hashKey, blockKey)
+
+// func SetCookieHandler(w http.ResponseWriter, r *http.Request) {
+// 	value := map[string]string{
+// 		"foo": "bar",
+// 	}
+// 	if encoded, err := s.Encode("cookie-name", value); err == nil {
+// 		cookie := &http.Cookie{
+// 			Name:  "cookie-name",
+// 			Value: encoded,
+// 			Path:  "/",
+// 			Secure: true,
+// 			HttpOnly: true,
+// 		}
+// 		http.SetCookie(w, cookie)
+// 	}
+// }
 
 func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
+
 	session, _ := store.Get(r, sessionName)
 	session.Values["id"] = id
 	session.Options = &sessions.Options{
-		MaxAge:   100000, // ~27 hours
+		MaxAge:   100000,
 		Secure:   true,
 		HttpOnly: true,
-		SameSite: http.SameSiteNoneMode,
+		// SameSite: http.SameSiteNoneMode,
 		Path:     "/",
 	}
 	err := session.Save(r, w)
@@ -33,18 +50,31 @@ func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return err
 	}
+
+	value := map[string]string{
+		"foo": "bar",
+	}
+	if encoded, err := s.Encode("session_id", value); err == nil {
+		cookie := &http.Cookie{
+			Name:  "session_id",
+			Value: encoded,
+			Path:  "/",
+			Secure: true,
+			HttpOnly: true,
+		}
+		http.SetCookie(w, cookie)
+	}
+
 	return nil
 }
 
-func EndSession(w http.ResponseWriter, r *http.Request, id uint64) error {
+func FinishSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	session, err := store.Get(r, sessionName)
 	if err != nil {
 		return err
 	}
-	// Get() always returns a session, even if empty, so check isIn
 	sessionId, isIn := session.Values["id"]
 	if isIn && id == sessionId {
-		// deleting a session may only happen at maxage < 0
 		session.Options.MaxAge = -1
 		err := session.Save(r, w)
 		if err != nil {

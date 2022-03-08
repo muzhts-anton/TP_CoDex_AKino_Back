@@ -4,13 +4,14 @@ import (
 	"codex/DB"
 	"codex/sessions"
 	"encoding/json"
-	"github.com/gorilla/mux"
-	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
+	"golang.org/x/crypto/bcrypt"
 )
 
-type userToLogin struct {
+type userForLogin struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
@@ -68,13 +69,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errorAlreadyIn, http.StatusConflict)
 		return
 	}
-	
+
 	_, err = db.FindUsername(userForm.Username)
 	if err == nil {
 		http.Error(w, errorAlreadyIn, http.StatusConflict)
 		return
 	}
-
 
 	idReg := db.AddUser(userForm)
 	err = sessions.StartSession(w, r, userForm.ID)
@@ -94,7 +94,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	userForm := new(userToLogin)
+	userForm := new(userForLogin)
 	err := json.NewDecoder(r.Body).Decode(&userForm)
 	if err != nil {
 		http.Error(w, errorBadInput, http.StatusBadRequest)
@@ -138,7 +138,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errorBadInput, http.StatusForbidden)
 		return
 	}
-	err = sessions.EndSession(w, r, id)
+	err = sessions.FinishSession(w, r, id)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
