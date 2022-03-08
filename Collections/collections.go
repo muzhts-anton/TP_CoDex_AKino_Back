@@ -61,7 +61,7 @@ var Alabdcoll = []CollType{
 var Alabdsel = FilmSelection{
 	[]FilmType{
 		{
-			Description: "Top 2566",
+			Description: "Top 256",
 			ImgSrc: "top.png",
 			Page: "movies",
 			Number: "1",
