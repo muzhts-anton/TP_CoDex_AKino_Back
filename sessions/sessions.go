@@ -60,7 +60,7 @@ func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 		cookie := &http.Cookie{
 			Name:  "session_id",
 			Value: encoded,
-			// Path:  "/",
+			Path:  "/",
 			Secure: true,
 			HttpOnly: true,
 			Expires: time.Now().Add(10 * time.Hour),
