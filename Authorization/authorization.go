@@ -55,35 +55,25 @@ func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-	SID := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
-	// api.sessions[SID] = user.ID
 
-	cookie := &http.Cookie{
-		Name:    "session_id",
-		Value:   string(SID),
-		Path:  "/",
-		Expires: time.Now().Add(10 * time.Hour),
-	}
-	http.SetCookie(w, cookie)
-
-	var hashKey = []byte("very-secret")
-	var blockKey = []byte("a-lot-secret")
-	var s = securecookie.New(hashKey, blockKey)
-	value := map[string]string{
-		"foo": "bar",
-	}
-	if encoded, err := s.Encode("session_id_register", value); err == nil {
-		cookie := &http.Cookie{
-			Name:  "session_id_register",
-			Value: encoded,
-			Path:  "/",
-			Secure: true,
-			HttpOnly: true,
-			Expires: time.Now().Add(10 * time.Hour),
-		}
-		http.SetCookie(w, cookie)
-	}
+	// var hashKey = []byte("very-secret")
+	// var blockKey = []byte("a-lot-secret")
+	// var s = securecookie.New(hashKey, blockKey)
+	// value := map[string]string{
+	// 	"foo": "bar",
+	// }
+	// if encoded, err := s.Encode("session_id_register", value); err == nil {
+	// 	cookie := &http.Cookie{
+	// 		Name:  "session_id_register",
+	// 		Value: encoded,
+	// 		Path:  "/",
+	// 		Secure: true,
+	// 		HttpOnly: true,
+	// 		Expires: time.Now().Add(10 * time.Hour),
+	// 	}
+	// 	http.SetCookie(w, cookie)
+	// }
 
 	defer r.Body.Close()
 	userForm := new(DB.User)
