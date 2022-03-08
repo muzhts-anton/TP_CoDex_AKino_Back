@@ -55,6 +55,16 @@ func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
+	SID := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+	// api.sessions[SID] = user.ID
+
+	cookie := &http.Cookie{
+		Name:    "session_id",
+		Value:   string(SID),
+		Expires: time.Now().Add(10 * time.Hour),
+	}
+	http.SetCookie(w, cookie)
 
 	var hashKey = []byte("very-secret")
 	var blockKey = []byte("a-lot-secret")
