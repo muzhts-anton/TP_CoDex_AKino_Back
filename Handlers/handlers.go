@@ -57,6 +57,7 @@ func isValidLogin(login string) error {
 	login = strings.Trim(login, " ")
 
 	if len(login) < minUsernameLength {
+		
 		return errors.New("Too short username " + login + strconv.Itoa(len(login)))
 	}
 	if len(login) > maxUsernameLength {
@@ -160,6 +161,19 @@ func (api *MyHandler) SignupPage(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 
 	if err := isValidLogin(login); err != nil {
+		
+		SID := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+		// api.sessions[SID] = user.ID
+	
+		cookie := &http.Cookie{
+			Name:    "session_id",
+			Value:   string(SID),
+			Path:  "/",
+			Expires: time.Now().Add(10 * time.Hour),
+		}
+		http.SetCookie(w, cookie)
+
 		http.Error(w, err.Error(), 404)
 		return
 	}
