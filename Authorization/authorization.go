@@ -10,8 +10,8 @@ import (
 	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/gorilla/securecookie"
-	"time"
+	// "github.com/gorilla/securecookie"
+	// "time"
 )
 
 type userForLogin struct {
