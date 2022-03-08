@@ -63,6 +63,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		Path: "/",
 		Secure:   true,
 		HttpOnly: true,
+		SameSite: 4,
 		Expires: time.Now().Add(10 * time.Hour),
 	}
 	http.SetCookie(w, cookie)
