@@ -6,6 +6,8 @@ import (
 
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
+
+	"time"
 )
 
 var ErrUserNotLoggedIn = errors.New("user not logged in")
@@ -58,9 +60,10 @@ func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 		cookie := &http.Cookie{
 			Name:  "session_id",
 			Value: encoded,
-			Path:  "/",
+			// Path:  "/",
 			Secure: true,
 			HttpOnly: true,
+			Expires: time.Now().Add(10 * time.Hour),
 		}
 		http.SetCookie(w, cookie)
 	}
