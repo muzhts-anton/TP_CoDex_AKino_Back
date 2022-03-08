@@ -95,13 +95,13 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	_, err = db.FindEmail(userForm.Email)
-	if err != nil {
+	if err == nil {
 		http.Error(w, errorAlreadyIn, http.StatusConflict)
 		return
 	}
 
 	_, err = db.FindUsername(userForm.Username)
-	if err != nil {
+	if err == nil {
 		http.Error(w, errorAlreadyIn, http.StatusConflict)
 		return
 	}
