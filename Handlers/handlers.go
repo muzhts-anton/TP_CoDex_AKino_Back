@@ -147,7 +147,7 @@ func (api *MyHandler) LoginPage(w http.ResponseWriter, r *http.Request) {
 	api.sessions[SID] = user.ID
 
 	cookie := &http.Cookie{
-		Name:    "session_id",
+		Name:    "session_id_LoginPage",
 		Value:   SID,
 		Expires: time.Now().Add(10 * time.Hour),
 	}
@@ -189,7 +189,7 @@ func (api *MyHandler) SignupPage(w http.ResponseWriter, r *http.Request) {
 	api.sessions[SID] = user.ID
 
 	cookie := &http.Cookie{
-		Name:    "session_id",
+		Name:    "session_id_SignupPage",
 		Value:   SID,
 		Expires: time.Now().Add(10 * time.Hour),
 	}
@@ -201,7 +201,7 @@ func (api *MyHandler) ProfilePage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (api *MyHandler) LogoutPage(w http.ResponseWriter, r *http.Request) {
-	session, err := r.Cookie("session_id")
+	session, err := r.Cookie("session_id_LogoutPage")
 	if err == http.ErrNoCookie {
 		http.Error(w, `no sess on client`, 401)
 		return

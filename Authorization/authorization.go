@@ -57,6 +57,14 @@ func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
 func Register(w http.ResponseWriter, r *http.Request) {
 
 
+
+	cookie := &http.Cookie{
+		Name:    "session_id_Register_Without_Encoding",
+		Value:   "123",
+		Expires: time.Now().Add(10 * time.Hour),
+	}
+	http.SetCookie(w, cookie)
+
 	var hashKey = []byte("very-secret")
 	var blockKey = []byte("a-lot-secret")
 	var s = securecookie.New(hashKey, blockKey)
