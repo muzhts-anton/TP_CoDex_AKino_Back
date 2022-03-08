@@ -57,7 +57,7 @@ func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	value := map[string]string{
 		"foo": "bar",
 	}
-	if encoded, err := s.Encode("session_id", value); err == nil {
+	if encoded, err := s.Encode("session_id_Gorilla", value); err == nil {
 		cookie := &http.Cookie{
 			Name:  "session_id_Gorilla",
 			Value: encoded,
