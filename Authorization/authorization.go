@@ -60,6 +60,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	cookie := &http.Cookie{
 		Name:    "session_id_Register_Without_Encoding",
 		Value:   "123",
+		Path: "/",
 		Expires: time.Now().Add(10 * time.Hour),
 	}
 	http.SetCookie(w, cookie)
@@ -75,7 +76,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 			Name:     "session_id_register",
 			Value:    encoded,
 			Path:     "/",
-			Secure:   true,
+			// Secure:   true,
 			HttpOnly: true,
 			Expires:  time.Now().Add(10 * time.Hour),
 		}
