@@ -59,7 +59,7 @@ func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	}
 	if encoded, err := s.Encode("session_id", value); err == nil {
 		cookie := &http.Cookie{
-			Name:  "session_id",
+			Name:  "session_id_Gorilla",
 			Value: encoded,
 			Path:  "/",
 			Secure: true,
