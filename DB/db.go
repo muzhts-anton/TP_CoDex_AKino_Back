@@ -25,6 +25,7 @@ var basePicture = "/pic/1.jpg"
 
 func (us *User) OmitPassword() {
 	us.Password = ""
+	us.RepeatPassword = ""
 }
 
 

@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"unicode"
 )
 
 func CorsMiddleware(next http.Handler) http.Handler {
@@ -29,6 +30,9 @@ func CorsMiddleware(next http.Handler) http.Handler {
 }
 
 func main() {
+	symbol := "Ы"
+	fmt.Println(unicode.IsLetter([]rune(symbol)[0])) 
+
 	handler := handlers.NewMyHandler()
 	router := mux.NewRouter()
 	api := router.PathPrefix("/api/v1").Subrouter()

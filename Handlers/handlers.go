@@ -56,6 +56,8 @@ func RandStringRunes(n int) string {
 func isValidLogin(login string) error {
 	login = strings.Trim(login, " ")
 
+	// ^(?=.*[0-9])(?=.*[A-z])[A-zА-я0-9]{8,}$
+
 	if len(login) < minUsernameLength {
 		
 		return errors.New("Too short username " + login + strconv.Itoa(len(login)))
@@ -64,7 +66,7 @@ func isValidLogin(login string) error {
 		return errors.New("Too long username ")
 	}
 	for _, symbol := range login {
-		if !(unicode.IsLetter(symbol) || unicode.IsDigit(symbol) || symbol != []rune("_")[0]) {
+		if !(unicode.IsLetter(symbol)) { // || unicode.IsDigit(symbol) || symbol != []rune("_")[0]
 			return errors.New("Contains illegal characters")
 		}
 	}
