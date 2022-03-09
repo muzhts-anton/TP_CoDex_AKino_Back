@@ -21,7 +21,7 @@ type User struct {
 }
 
 
-var basePicture = "/pic/1.jpg"
+const basePicture = "/pic/1.jpg"
 
 func (us *User) OmitPassword() {
 	us.Password = ""

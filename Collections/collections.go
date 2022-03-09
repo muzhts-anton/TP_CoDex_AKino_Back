@@ -162,7 +162,7 @@ func GetCol(w http.ResponseWriter, r *http.Request) {
 	jsonchik := Alabdcoll[colnum-1]
 	b, err := json.Marshal(jsonchik)
 	if err != nil {
-		http.Error(w, "lolkek", http.StatusInternalServerError)
+		http.Error(w, "cant marshal json", http.StatusInternalServerError)
 		return
 	}
 	w.Write(b)

@@ -10,9 +10,9 @@ import (
 	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
 
-	"time"
-
+	"codex/Collections"
 	"github.com/gorilla/securecookie"
+	"time"
 )
 
 type userForLogin struct {
@@ -21,7 +21,10 @@ type userForLogin struct {
 }
 
 var (
-	db                  DB.UserMockDatabase
+	db DB.UserMockDatabase
+)
+
+const (
 	errorBadInput       = "error - bad input"
 	errorAlreadyIn      = "error - already in"
 	errorBadCredentials = "error - bad credentials"
@@ -58,10 +61,10 @@ func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
 func Register(w http.ResponseWriter, r *http.Request) {
 
 	cookie := &http.Cookie{
-		Name:    "session_id_Register_Without_Encoding",
-		Value:   "123",
+		Name:     "session_id_Register_Without_Encoding",
+		Value:    "123",
 		HttpOnly: true,
-		Expires: time.Now().Add(10 * time.Hour),
+		Expires:  time.Now().Add(10 * time.Hour),
 		// SameSite: http.SameSiteNoneMode,
 		SameSite: 4,
 		Secure:   true,
@@ -78,9 +81,9 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 	if encoded, err := s.Encode("session_id_register", value); err == nil {
 		cookie := &http.Cookie{
-			Name:     "session_id_register",
-			Value:    encoded,
-			Path:     "/",
+			Name:  "session_id_register",
+			Value: encoded,
+			Path:  "/",
 			// Secure:   true,
 			HttpOnly: true,
 			Expires:  time.Now().Add(10 * time.Hour),
@@ -100,7 +103,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errorBadInput, http.StatusBadRequest)
 		return
 	}
-	if(userForm.Password != userForm.RepeatPassword){
+	if userForm.Password != userForm.RepeatPassword {
 		http.Error(w, errorBadInput, http.StatusBadRequest)
 		return
 	}
@@ -184,6 +187,15 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+func MainPage(w http.ResponseWriter, r *http.Request) {
+	b, err := json.Marshal(collections.Alabdsel)
+	if err != nil {
+		http.Error(w, "cant marshal", http.StatusInternalServerError)
+		return
+	}
+	w.Write(b)
 }
 
 func CheckAuth(w http.ResponseWriter, r *http.Request) {

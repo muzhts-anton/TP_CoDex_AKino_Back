@@ -9,7 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"unicode"
+	// "unicode"
 )
 
 func CorsMiddleware(next http.Handler) http.Handler {
@@ -30,8 +30,6 @@ func CorsMiddleware(next http.Handler) http.Handler {
 }
 
 func main() {
-	symbol := "Ы"
-	fmt.Println(unicode.IsLetter([]rune(symbol)[0])) 
 
 	handler := handlers.NewMyHandler()
 	router := mux.NewRouter()
@@ -45,8 +43,7 @@ func main() {
 	// api.HandleFunc("/login", handler.LoginPage)     //.Methods("POST", "OPTIONS")
 	// api.HandleFunc("/logout", handler.LogoutPage)   //.Methods("GET", "OPTIONS")
 
-	api.HandleFunc("/", handler.MainPage)           //.Methods("GET", "OPTIONS")
-	api.HandleFunc("/profile", handler.ProfilePage) //.Methods("GET", "OPTIONS")
+	api.HandleFunc("/", authorization.MainPage)           //.Methods("GET", "OPTIONS")
 	api.HandleFunc("/signup", authorization.Register)   //.Methods("POST", "OPTIONS")
 	api.HandleFunc("/login", authorization.Login)     //.Methods("POST", "OPTIONS")
 	api.HandleFunc("/logout", authorization.Logout)   //.Methods("GET", "OPTIONS")
@@ -59,13 +56,11 @@ func main() {
 	if port == "" {
 		port = "3000"
 	}
-
 	server := http.Server{
-		Addr:    ":" + port,
+		Addr:    fmt.Sprintf(":%s", port),
 		Handler: router,
 	}
-
-	fmt.Println("connecting to port " + port)
+	fmt.Println("connecting to port ", port)
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
