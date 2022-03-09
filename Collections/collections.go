@@ -5,7 +5,20 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
+	"errors"
+	// "codex/DB"
 )
+
+var (
+	errSkipMsg  = "incorrect skip"
+	errLimitMsg = "incorrect limit"
+	errDBMsg    = "DB error"
+	errEncMsg   = "Encoding error"
+	errorSkip   = errors.New(errSkipMsg)
+	errorLimit  = errors.New(errLimitMsg)
+	// db          = DB.CollectionsMockDatabase{Previews: DB.PreviewMock}
+)
+
 
 type FilmType struct {
 	Description string `json:"description"`
