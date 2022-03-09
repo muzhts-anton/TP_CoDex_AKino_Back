@@ -1,6 +1,6 @@
 module codex
 
-go 1.17
+go 1.13
 
 require (
 	github.com/VojtechVitek/samesite v0.0.3 // indirect
