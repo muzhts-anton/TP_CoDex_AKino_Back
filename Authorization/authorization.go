@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"github.com/gorilla/securecookie"
-	"github.com/VojtechVitek/samesite"
 )
 
 type userForLogin struct {
@@ -64,7 +63,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Expires: time.Now().Add(10 * time.Hour),
 		// SameSite: http.SameSiteNoneMode,
-		SameSite: samesite.None(r.UserAgent()),
+		SameSite: 4,
 		Secure:   true,
 		// Path: "https://xenodochial-mayer-d916ec.netlify.app",
 		Path: "/",

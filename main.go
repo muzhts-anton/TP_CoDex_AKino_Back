@@ -50,6 +50,7 @@ func main() {
 	api.HandleFunc("/signup", authorization.Register)   //.Methods("POST", "OPTIONS")
 	api.HandleFunc("/login", authorization.Login)     //.Methods("POST", "OPTIONS")
 	api.HandleFunc("/logout", authorization.Logout)   //.Methods("GET", "OPTIONS")
+	api.HandleFunc("/user/checkAuth", authorization.CheckAuth) //.Methods("GET", "OPTIONS")
 
 
 	api.HandleFunc("/collections/collection/{id:[0-9]+}", collections.GetCol)
