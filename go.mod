@@ -3,6 +3,7 @@ module codex
 go 1.11
 
 require (
+	github.com/VojtechVitek/samesite v0.0.3 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect

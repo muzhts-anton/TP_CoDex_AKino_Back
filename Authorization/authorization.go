@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/gorilla/securecookie"
+	"github.com/VojtechVitek/samesite"
 )
 
 type userForLogin struct {
@@ -63,7 +64,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Expires: time.Now().Add(10 * time.Hour),
 		// SameSite: http.SameSiteNoneMode,
-		SameSite: 4,
+		SameSite: samesite.None(r.UserAgent()),
 		Secure:   true,
 		// Path: "https://xenodochial-mayer-d916ec.netlify.app",
 		Path: "/",
@@ -97,6 +98,10 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if userForm.Email == "" || userForm.Username == "" || userForm.Password == "" || userForm.RepeatPassword == "" {
+		http.Error(w, errorBadInput, http.StatusBadRequest)
+		return
+	}
+	if(userForm.Password != userForm.RepeatPassword){
 		http.Error(w, errorBadInput, http.StatusBadRequest)
 		return
 	}
