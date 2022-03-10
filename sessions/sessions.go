@@ -39,11 +39,15 @@ func FinishSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	sessionId, isIn := session.Values["id"]
 	if isIn && id == sessionId {
 		session.Options.MaxAge = -1
+		session.Options.Secure = true
+		session.Options.SameSite = http.SameSiteNoneMode
 		err := session.Save(r, w)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return err
 		}
+	}else{
+		return errors.New("Passed through if on FinishSession")
 	}
 	return nil
 }
