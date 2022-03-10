@@ -2,7 +2,6 @@ package main
 
 import (
 	"codex/Collections"
-	"codex/Handlers"
 	"codex/Authorization"
 	"fmt"
 	"github.com/gorilla/mux"
@@ -13,7 +12,6 @@ import (
 )
 
 func CorsMiddleware(next http.Handler) http.Handler {
-	fmt.Println("Hello from MiddleWare!!")
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { // http://localhost:3000
 		w.Header().Set("Access-Control-Allow-Origin", "https://xenodochial-mayer-d916ec.netlify.app") // url to deployed front 
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -31,7 +29,6 @@ func CorsMiddleware(next http.Handler) http.Handler {
 
 func main() {
 
-	handler := handlers.NewMyHandler()
 	router := mux.NewRouter()
 	api := router.PathPrefix("/api/v1").Subrouter()
 

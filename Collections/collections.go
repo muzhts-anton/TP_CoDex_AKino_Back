@@ -2,21 +2,20 @@ package collections
 
 import (
 	"encoding/json"
-	"github.com/gorilla/mux"
+	// "errors"
+	// "fmt"
 	"net/http"
 	"strconv"
-	"errors"
+
+	"github.com/gorilla/mux"
 	// "codex/DB"
 )
 
-var (
-	errSkipMsg  = "incorrect skip"
-	errLimitMsg = "incorrect limit"
+const (
 	errDBMsg    = "DB error"
+	errParseID  = "error parse ID"
+	errBadID    = "error Bad ID"
 	errEncMsg   = "Encoding error"
-	errorSkip   = errors.New(errSkipMsg)
-	errorLimit  = errors.New(errLimitMsg)
-	// db          = DB.CollectionsMockDatabase{Previews: DB.PreviewMock}
 )
 
 
@@ -152,11 +151,11 @@ func GetCol(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	colnum, err := strconv.ParseUint(params["id"], 10, 64)
 	if err != nil {
-		http.Error(w, "error BadInput", http.StatusBadRequest)
+		http.Error(w, errParseID, http.StatusBadRequest)
 		return
 	}
 	if colnum != 1 {
-		http.Error(w, "Im working on it", http.StatusBadRequest)
+		http.Error(w, errBadID, http.StatusBadRequest)
 		return
 	}
 	jsonchik := Alabdcoll[colnum-1]

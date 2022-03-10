@@ -20,9 +20,8 @@ type userForLogin struct {
 	Password string `json:"password"`
 }
 
-var (
-	db DB.UserMockDatabase
-)
+var db DB.UserMockDatabase
+
 
 const (
 	errorBadInput       = "error - bad input"

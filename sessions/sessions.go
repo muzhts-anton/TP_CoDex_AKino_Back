@@ -14,11 +14,11 @@ var ErrUserNotLoggedIn = errors.New("user not logged in")
 var errUint64Cast = errors.New("id uint64 cast error")
 
 var store = sessions.NewCookieStore(securecookie.GenerateRandomKey(32))
-const sessionName = "session-name"
+var sessionName = "session-name"
 
 var hashKey = []byte("very-secret")
 var blockKey = []byte("a-lot-secret")
-const s = securecookie.New(hashKey, blockKey)
+var s = securecookie.New(hashKey, blockKey)
 
 // func SetCookieHandler(w http.ResponseWriter, r *http.Request) {
 // 	value := map[string]string{

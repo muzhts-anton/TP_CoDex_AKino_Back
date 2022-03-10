@@ -1,13 +1,14 @@
 package collections
 
 import (
-	// "fmt"
-	// "github.com/stretchr/testify/assert"
+	"fmt"
+	"github.com/stretchr/testify/assert"
 	"net/http"
-	// "net/http/httptest"
-	// "os"
-	// "strings"
-	// "testing"
+	"net/http/httptest"
+	"os"
+	"strings"
+	"testing"
+	"github.com/gorilla/mux"
 )
 
 type testRow struct {
@@ -19,68 +20,53 @@ type testRow struct {
 
 var testTableSuccess = [...]testRow{
 	{
-		inQuery: "skip=0&limit=1",
-		out:     `{"collections_list":[{"id":1,"title":"Для ценителей Хогвартса","picture_url":"server/images/collections1.png"}],"more_available":true,"collection_total":12,"current_sort":"","current_limit":1,"current_skip":1}` + "\n",
+		inQuery: "1",
+		out: `{"title":"Топ 256","description":"Вот такая вот подборочка :)","movieList":[{"movieHref":"/","imgHref":"greenMile.png","title":"Зелёная миля","info":"1999, США. Драма","rating":"9.1","description":"Пол Эджкомб — начальник блока смертников в тюрьме «Холодная гора», каждый из узников которого однажды проходит «зеленую милю» по пути к месту казни. Пол повидал много заключённых и надзирателей за время работы. Однако гигант Джон Коффи, обвинённый в страшном преступлении, стал одним из самых необычных обитателей блока."},{"movieHref":"/","imgHref":"showshenkRedemption.png","title":"Побег из Шоушенка","info":"1994, США. Драма","rating":"8.9","description":"Бухгалтер Энди Дюфрейн обвинён в убийстве собственной жены и её любовника. Оказавшись в тюрьме под названием Шоушенк, он сталкивается с жестокостью и беззаконием, царящими по обе стороны решётки. Каждый, кто попадает в эти стены, становится их рабом до конца жизни. Но Энди, обладающий живым умом и доброй душой, находит подход как к заключённым, так и к охранникам, добиваясь их особого к себе расположения."}]}`,
 		status:  http.StatusOK,
 		name:    `limit works`,
 	},
-	{
-		inQuery: "skip=10&limit=1",
-		out:     `{"collections_list":[{"id":11,"title":"Про петлю времени","picture_url":"server/images/collections11.png"}],"more_available":true,"collection_total":12,"current_sort":"","current_limit":1,"current_skip":11}` + "\n",
-		status:  http.StatusOK,
-		name:    `skip works`,
-	},
-	{
-		inQuery: "skip=11&limit=10",
-		out:     `{"collections_list":[{"id":12,"title":"Классика на века","picture_url":"server/images/collections12.jpg"}],"more_available":false,"collection_total":12,"current_sort":"","current_limit":10,"current_skip":21}` + "\n",
-		status:  http.StatusOK,
-		name:    `does not overflow`,
-	},
 }
+
 var testTableFailure = [...]testRow{
 	{
-		inQuery: "skip=-1&limit=10",
-		out:     errSkipMsg + "\n",
+		inQuery: "-1",
+		out:     errParseID + "\n",
 		status:  http.StatusBadRequest,
 		name:    `negative skip`,
 	},
-	{
-		inQuery: "skip=11&limit=-2",
-		out:     errLimitMsg + "\n",
-		status:  http.StatusBadRequest,
-		name:    `negative limit`,
-	},
-	{
-		inQuery: "skip=14&limit=1",
-		out:     errSkipMsg + "\n",
-		status:  http.StatusBadRequest,
-		name:    `skip overshoot`,
-	},
+
 }
 
-// func TestGetCollectionsSuccess(t *testing.T) {
-// 	apiPath := "/api/collections/getCollections?"
-// 	for _, test := range testTableSuccess {
-// 		fmt.Fprintf(os.Stdout, "Test:"+test.name)
-// 		bodyReader := strings.NewReader("")
-// 		w := httptest.NewRecorder()
-// 		r := httptest.NewRequest("GET", apiPath+test.inQuery, bodyReader)
-// 		GetCollections(w, r)
-// 		assert.Equal(t, test.out, w.Body.String(), "Test: "+test.name)
-// 		assert.Equal(t, test.status, w.Code, "Test: "+test.name)
-// 		fmt.Fprintf(os.Stdout, " done\n")
-// 	}
-// }
-// func TestGetCollectionsFailure(t *testing.T) {
-// 	apiPath := "/api/collections/getCollections?"
-// 	for _, test := range testTableFailure {
-// 		fmt.Fprintf(os.Stdout, "Test:"+test.name)
-// 		bodyReader := strings.NewReader("")
-// 		w := httptest.NewRecorder()
-// 		r := httptest.NewRequest("GET", apiPath+test.inQuery, bodyReader)
-// 		GetCollections(w, r)
-// 		assert.Equal(t, test.out, w.Body.String(), "Test: "+test.name)
-// 		assert.Equal(t, test.status, w.Code, "Test: "+test.name)
-// 		fmt.Fprintf(os.Stdout, " done\n")
-// 	}
-// }
+func TestGetCollectionsSuccess(t *testing.T) {
+	apiPath := "/api/v1/collections/collection/"
+	for _, test := range testTableSuccess {
+		fmt.Fprintf(os.Stdout, "Test:"+test.name)
+		bodyReader := strings.NewReader("")
+		w := httptest.NewRecorder()
+		r := httptest.NewRequest("GET", apiPath+test.inQuery, bodyReader)
+		vars := map[string]string{
+			"id": test.inQuery,
+		}
+		r = mux.SetURLVars(r, vars)
+		GetCol(w, r)
+		assert.Equal(t, test.out, w.Body.String(), "Test: "+test.name)
+		assert.Equal(t, test.status, w.Code, "Test: "+test.name)
+		fmt.Fprintf(os.Stdout, " done\n")
+	}
+}
+
+
+
+func TestGetCollectionsFailure(t *testing.T) {
+	apiPath := "/api/collections/getCollections?"
+	for _, test := range testTableFailure {
+		fmt.Fprintf(os.Stdout, "Test:"+test.name)
+		bodyReader := strings.NewReader("")
+		w := httptest.NewRecorder()
+		r := httptest.NewRequest("GET", apiPath+test.inQuery, bodyReader)
+		GetCol(w, r)
+		assert.Equal(t, test.out, w.Body.String(), "Test: "+test.name)
+		assert.Equal(t, test.status, w.Code, "Test: "+test.name)
+		fmt.Fprintf(os.Stdout, " done\n")
+	}
+}
