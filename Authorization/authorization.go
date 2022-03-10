@@ -29,6 +29,8 @@ const (
 	errorAlreadyIn      = "error - already in"
 	errorBadCredentials = "error - bad credentials"
 	errorInternalServer = "Internal server error"
+	errorParseJSON      = "Error parse JSON"
+	errorEmptyField     = "Empty field"
 )
 
 func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
@@ -141,11 +143,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	userForm := new(userForLogin)
 	err := json.NewDecoder(r.Body).Decode(&userForm)
 	if err != nil {
-		http.Error(w, errorBadInput, http.StatusBadRequest)
+		http.Error(w, errorParseJSON, http.StatusBadRequest)
 		return
 	}
 	if userForm.Email == "" || userForm.Password == "" {
-		http.Error(w, errorBadInput, http.StatusBadRequest)
+		http.Error(w, errorEmptyField, http.StatusBadRequest)
 		return
 	}
 	user, err := db.FindEmail(userForm.Email)
