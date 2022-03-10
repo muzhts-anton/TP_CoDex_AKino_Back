@@ -158,8 +158,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 	_, err = sessions.CheckSession(r)
 	if err != sessions.ErrUserNotLoggedIn {
-		http.Error(w, errorAlreadyIn, 410)
-		// http.Error(w, errorAlreadyIn, http.StatusBadRequest)
+		// http.Error(w, errorAlreadyIn, 410)
+		http.Error(w, errorAlreadyIn, http.StatusBadRequest)
 		return
 	}
 	user.OmitPassword()
