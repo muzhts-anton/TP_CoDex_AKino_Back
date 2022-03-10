@@ -13,10 +13,6 @@ var errUint64Cast = errors.New("id uint64 cast error")
 var store = sessions.NewCookieStore(securecookie.GenerateRandomKey(32))
 var sessionName = "session-name"
 
-var hashKey = []byte("very-secret")
-var blockKey = []byte("a-lot-secret")
-var s = securecookie.New(hashKey, blockKey)
-
 func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	session, _ := store.Get(r, sessionName)
 	session.Values["id"] = id
