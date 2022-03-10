@@ -13,6 +13,7 @@ import (
 	"codex/Collections"
 	"github.com/gorilla/securecookie"
 	"time"
+	// "samesite"
 )
 
 type userForLogin struct {
@@ -65,10 +66,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		HttpOnly: true,
 		Expires:  time.Now().Add(10 * time.Hour),
 		// SameSite: http.SameSiteNoneMode,
-		SameSite: 4,
+		SameSite: samesite.None(r.UserAgent()),
+		// SameSite: 4,
 		Secure:   true,
 		Path: "/",
 	}
+	// Set-Cookie: flavor=choco; SameSite=None; Secure
 	http.SetCookie(w, cookie)
 
 	var hashKey = []byte("very-secret")
