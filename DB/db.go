@@ -74,14 +74,3 @@ func (db *UserMockDatabase) FindId(id uint64) (User, error) {
 	}
 	return User{}, errorNoUser
 }
-
-type CollectionPreview struct {
-	Id         uint   `json:"id"`
-	Title      string `json:"title"`
-	PictureUrl string `json:"picture_url"`
-}
-
-type CollectionsMockDatabase struct {
-	Previews []CollectionPreview
-	sync.RWMutex
-}
