@@ -17,7 +17,7 @@ func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	session, _ := store.Get(r, sessionName)
 	session.Values["id"] = id
 	session.Options = &sessions.Options{
-		MaxAge:   100000,
+		MaxAge:   5,
 		Secure:   true,
 		HttpOnly: true,
 		SameSite: http.SameSiteNoneMode,
