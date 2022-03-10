@@ -13,7 +13,6 @@ import (
 	"codex/Collections"
 	"github.com/gorilla/securecookie"
 	"time"
-	// "samesite"
 )
 
 type userForLogin struct {
@@ -62,20 +61,6 @@ func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
 
 func Register(w http.ResponseWriter, r *http.Request) {
 
-	// cookie := &http.Cookie{
-	// 	Name:     "session_id_Register_Without_Encoding",
-	// 	Value:    "123",
-	// 	HttpOnly: true,
-	// 	Expires:  time.Now().Add(10 * time.Hour),
-	// 	SameSite: http.SameSiteNoneMode,
-	// 	// SameSite: samesite.None(r.UserAgent()),
-	// 	// SameSite: 4,
-	// 	Secure:   true,
-	// 	Path: "/",
-	// }
-	// // Set-Cookie: flavor=choco; SameSite=None; Secure
-	// http.SetCookie(w, cookie)
-
 	var hashKey = []byte("very-secret")
 	var blockKey = []byte("a-lot-secret")
 	var s = securecookie.New(hashKey, blockKey)
@@ -88,6 +73,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 			Value: encoded,
 			Path:  "/",
 			// Secure:   true,
+			Secure:   true,
 			HttpOnly: true,
 			Expires:  time.Now().Add(10 * time.Hour),
 		}
@@ -157,7 +143,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	_, err = sessions.CheckSession(r)
-	// if err != sessions.ErrUserNotLoggedIn {
 	if err == sessions.ErrUserNotLoggedIn {
 		http.Error(w, errorAlreadyIn, http.StatusBadRequest)
 		return
@@ -177,44 +162,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	_, err = w.Write(b)
-	// defer r.Body.Close()
-	// userForm := new(userForLogin)
-	// err := json.NewDecoder(r.Body).Decode(&userForm)
-	// if err != nil {
-	// 	http.Error(w, errorParseJSON, http.StatusBadRequest)
-	// 	return
-	// }
-	// if userForm.Email == "" || userForm.Password == "" {
-	// 	http.Error(w, errorEmptyField, http.StatusBadRequest)
-	// 	return
-	// }
-	// user, err := db.FindEmail(userForm.Email)
-	// errPassword := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userForm.Password))
-	// if err != nil || errPassword != nil {
-	// 	http.Error(w, errorBadCredentials, http.StatusUnauthorized)
-	// 	return
-	// }
-	// _, err = sessions.CheckSession(r)
-	// if err != sessions.ErrUserNotLoggedIn {
-	// 	// http.Error(w, errorAlreadyIn, 410)
-	// 	http.Error(w, errorAlreadyIn, http.StatusBadRequest)
-	// 	return
-	// }
-	// user.OmitPassword()
-	// userInfoJson, err := json.Marshal(user)
-	// if err != nil {
-	// 	http.Error(w, errorInternalServer, http.StatusInternalServerError)
-	// 	return
-	// }
-
-	// err = sessions.StartSession(w, r, user.ID)
-	// if err != nil {
-	// 	http.Error(w, errorInternalServer, http.StatusInternalServerError)
-	// 	return
-	// }
-
-	// w.WriteHeader(http.StatusOK)
-	// _, err = w.Write(userInfoJson)
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
