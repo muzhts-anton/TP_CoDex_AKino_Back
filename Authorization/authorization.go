@@ -11,8 +11,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"codex/Collections"
-	"github.com/gorilla/securecookie"
-	"time"
 )
 
 type userForLogin struct {
