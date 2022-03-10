@@ -1,6 +1,6 @@
 module codex
 
-go 1.17
+go 1.11
 
 require (
 	github.com/gorilla/mux v1.8.0
