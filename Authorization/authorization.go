@@ -143,11 +143,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	userForm := new(userForLogin)
 	err := json.NewDecoder(r.Body).Decode(&userForm)
 	if err != nil {
-		http.Error(w, errorParseJSON, http.StatusBadRequest)
+		http.Error(w, errorBadInput, http.StatusBadRequest)
 		return
 	}
 	if userForm.Email == "" || userForm.Password == "" {
-		http.Error(w, errorEmptyField, http.StatusBadRequest)
+		http.Error(w, errorBadInput, http.StatusBadRequest)
 		return
 	}
 	user, err := db.FindEmail(userForm.Email)
@@ -158,12 +158,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 	_, err = sessions.CheckSession(r)
 	if err != sessions.ErrUserNotLoggedIn {
-		// http.Error(w, errorAlreadyIn, 410)
 		http.Error(w, errorAlreadyIn, http.StatusBadRequest)
 		return
 	}
 	user.OmitPassword()
-	userInfoJson, err := json.Marshal(user)
+	b, err := json.Marshal(user)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
@@ -176,7 +175,45 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	_, err = w.Write(userInfoJson)
+	_, err = w.Write(b)
+	// defer r.Body.Close()
+	// userForm := new(userForLogin)
+	// err := json.NewDecoder(r.Body).Decode(&userForm)
+	// if err != nil {
+	// 	http.Error(w, errorParseJSON, http.StatusBadRequest)
+	// 	return
+	// }
+	// if userForm.Email == "" || userForm.Password == "" {
+	// 	http.Error(w, errorEmptyField, http.StatusBadRequest)
+	// 	return
+	// }
+	// user, err := db.FindEmail(userForm.Email)
+	// errPassword := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userForm.Password))
+	// if err != nil || errPassword != nil {
+	// 	http.Error(w, errorBadCredentials, http.StatusUnauthorized)
+	// 	return
+	// }
+	// _, err = sessions.CheckSession(r)
+	// if err != sessions.ErrUserNotLoggedIn {
+	// 	// http.Error(w, errorAlreadyIn, 410)
+	// 	http.Error(w, errorAlreadyIn, http.StatusBadRequest)
+	// 	return
+	// }
+	// user.OmitPassword()
+	// userInfoJson, err := json.Marshal(user)
+	// if err != nil {
+	// 	http.Error(w, errorInternalServer, http.StatusInternalServerError)
+	// 	return
+	// }
+
+	// err = sessions.StartSession(w, r, user.ID)
+	// if err != nil {
+	// 	http.Error(w, errorInternalServer, http.StatusInternalServerError)
+	// 	return
+	// }
+
+	// w.WriteHeader(http.StatusOK)
+	// _, err = w.Write(userInfoJson)
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
