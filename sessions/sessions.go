@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 
-	"time"
+	// "time"
 )
 
 var ErrUserNotLoggedIn = errors.New("user not logged in")
