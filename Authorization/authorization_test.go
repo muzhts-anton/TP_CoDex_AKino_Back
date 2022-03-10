@@ -55,7 +55,7 @@ var testTableRegisterFailure = [...]testRow{
 }
 
 func TestRegisterSuccess(t *testing.T) {
-	
+
 	for _, test := range testTableRegisterSuccess {
 		fmt.Fprintf(os.Stdout, "Test:"+test.name)
 		bodyReader := strings.NewReader(test.bodyString)
@@ -70,9 +70,9 @@ func TestRegisterSuccess(t *testing.T) {
 
 func TestRegisterFailure(t *testing.T) {
 	db.AddUser(&DB.User{
-		Username:  "Ivan",
-		Password:   "12345678",
-		Email:      "ivan1@mail.ru",
+		Username: "Ivan",
+		Password: "12345678",
+		Email:    "ivan1@mail.ru",
 	})
 	apiPath := "/api/user/register"
 	for _, test := range testTableRegisterFailure {
@@ -90,14 +90,14 @@ func TestRegisterFailure(t *testing.T) {
 func fillMockDB() {
 	db = DB.UserMockDatabase{}
 	db.AddUser(&DB.User{
-		Username:  "Ivan",
-		Password:   "12345678",
-		Email:      "ivan1@mail.ru",
+		Username: "Ivan",
+		Password: "12345678",
+		Email:    "ivan1@mail.ru",
 	})
 	db.AddUser(&DB.User{
-		Username:  "Ivan",
-		Password:   "12345678",
-		Email:      "iva21@mail.ru",
+		Username: "Ivan",
+		Password: "12345678",
+		Email:    "iva21@mail.ru",
 	})
 }
 

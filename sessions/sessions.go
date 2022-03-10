@@ -2,9 +2,9 @@ package sessions
 
 import (
 	"errors"
-	"net/http"
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
+	"net/http"
 )
 
 var ErrUserNotLoggedIn = errors.New("user not logged in")
@@ -16,7 +16,6 @@ var sessionName = "session-name"
 var hashKey = []byte("very-secret")
 var blockKey = []byte("a-lot-secret")
 var s = securecookie.New(hashKey, blockKey)
-
 
 func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	session, _ := store.Get(r, sessionName)
@@ -36,8 +35,6 @@ func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	return nil
 }
 
-
-
 func FinishSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	session, err := store.Get(r, sessionName)
 	if err != nil {
@@ -54,7 +51,6 @@ func FinishSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	}
 	return nil
 }
-
 
 func CheckSession(r *http.Request) (uint64, error) {
 	session, err := store.Get(r, sessionName)

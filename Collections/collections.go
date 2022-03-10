@@ -2,18 +2,17 @@ package collections
 
 import (
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
-	"github.com/gorilla/mux"
 )
 
 const (
-	errDBMsg    = "DB error"
-	errParseID  = "error parse ID"
-	errBadID    = "error Bad ID"
-	errEncMsg   = "Encoding error"
+	errDBMsg   = "DB error"
+	errParseID = "error parse ID"
+	errBadID   = "error Bad ID"
+	errEncMsg  = "Encoding error"
 )
-
 
 type FilmType struct {
 	Description string `json:"description"`
@@ -70,75 +69,75 @@ var Alabdsel = FilmSelection{
 	[]FilmType{
 		{
 			Description: "Top 256",
-			ImgSrc: "top.png",
-			Page: "movies",
-			Number: "1",
+			ImgSrc:      "top.png",
+			Page:        "movies",
+			Number:      "1",
 		},
 		{
 			Description: "Приключения",
-			ImgSrc: "adventures.png",
-			Page: "movies",
-			Number: "2",
+			ImgSrc:      "adventures.png",
+			Page:        "movies",
+			Number:      "2",
 		},
 		{
 			Description: "Для детей",
-			ImgSrc: "childish.png",
-			Page: "movies",
-			Number: "3",
+			ImgSrc:      "childish.png",
+			Page:        "movies",
+			Number:      "3",
 		},
 		{
 			Description: "Фильмы по комиксам",
-			ImgSrc: "comics.png",
-			Page: "movies",
-			Number: "4",
+			ImgSrc:      "comics.png",
+			Page:        "movies",
+			Number:      "4",
 		},
 		{
 			Description: "Драмы",
-			ImgSrc: "drama.png",
-			Page: "movies",
-			Number: "5",
+			ImgSrc:      "drama.png",
+			Page:        "movies",
+			Number:      "5",
 		},
 		{
 			Description: "Для всей семьи",
-			ImgSrc: "family.png",
-			Page: "movies",
-			Number: "6",
+			ImgSrc:      "family.png",
+			Page:        "movies",
+			Number:      "6",
 		},
 		{
 			Description: "Рекомендации редакции",
-			ImgSrc: "ourTop.png",
-			Page: "movies",
-			Number: "7",
+			ImgSrc:      "ourTop.png",
+			Page:        "movies",
+			Number:      "7",
 		},
 		{
 			Description: "Романтические",
-			ImgSrc: "romantic.png",
-			Page: "movies",
-			Number: "8",
+			ImgSrc:      "romantic.png",
+			Page:        "movies",
+			Number:      "8",
 		},
 		{
 			Description: "Спасение мира",
-			ImgSrc: "saveTheWorld.png",
-			Page: "movies",
-			Number: "9",
+			ImgSrc:      "saveTheWorld.png",
+			Page:        "movies",
+			Number:      "9",
 		},
 		{
 			Description: "Советское кино",
-			ImgSrc: "soviet.png",
-			Page: "movies",
-			Number: "10",
+			ImgSrc:      "soviet.png",
+			Page:        "movies",
+			Number:      "10",
 		},
 		{
 			Description: "Про шпионов",
-			ImgSrc: "spy.png",
-			Page: "movies",
-			Number: "11",
+			ImgSrc:      "spy.png",
+			Page:        "movies",
+			Number:      "11",
 		},
 		{
 			Description: "Сказки",
-			ImgSrc: "tales.png",
-			Page: "movies",
-			Number: "12",
+			ImgSrc:      "tales.png",
+			Page:        "movies",
+			Number:      "12",
 		},
 	},
 }

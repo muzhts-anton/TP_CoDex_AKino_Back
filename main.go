@@ -1,8 +1,8 @@
 package main
 
 import (
-	"codex/Collections"
 	"codex/Authorization"
+	"codex/Collections"
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
@@ -12,7 +12,7 @@ import (
 
 func CorsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { // http://localhost:3000
-		w.Header().Set("Access-Control-Allow-Origin", "https://tp-frontkinopoisk.herokuapp.com") // url to deployed front 
+		w.Header().Set("Access-Control-Allow-Origin", "https://tp-frontkinopoisk.herokuapp.com") // url to deployed front
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, Authorization, X-CSRF-Token, Location")
@@ -37,7 +37,6 @@ func main() {
 	api.HandleFunc("/login", authorization.Login)
 	api.HandleFunc("/logout", authorization.Logout)
 	api.HandleFunc("/user/checkAuth", authorization.CheckAuth)
-
 
 	api.HandleFunc("/collections/collection/{id:[0-9]+}", collections.GetCol)
 
