@@ -157,7 +157,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	_, err = sessions.CheckSession(r)
-	if err != sessions.ErrUserNotLoggedIn {
+	// if err != sessions.ErrUserNotLoggedIn {
+	if err == sessions.ErrUserNotLoggedIn {
 		http.Error(w, errorAlreadyIn, http.StatusBadRequest)
 		return
 	}
