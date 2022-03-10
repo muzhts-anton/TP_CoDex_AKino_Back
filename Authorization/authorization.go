@@ -62,19 +62,19 @@ func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
 
 func Register(w http.ResponseWriter, r *http.Request) {
 
-	cookie := &http.Cookie{
-		Name:     "session_id_Register_Without_Encoding",
-		Value:    "123",
-		HttpOnly: true,
-		Expires:  time.Now().Add(10 * time.Hour),
-		SameSite: http.SameSiteNoneMode,
-		// SameSite: samesite.None(r.UserAgent()),
-		// SameSite: 4,
-		Secure:   true,
-		Path: "/",
-	}
-	// Set-Cookie: flavor=choco; SameSite=None; Secure
-	http.SetCookie(w, cookie)
+	// cookie := &http.Cookie{
+	// 	Name:     "session_id_Register_Without_Encoding",
+	// 	Value:    "123",
+	// 	HttpOnly: true,
+	// 	Expires:  time.Now().Add(10 * time.Hour),
+	// 	SameSite: http.SameSiteNoneMode,
+	// 	// SameSite: samesite.None(r.UserAgent()),
+	// 	// SameSite: 4,
+	// 	Secure:   true,
+	// 	Path: "/",
+	// }
+	// // Set-Cookie: flavor=choco; SameSite=None; Secure
+	// http.SetCookie(w, cookie)
 
 	var hashKey = []byte("very-secret")
 	var blockKey = []byte("a-lot-secret")
@@ -158,7 +158,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 	_, err = sessions.CheckSession(r)
 	if err != sessions.ErrUserNotLoggedIn {
-		http.Error(w, errorAlreadyIn, http.StatusBadRequest)
+		http.Error(w, errorAlreadyIn, 410)
+		// http.Error(w, errorAlreadyIn, http.StatusBadRequest)
 		return
 	}
 	user.OmitPassword()
