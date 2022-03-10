@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	// "unicode"
 )
 
 func CorsMiddleware(next http.Handler) http.Handler {
@@ -33,18 +32,11 @@ func main() {
 	api := router.PathPrefix("/api/v1").Subrouter()
 
 	api.Use(CorsMiddleware)
-
-	// api.HandleFunc("/", handler.MainPage)           //.Methods("GET", "OPTIONS")
-	// api.HandleFunc("/profile", handler.ProfilePage) //.Methods("GET", "OPTIONS")
-	// api.HandleFunc("/signup", handler.SignupPage)   //.Methods("POST", "OPTIONS")
-	// api.HandleFunc("/login", handler.LoginPage)     //.Methods("POST", "OPTIONS")
-	// api.HandleFunc("/logout", handler.LogoutPage)   //.Methods("GET", "OPTIONS")
-
-	api.HandleFunc("/", authorization.MainPage)           //.Methods("GET", "OPTIONS")
-	api.HandleFunc("/signup", authorization.Register)   //.Methods("POST", "OPTIONS")
-	api.HandleFunc("/login", authorization.Login)     //.Methods("POST", "OPTIONS")
-	api.HandleFunc("/logout", authorization.Logout)   //.Methods("GET", "OPTIONS")
-	api.HandleFunc("/user/checkAuth", authorization.CheckAuth) //.Methods("GET", "OPTIONS")
+	api.HandleFunc("/", authorization.MainPage)
+	api.HandleFunc("/signup", authorization.Register)
+	api.HandleFunc("/login", authorization.Login)
+	api.HandleFunc("/logout", authorization.Logout)
+	api.HandleFunc("/user/checkAuth", authorization.CheckAuth)
 
 
 	api.HandleFunc("/collections/collection/{id:[0-9]+}", collections.GetCol)

@@ -142,7 +142,6 @@ func TestGetBasicInfoSuccess(t *testing.T) {
 		bodyReader := strings.NewReader(test.bodyString)
 		w := httptest.NewRecorder()
 		r := httptest.NewRequest("POST", "/api/user/get/"+test.inQuery, bodyReader)
-		// Hack to try to fake gorilla/mux vars
 		vars := map[string]string{
 			"id": test.inQuery,
 		}
@@ -162,7 +161,6 @@ func TestGetBasicInfoFailure(t *testing.T) {
 		bodyReader := strings.NewReader(test.bodyString)
 		w := httptest.NewRecorder()
 		r := httptest.NewRequest("POST", apiPath+test.inQuery, bodyReader)
-		// Hack to try to fake gorilla/mux vars
 		vars := map[string]string{
 			"id": test.inQuery,
 		}

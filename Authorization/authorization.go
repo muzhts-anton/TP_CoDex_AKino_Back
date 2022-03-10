@@ -67,7 +67,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		// SameSite: http.SameSiteNoneMode,
 		SameSite: 4,
 		Secure:   true,
-		// Path: "https://xenodochial-mayer-d916ec.netlify.app",
 		Path: "/",
 	}
 	http.SetCookie(w, cookie)

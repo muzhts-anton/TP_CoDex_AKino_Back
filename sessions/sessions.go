@@ -20,21 +20,6 @@ var hashKey = []byte("very-secret")
 var blockKey = []byte("a-lot-secret")
 var s = securecookie.New(hashKey, blockKey)
 
-// func SetCookieHandler(w http.ResponseWriter, r *http.Request) {
-// 	value := map[string]string{
-// 		"foo": "bar",
-// 	}
-// 	if encoded, err := s.Encode("cookie-name", value); err == nil {
-// 		cookie := &http.Cookie{
-// 			Name:  "cookie-name",
-// 			Value: encoded,
-// 			Path:  "/",
-// 			Secure: true,
-// 			HttpOnly: true,
-// 		}
-// 		http.SetCookie(w, cookie)
-// 	}
-// }
 
 func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 
@@ -45,7 +30,6 @@ func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 		Secure:   true,
 		HttpOnly: true,
 		// SameSite: http.SameSiteNoneMode,
-		// SameSite: http.SameSiteLaxMode,
 		SameSite: 4,
 		Path:     "/",
 	}

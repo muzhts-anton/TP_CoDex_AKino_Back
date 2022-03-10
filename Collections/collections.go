@@ -2,13 +2,9 @@ package collections
 
 import (
 	"encoding/json"
-	// "errors"
-	// "fmt"
 	"net/http"
 	"strconv"
-
 	"github.com/gorilla/mux"
-	// "codex/DB"
 )
 
 const (
