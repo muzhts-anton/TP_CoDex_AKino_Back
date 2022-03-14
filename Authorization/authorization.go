@@ -18,6 +18,9 @@ type userForLogin struct {
 	Password string `json:"password"`
 }
 
+const userNotLoggedIn = "User not logged in"
+const cantMarshal = "cant marshal"
+
 var db DB.UserMockDatabase
 
 const (
@@ -28,6 +31,26 @@ const (
 	errorParseJSON      = "Error parse JSON"
 	errorEmptyField     = "Empty field"
 )
+
+type authResponse struct {
+	Status string `json:"status"`
+	user DB.User
+}
+
+type userWithRepeatedPassword struct{
+	user DB.User
+	RepeatPassword string `json:"repeatpassword"`
+}
+
+type userWithoutPasswords struct{
+	Username       string `json:"username"`
+	Email          string `json:"email"`
+}
+
+func (us *userWithRepeatedPassword) OmitPassword() {
+	us.user.Password = ""
+	us.RepeatPassword = ""
+}
 
 func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
@@ -58,41 +81,44 @@ func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
 
 func Register(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	userForm := new(DB.User)
+	userForm := new(userWithRepeatedPassword)
 	err := json.NewDecoder(r.Body).Decode(&userForm)
+
 	if err != nil {
 		http.Error(w, errorBadInput, http.StatusBadRequest)
 		return
 	}
 
-	if userForm.Email == "" || userForm.Username == "" || userForm.Password == "" || userForm.RepeatPassword == "" {
+	if userForm.user.Email == "" || userForm.user.Username == "" || userForm.user.Password == "" || userForm.RepeatPassword == "" {
 		http.Error(w, errorBadInput, http.StatusBadRequest)
 		return
 	}
-	if userForm.Password != userForm.RepeatPassword {
+	if userForm.user.Password != userForm.RepeatPassword {
 		http.Error(w, errorBadInput, http.StatusBadRequest)
 		return
 	}
-	_, err = db.FindEmail(userForm.Email)
+	_, err = db.FindEmail(userForm.user.Email)
 	if err == nil {
 		http.Error(w, errorAlreadyIn, http.StatusConflict)
 		return
 	}
 
-	_, err = db.FindUsername(userForm.Username)
+	_, err = db.FindUsername(userForm.user.Username)
 	if err == nil {
 		http.Error(w, errorAlreadyIn, http.StatusConflict)
 		return
 	}
 
-	idReg := db.AddUser(userForm)
-	err = sessions.StartSession(w, r, userForm.ID)
+	idReg := db.AddUser(&DB.User{ID: userForm.user.ID, Username: userForm.user.Username, Password: "", Email: userForm.user.Email})
+
+	userOut := userWithoutPasswords{Username: userForm.user.Username, Email: userForm.user.Email}
+
+	err = sessions.StartSession(w, r, userForm.user.ID)
 	if err != nil && idReg != 0 {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
 	}
-	userForm.OmitPassword()
-	userInfoJson, err := json.Marshal(userForm)
+	userInfoJson, err := json.Marshal(userOut)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
@@ -124,8 +150,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errorAlreadyIn, http.StatusBadRequest)
 		return
 	}
-	user.OmitPassword()
-	b, err := json.Marshal(user)
+	userOut := userWithoutPasswords{Username: user.Username, Email: user.Email}
+
+	userOutMarshalled, err := json.Marshal(userOut)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
@@ -138,7 +165,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	_, err = w.Write(b)
+	_, err = w.Write(userOutMarshalled)
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
@@ -158,7 +185,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 func MainPage(w http.ResponseWriter, r *http.Request) {
 	b, err := json.Marshal(collections.Alabdsel)
 	if err != nil {
-		http.Error(w, "cant marshal", http.StatusInternalServerError)
+		http.Error(w, cantMarshal, http.StatusInternalServerError)
 		return
 	}
 	w.Write(b)
@@ -167,7 +194,12 @@ func MainPage(w http.ResponseWriter, r *http.Request) {
 func CheckAuth(w http.ResponseWriter, r *http.Request) {
 	userID, err := sessions.CheckSession(r)
 	if err == sessions.ErrUserNotLoggedIn {
-		http.Error(w, errorBadInput, http.StatusBadRequest)
+		tmp, err := json.Marshal(authResponse{Status: strconv.Itoa(http.StatusBadRequest)})
+		if err != nil {
+			http.Error(w, cantMarshal, http.StatusInternalServerError)
+			return
+		}
+		w.Write(tmp)
 		return
 	}
 	if err != nil {
@@ -176,7 +208,8 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userInfo := DB.User{ID: userID}
-	userInfoJson, err := json.Marshal(userInfo)
+	tmp := authResponse{Status: "", user:userInfo}
+	userInfoJson, err := json.Marshal(tmp)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return

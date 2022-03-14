@@ -15,7 +15,6 @@ type User struct {
 	ID             uint64 `json:"id"`
 	Username       string `json:"username"`
 	Password       string `json:"password"`
-	RepeatPassword string `json:"repeatpassword"`
 	Email          string `json:"email"`
 }
 
@@ -23,7 +22,6 @@ const basePicture = "/pic/1.jpg"
 
 func (us *User) OmitPassword() {
 	us.Password = ""
-	us.RepeatPassword = ""
 }
 
 var errorNoUser = errors.New("error: no user")
