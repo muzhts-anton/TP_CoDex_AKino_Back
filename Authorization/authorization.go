@@ -103,6 +103,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, unmatchedPasswords, http.StatusBadRequest)
 		return
 	}
+	
 	_, err = db.FindEmail(userForm.Email)
 	if err == nil {
 		http.Error(w, errorAlreadyIn, http.StatusConflict)
