@@ -210,6 +210,7 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, cantMarshal, http.StatusInternalServerError)
 			return
 		}
+		w.WriteHeader(http.StatusOK)
 		w.Write(tmp)
 		return
 	}
@@ -219,7 +220,7 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userInfo := DB.User{ID: userID}
-	tmp := authResponse{Status: "", user:userInfo}
+	tmp := authResponse{Status: strconv.Itoa(http.StatusOK), user:userInfo}
 	userInfoJson, err := json.Marshal(tmp)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
