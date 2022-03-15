@@ -159,5 +159,6 @@ func GetCol(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "cant marshal json", http.StatusInternalServerError)
 		return
 	}
+	w.WriteHeader(http.StatusOK)
 	w.Write(b)
 }

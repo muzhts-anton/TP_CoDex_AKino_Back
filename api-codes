@@ -1,0 +1,289 @@
+CheckAuth: 
+1. Ошибка при поиске сессии - 500
+2. Ошибка в функции Marshal - 500
+3. Успешно -200
+
+Login:
+1. Не смог декодировать ответ - 400
+2. Одно из полей пусто - 400
+3. Пользователь уже авторизован - 400
+4. Неправильный email или пароль - 401
+5. Ошмбка в функции Marshal - 500
+6. Ошмбка при старте новой сессии - 500
+7. Успешно - 200
+
+Logout:
+1. Пользователь неавторизован - 403
+2. Ошибка при закрытии сессии - 500
+3. Успешно -200
+
+Signup: 
+1. Не смог распарсить input - 400
+2. Одно из полей пустое - 400
+3. Пароли не совпадают - 400
+4. Пользователь с таким email уже существует - 409
+5. Пользователь с таким username уже существует - 409
+6. Ошибка при старте сессии
+7. Ошибка при выполнении функции Marshal - 500
+8. Успешно создан пользователь - 201
+
+GetCol:
+1. Не смогли распарсить id коллекции - 400
+2. Количество аргументов не равно 1 - 400
+3. Ошибка в функции Marshal - 500
+4. Успешно - 200
+
+
+
+
+
+
+I: Bus=0019 Vendor=0000 Product=0005 Version=0000
+N: Name="Lid Switch"
+P: Phys=PNP0C0D/button/input0
+S: Sysfs=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0D:00/input/input0
+U: Uniq=
+H: Handlers=event0 
+B: PROP=0
+B: EV=21
+B: SW=1
+
+I: Bus=0019 Vendor=0000 Product=0001 Version=0000
+N: Name="Power Button"
+P: Phys=PNP0C0C/button/input0
+S: Sysfs=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0C:00/input/input1
+U: Uniq=
+H: Handlers=kbd event1 
+B: PROP=0
+B: EV=3
+B: KEY=10000000000000 0
+
+I: Bus=0011 Vendor=0001 Product=0001 Version=ab83
+N: Name="AT Translated Set 2 keyboard"
+P: Phys=isa0060/serio0/input0
+S: Sysfs=/devices/platform/i8042/serio0/input/input2
+U: Uniq=
+H: Handlers=sysrq kbd leds event2 
+B: PROP=0
+B: EV=120013
+B: KEY=402000000 3803078f800d001 feffffdfffefffff fffffffffffffffe
+B: MSC=10
+B: LED=7
+
+I: Bus=0003 Vendor=048d Product=c100 Version=0110
+N: Name="ITE Tech. Inc. ITE Device(8910) Keyboard"
+P: Phys=usb-0000:00:14.0-9/input0
+S: Sysfs=/devices/pci0000:00/0000:00:14.0/usb1/1-9/1-9:1.0/0003:048D:C100.0001/input/input3
+U: Uniq=
+H: Handlers=sysrq kbd leds event3 
+B: PROP=0
+B: EV=12001f
+B: KEY=302ff 0 0 483ffff17aff32d bfd4444600000000 1 130c730b17c007 ffbf7bfad9415fff febeffdfffefffff fffffffffffffffe
+B: REL=1040
+B: ABS=100000000
+B: MSC=10
+B: LED=1f
+
+I: Bus=0003 Vendor=048d Product=c100 Version=0110
+N: Name="ITE Tech. Inc. ITE Device(8910) Wireless Radio Control"
+P: Phys=usb-0000:00:14.0-9/input0
+S: Sysfs=/devices/pci0000:00/0000:00:14.0/usb1/1-9/1-9:1.0/0003:048D:C100.0001/input/input4
+U: Uniq=
+H: Handlers=kbd event4 rfkill 
+B: PROP=0
+B: EV=13
+B: KEY=80000000000000 0 0 0
+B: MSC=10
+
+I: Bus=0019 Vendor=0000 Product=0006 Version=0000
+N: Name="Video Bus"
+P: Phys=LNXVIDEO/video/input0
+S: Sysfs=/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:00/LNXVIDEO:00/input/input5
+U: Uniq=
+H: Handlers=kbd event5 
+B: PROP=0
+B: EV=3
+B: KEY=3e000b00000000 0 0 0
+
+I: Bus=0019 Vendor=0000 Product=0000 Version=0000
+N: Name="Ideapad extra buttons"
+P: Phys=ideapad/input0
+S: Sysfs=/devices/pci0000:00/0000:00:1f.0/PNP0C09:00/VPC2004:00/input/input6
+U: Uniq=
+H: Handlers=kbd event6 rfkill 
+B: PROP=0
+B: EV=13
+B: KEY=81000800100c03 4400000000300000 0 2
+B: MSC=10
+
+I: Bus=0000 Vendor=0000 Product=0000 Version=0000
+N: Name="HDA NVidia HDMI/DP,pcm=3"
+P: Phys=ALSA
+S: Sysfs=/devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card1/input10
+U: Uniq=
+H: Handlers=event9 
+B: PROP=0
+B: EV=21
+B: SW=140
+
+I: Bus=0000 Vendor=0000 Product=0000 Version=0000
+N: Name="HDA NVidia HDMI/DP,pcm=7"
+P: Phys=ALSA
+S: Sysfs=/devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card1/input11
+U: Uniq=
+H: Handlers=event10 
+B: PROP=0
+B: EV=21
+B: SW=140
+
+I: Bus=0000 Vendor=0000 Product=0000 Version=0000
+N: Name="HDA NVidia HDMI/DP,pcm=8"
+P: Phys=ALSA
+S: Sysfs=/devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card1/input12
+U: Uniq=
+H: Handlers=event11 
+B: PROP=0
+B: EV=21
+B: SW=140
+
+I: Bus=0000 Vendor=0000 Product=0000 Version=0000
+N: Name="HDA NVidia HDMI/DP,pcm=9"
+P: Phys=ALSA
+S: Sysfs=/devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card1/input13
+U: Uniq=
+H: Handlers=event12 
+B: PROP=0
+B: EV=21
+B: SW=140
+
+I: Bus=0000 Vendor=0000 Product=0000 Version=0000
+N: Name="HDA NVidia HDMI/DP,pcm=10"
+P: Phys=ALSA
+S: Sysfs=/devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card1/input14
+U: Uniq=
+H: Handlers=event13 
+B: PROP=0
+B: EV=21
+B: SW=140
+
+I: Bus=0000 Vendor=0000 Product=0000 Version=0000
+N: Name="HDA NVidia HDMI/DP,pcm=11"
+P: Phys=ALSA
+S: Sysfs=/devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card1/input15
+U: Uniq=
+H: Handlers=event14 
+B: PROP=0
+B: EV=21
+B: SW=140
+
+I: Bus=0000 Vendor=0000 Product=0000 Version=0000
+N: Name="HDA Intel PCH Mic"
+P: Phys=ALSA
+S: Sysfs=/devices/pci0000:00/0000:00:1f.3/sound/card0/input16
+U: Uniq=
+H: Handlers=event15 
+B: PROP=0
+B: EV=21
+B: SW=10
+
+I: Bus=0000 Vendor=0000 Product=0000 Version=0000
+N: Name="HDA Intel PCH Headphone"
+P: Phys=ALSA
+S: Sysfs=/devices/pci0000:00/0000:00:1f.3/sound/card0/input17
+U: Uniq=
+H: Handlers=event16 
+B: PROP=0
+B: EV=21
+B: SW=4
+
+I: Bus=0018 Vendor=06cb Product=cd5f Version=0100
+N: Name="MSFT0001:01 06CB:CD5F Mouse"
+P: Phys=i2c-MSFT0001:01
+S: Sysfs=/devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-2/i2c-MSFT0001:01/0018:06CB:CD5F.0002/input/input18
+U: Uniq=
+H: Handlers=event7 mouse0 
+B: PROP=0
+B: EV=17
+B: KEY=30000 0 0 0 0
+B: REL=3
+B: MSC=10
+
+I: Bus=0018 Vendor=06cb Product=cd5f Version=0100
+N: Name="MSFT0001:01 06CB:CD5F Touchpad"
+P: Phys=i2c-MSFT0001:01
+S: Sysfs=/devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-2/i2c-MSFT0001:01/0018:06CB:CD5F.0002/input/input19
+U: Uniq=
+H: Handlers=event8 mouse1   
+B: PROP=1
+B: EV=1b
+B: KEY=e520 30000 0 0 0 0
+B: ABS=2e0800000000003
+B: MSC=20
+
+I: Bus=0003 Vendor=04f2 Product=b604 Version=0027
+N: Name="Integrated Camera: Integrated C"
+P: Phys=usb-0000:00:14.0-6/button
+S: Sysfs=/devices/pci0000:00/0000:00:14.0/usb1/1-6/1-6:1.0/input/input21
+U: Uniq=
+H: Handlers=kbd event17 
+B: PROP=0
+B: EV=3
+B: KEY=100000 0 0 0
+
+I: Bus=0003 Vendor=0d8c Product=0012 Version=0100
+N: Name="SADES Electronics Inc. SADES Locust Plus"
+P: Phys=usb-0000:00:14.0-2/input3
+S: Sysfs=/devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.3/0003:0D8C:0012.0006/input/input26
+U: Uniq=
+H: Handlers=kbd event22 
+B: PROP=0
+B: EV=13
+B: KEY=e000000000000 0
+B: MSC=10
+
+I: Bus=0003 Vendor=09da Product=f66b Version=0111
+N: Name="COMPANY USB Device"
+P: Phys=usb-0000:00:14.0-3/input0
+S: Sysfs=/devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.0/0003:09DA:F66B.0007/input/input27
+U: Uniq=
+H: Handlers=sysrq kbd leds event18 
+B: PROP=0
+B: EV=120013
+B: KEY=1000000000007 ff800000000007ff febeffdfffefffff fffffffffffffffe
+B: MSC=10
+B: LED=1f
+
+I: Bus=0003 Vendor=09da Product=f66b Version=0111
+N: Name="COMPANY USB Device"
+P: Phys=usb-0000:00:14.0-3/input1
+S: Sysfs=/devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.1/0003:09DA:F66B.0008/input/input28
+U: Uniq=
+H: Handlers=event19 mouse2 
+B: PROP=0
+B: EV=17
+B: KEY=ff0000 0 0 0 0
+B: REL=903
+B: MSC=10
+
+I: Bus=0003 Vendor=09da Product=f66b Version=0111
+N: Name="COMPANY USB Device Keyboard"
+P: Phys=usb-0000:00:14.0-3/input2
+S: Sysfs=/devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.2/0003:09DA:F66B.0009/input/input29
+U: Uniq=
+H: Handlers=sysrq kbd event20 
+B: PROP=0
+B: EV=10001f
+B: KEY=302ff 0 0 4c3ffff17aff32d bfd4445600000000 1 130c7b0b17c000 267bfad951dfed fabeffdf77cfffff fffffffffffffffe
+B: REL=1040
+B: ABS=10100000000
+B: MSC=10
+
+I: Bus=0003 Vendor=09da Product=f66b Version=0111
+N: Name="COMPANY USB Device"
+P: Phys=usb-0000:00:14.0-3/input2
+S: Sysfs=/devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3:1.2/0003:09DA:F66B.0009/input/input30
+U: Uniq=
+H: Handlers=event21 
+B: PROP=0
+B: EV=9
+B: ABS=10000000000

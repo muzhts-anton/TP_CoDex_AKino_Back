@@ -140,8 +140,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user, err := db.FindEmail(userForm.Email)
-	errPassword := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userForm.Password))
-	if err != nil || errPassword != nil {
+	if err != nil {
+		http.Error(w, errorBadCredentials, http.StatusFailedDependency)
+		return
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userForm.Password))
+	if err != nil {
 		http.Error(w, errorBadCredentials, http.StatusUnauthorized)
 		return
 	}
