@@ -39,7 +39,11 @@ type authResponse struct {
 }
 
 type userWithRepeatedPassword struct{
-	user DB.User
+	// user DB.User
+	// ID             uint64 `json:"id"`
+	Username       string `json:"username"`
+	Password       string `json:"password"`
+	Email          string `json:"email"`
 	RepeatPassword string `json:"repeatpassword"`
 }
 
@@ -49,7 +53,7 @@ type userWithoutPasswords struct{
 }
 
 func (us *userWithRepeatedPassword) OmitPassword() {
-	us.user.Password = ""
+	us.Password = ""
 	us.RepeatPassword = ""
 }
 
@@ -90,31 +94,31 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if userForm.user.Email == "" || userForm.user.Username == "" || userForm.user.Password == "" || userForm.RepeatPassword == "" {
+	if userForm.Email == "" || userForm.Username == "" || userForm.Password == "" || userForm.RepeatPassword == "" {
 		http.Error(w, errorEmptyField, http.StatusBadRequest)
 		return
 	}
-	if userForm.user.Password != userForm.RepeatPassword {
+	if userForm.Password != userForm.RepeatPassword {
 		http.Error(w, unmatchedPasswords, http.StatusBadRequest)
 		return
 	}
-	_, err = db.FindEmail(userForm.user.Email)
+	_, err = db.FindEmail(userForm.Email)
 	if err == nil {
 		http.Error(w, errorAlreadyIn, http.StatusConflict)
 		return
 	}
 
-	_, err = db.FindUsername(userForm.user.Username)
+	_, err = db.FindUsername(userForm.Username)
 	if err == nil {
 		http.Error(w, errorAlreadyIn, http.StatusConflict)
 		return
 	}
 
-	idReg := db.AddUser(&DB.User{ID: userForm.user.ID, Username: userForm.user.Username, Password: "", Email: userForm.user.Email})
+	idReg := db.AddUser(&DB.User{Username: userForm.Username, Password: "", Email: userForm.Email})
 
-	userOut := userWithoutPasswords{Username: userForm.user.Username, Email: userForm.user.Email}
+	userOut := userWithoutPasswords{Username: userForm.Username, Email: userForm.Email}
 
-	err = sessions.StartSession(w, r, userForm.user.ID)
+	err = sessions.StartSession(w, r, idReg)
 	if err != nil && idReg != 0 {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
