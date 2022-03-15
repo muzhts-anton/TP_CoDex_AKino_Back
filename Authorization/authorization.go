@@ -24,13 +24,14 @@ const cantMarshal = "cant marshal"
 var db DB.UserMockDatabase
 
 const (
-	errorBadInput       = "error - bad input"
-	errorAlreadyIn      = "error - already in"
-	errorBadCredentials = "error - bad credentials"
-	errorInternalServer = "Internal server error"
-	errorParseJSON      = "Error parse JSON"
-	errorEmptyField     = "Empty field"
-	unmatchedPasswords  = "Passwords are unmatched"
+	errorBadInput         = "error - bad input"
+	errorAlreadyIn        = "error - already in"
+	errorEmailNotFound    = "error - email not found"
+	errorPasswordNotFound = "error - password not found"
+	errorInternalServer   = "Internal server error"
+	errorParseJSON        = "Error parse JSON"
+	errorEmptyField       = "Empty field"
+	unmatchedPasswords    = "Passwords are unmatched"
 )
 
 type authResponse struct {
@@ -146,12 +147,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 	user, err := db.FindEmail(userForm.Email)
 	if err != nil {
-		http.Error(w, errorBadCredentials, http.StatusFailedDependency)
+		http.Error(w, errorEmailNotFound, http.StatusFailedDependency)
 		return
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userForm.Password))
 	if err != nil {
-		http.Error(w, errorBadCredentials, http.StatusUnauthorized)
+		http.Error(w, errorPasswordNotFound, http.StatusUnauthorized)
 		return
 	}
 	_, err = sessions.CheckSession(r)
