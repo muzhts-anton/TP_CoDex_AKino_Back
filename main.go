@@ -32,8 +32,7 @@ func main() {
 	api := router.PathPrefix("/api/v1").Subrouter()
 
 	api.Use(CorsMiddleware)
-	// api.HandleFunc("/mainPage", authorization.MainPage)
-	api.HandleFunc("/", authorization.MainPage)
+	api.HandleFunc("/mainPage", authorization.MainPage)
 	api.HandleFunc("/signup", authorization.Register).Methods("POST", "OPTIONS")
 	api.HandleFunc("/login", authorization.Login).Methods("POST", "OPTIONS")
 	api.HandleFunc("/logout", authorization.Logout).Methods("POST", "OPTIONS")
