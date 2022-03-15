@@ -30,6 +30,7 @@ const (
 	errorInternalServer = "Internal server error"
 	errorParseJSON      = "Error parse JSON"
 	errorEmptyField     = "Empty field"
+	unmatchedPasswords  = "Passwords are unmatched"
 )
 
 type authResponse struct {
@@ -85,16 +86,16 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&userForm)
 
 	if err != nil {
-		http.Error(w, errorBadInput, http.StatusBadRequest)
+		http.Error(w, errorParseJSON, http.StatusBadRequest)
 		return
 	}
 
 	if userForm.user.Email == "" || userForm.user.Username == "" || userForm.user.Password == "" || userForm.RepeatPassword == "" {
-		http.Error(w, errorBadInput, http.StatusBadRequest)
+		http.Error(w, errorEmptyField, http.StatusBadRequest)
 		return
 	}
 	if userForm.user.Password != userForm.RepeatPassword {
-		http.Error(w, errorBadInput, http.StatusBadRequest)
+		http.Error(w, unmatchedPasswords, http.StatusBadRequest)
 		return
 	}
 	_, err = db.FindEmail(userForm.user.Email)
