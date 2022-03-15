@@ -103,7 +103,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, unmatchedPasswords, http.StatusBadRequest)
 		return
 	}
-	
+
 	_, err = db.FindEmail(userForm.Email)
 	if err == nil {
 		http.Error(w, errorAlreadyIn, http.StatusConflict)
@@ -116,7 +116,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	idReg := db.AddUser(&DB.User{Username: userForm.Username, Password: "", Email: userForm.Email})
+	idReg := db.AddUser(&DB.User{Username: userForm.Username, Password: userForm.Password, Email: userForm.Email})
 
 	userOut := userWithoutPasswords{Username: userForm.Username, Email: userForm.Email}
 
