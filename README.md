@@ -8,7 +8,7 @@ Back: https://teamprojectkinopoisk.herokuapp.com/
 
 ## API
 
-https://app.swaggerhub.com/apis/CoDex9/CoDex/1.0.0#/info
+https://app.swaggerhub.com/apis/Kislv/AKino/1
 
 ## Авторы
 

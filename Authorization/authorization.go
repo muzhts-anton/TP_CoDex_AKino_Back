@@ -46,7 +46,7 @@ const (
 
 type authResponse struct {
 	Status string `json:"status"`
-	user DB.User
+	user userWithoutPasswords
 }
 
 type userWithRepeatedPassword struct{
@@ -275,7 +275,7 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Write(tmp)
-		
+
 		return
 	}
 	if err != nil {
@@ -284,7 +284,8 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userInfo := DB.User{ID: userID}
-	tmp := authResponse{Status: strconv.Itoa(http.StatusOK), user:userInfo}
+	userOutput := userWithoutPasswords{Email: userInfo.Email, Username: userInfo.Username}
+	tmp := authResponse{Status: strconv.Itoa(http.StatusOK), user:userOutput}
 	userInfoJson, err := json.Marshal(tmp)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
