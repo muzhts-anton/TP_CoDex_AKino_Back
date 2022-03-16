@@ -25,6 +25,7 @@ type userForLogin struct {
 var db DB.UserMockDatabase
 var invalidEmailError = errors.New("Invalid email")
 var invalidUsernameError = errors.New("Invalid username")
+var invalidPasswordError = errors.New("Invalid Password")
 
 const (
 	errorBadInput         = "error - bad input"
@@ -37,6 +38,7 @@ const (
 	unmatchedPasswords    = "Passwords are unmatched"
 	invalidEmail		  = "Invalid email"
 	invalidUsername		  = "Invalid username"
+	invalidPassword		  = "Invalid password"
 	cantMarshal           = "cant marshal"
 	userNotLoggedIn 	  = "User not logged in"
 )
@@ -64,7 +66,7 @@ func (us *userWithRepeatedPassword) OmitPassword() {
 	us.RepeatPassword = ""
 }
 
-func validMailAddress(address string)  error{
+func validEmail(address string)  error{
     _, err := mail.ParseAddress(address)
     if err != nil {
         return  invalidEmailError
@@ -80,7 +82,13 @@ func validUsername(username string)  error {
 	}
 	return nil
 }
+func validPassword(password string)  error {
+	if len(password) < 8 {
+		return invalidPasswordError
+	}
 
+	return nil
+}
 func trimCredentials (email *string, username *string, password *string, repeatPassword * string){
 	*email = strings.Trim(*email, " ")
 	*username = strings.Trim(*username, " ")
@@ -132,12 +140,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if userForm.Password != userForm.RepeatPassword {
-		http.Error(w, unmatchedPasswords, http.StatusBadRequest)
-		return
-	}
 
-	if err = validMailAddress(userForm.Email); err != nil {
+	if err = validEmail(userForm.Email); err != nil {
 		http.Error(w, invalidEmail, http.StatusBadRequest)
 		return
 	} 
@@ -146,6 +150,17 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, invalidUsername, http.StatusBadRequest)
 		return
 	} 
+
+	if err = validPassword(userForm.Password); err != nil {
+		http.Error(w, invalidPassword, http.StatusBadRequest)
+		return
+	} 
+
+
+	if userForm.Password != userForm.RepeatPassword {
+		http.Error(w, unmatchedPasswords, http.StatusBadRequest)
+		return
+	}
 
 	_, err = db.FindEmail(userForm.Email)
 	if err == nil {
@@ -224,6 +239,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func Logout(w http.ResponseWriter, r *http.Request) {
 	id, err := sessions.CheckSession(r)
+	// mockedResponse, _ := json.Marshal("")
+	// w.Write(mockedResponse)
 	if err == sessions.ErrUserNotLoggedIn {
 		http.Error(w, errorBadInput, http.StatusForbidden)
 		return
@@ -233,8 +250,6 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
 	}
-	mockedResponse, _ := json.Marshal("")
-	w.Write(mockedResponse)
 	w.WriteHeader(http.StatusOK)
 }
 
