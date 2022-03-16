@@ -251,7 +251,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
 	}
-	
+
 	w.Write(mockedResponse)
 	w.WriteHeader(http.StatusOK)
 }
@@ -275,6 +275,7 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Write(tmp)
+		
 		return
 	}
 	if err != nil {
