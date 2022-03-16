@@ -239,8 +239,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 func Logout(w http.ResponseWriter, r *http.Request) {
 	id, err := sessions.CheckSession(r)
-	// mockedResponse, _ := json.Marshal("")
-	// w.Write(mockedResponse)
+	mockedResponse, _ := json.Marshal("")
+	w.Write(mockedResponse)
 	if err == sessions.ErrUserNotLoggedIn {
 		http.Error(w, errorBadInput, http.StatusForbidden)
 		return
