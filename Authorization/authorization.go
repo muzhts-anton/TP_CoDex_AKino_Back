@@ -9,8 +9,11 @@ import (
 
 	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
-
 	"codex/Collections"
+	"net/mail"
+	"errors"
+	"strings"
+	"unicode"
 )
 
 type userForLogin struct {
@@ -18,10 +21,10 @@ type userForLogin struct {
 	Password string `json:"password"`
 }
 
-const userNotLoggedIn = "User not logged in"
-const cantMarshal = "cant marshal"
 
 var db DB.UserMockDatabase
+var invalidEmailError = errors.New("Invalid email")
+var invalidUsernameError = errors.New("Invalid username")
 
 const (
 	errorBadInput         = "error - bad input"
@@ -32,7 +35,12 @@ const (
 	errorParseJSON        = "Error parse JSON"
 	errorEmptyField       = "Empty field"
 	unmatchedPasswords    = "Passwords are unmatched"
+	invalidEmail		  = "Invalid email"
+	invalidUsername		  = "Invalid username"
+	cantMarshal           = "cant marshal"
+	userNotLoggedIn 	  = "User not logged in"
 )
+
 
 type authResponse struct {
 	Status string `json:"status"`
@@ -40,8 +48,6 @@ type authResponse struct {
 }
 
 type userWithRepeatedPassword struct{
-	// user DB.User
-	// ID             uint64 `json:"id"`
 	Username       string `json:"username"`
 	Password       string `json:"password"`
 	Email          string `json:"email"`
@@ -56,6 +62,30 @@ type userWithoutPasswords struct{
 func (us *userWithRepeatedPassword) OmitPassword() {
 	us.Password = ""
 	us.RepeatPassword = ""
+}
+
+func validMailAddress(address string)  error{
+    _, err := mail.ParseAddress(address)
+    if err != nil {
+        return  invalidEmailError
+    }
+    return nil
+}
+
+func validUsername(username string)  error {
+	for _, char := range username{
+		if !(unicode.IsLetter(char) || unicode.Is(unicode.Cyrillic, char)) {
+			return invalidUsernameError
+		}
+	}
+	return nil
+}
+
+func trimCredentials (email *string, username *string, password *string, repeatPassword * string){
+	*email = strings.Trim(*email, " ")
+	*username = strings.Trim(*username, " ")
+	*password = strings.Trim(*password, " ")
+	*repeatPassword = strings.Trim(*repeatPassword, " ")
 }
 
 func GetBasicInfo(w http.ResponseWriter, r *http.Request) {
@@ -95,14 +125,27 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	trimCredentials(&userForm.Email, &userForm.Username, &userForm.Password, &userForm.RepeatPassword)
+
 	if userForm.Email == "" || userForm.Username == "" || userForm.Password == "" || userForm.RepeatPassword == "" {
 		http.Error(w, errorEmptyField, http.StatusBadRequest)
 		return
 	}
+
 	if userForm.Password != userForm.RepeatPassword {
 		http.Error(w, unmatchedPasswords, http.StatusBadRequest)
 		return
 	}
+
+	if err = validMailAddress(userForm.Email); err != nil {
+		http.Error(w, invalidEmail, http.StatusBadRequest)
+		return
+	} 
+
+	if err = validUsername(userForm.Username); err != nil {
+		http.Error(w, invalidUsername, http.StatusBadRequest)
+		return
+	} 
 
 	_, err = db.FindEmail(userForm.Email)
 	if err == nil {
@@ -190,6 +233,8 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
 		return
 	}
+	mockedResponse, _ := json.Marshal("")
+	w.Write(mockedResponse)
 	w.WriteHeader(http.StatusOK)
 }
 
