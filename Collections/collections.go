@@ -2,9 +2,10 @@ package collections
 
 import (
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 const (
@@ -40,7 +41,7 @@ type CollType struct {
 	MovieList   []MovieType `json:"movieList"`
 }
 
-var Alabdcoll = []CollType{
+var DBCollections = []CollType{
 	{
 		Title:       "Топ 256",
 		Description: "Вот такая вот подборочка :)",
@@ -65,7 +66,7 @@ var Alabdcoll = []CollType{
 	},
 }
 
-var Alabdsel = FilmSelection{
+var DBFilms = FilmSelection{
 	[]FilmType{
 		{
 			Description: "Top 256",
@@ -153,8 +154,8 @@ func GetCol(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errBadID, http.StatusBadRequest)
 		return
 	}
-	jsonchik := Alabdcoll[colnum-1]
-	b, err := json.Marshal(jsonchik)
+	collectionJSON := DBCollections[colnum-1]
+	b, err := json.Marshal(collectionJSON)
 	if err != nil {
 		http.Error(w, "cant marshal json", http.StatusInternalServerError)
 		return

@@ -8,7 +8,7 @@ Back: https://teamprojectkinopoisk.herokuapp.com/
 
 ## API
 
-https://app.swaggerhub.com/apis/Kislv/AKino/1
+https://app.swaggerhub.com/apis/Kislv/AKino/0-oas3
 
 ## Авторы
 

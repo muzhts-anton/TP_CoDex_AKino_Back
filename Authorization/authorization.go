@@ -7,20 +7,20 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
-	"golang.org/x/crypto/bcrypt"
-	"codex/Collections"
-	"net/mail"
+	collections "codex/Collections"
 	"errors"
+	"net/mail"
 	"strings"
 	"unicode"
+
+	"github.com/gorilla/mux"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type userForLogin struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
-
 
 var db DB.UserMockDatabase
 var invalidEmailError = errors.New("Invalid email")
@@ -36,29 +36,28 @@ const (
 	errorParseJSON        = "Error parse JSON"
 	errorEmptyField       = "Empty field"
 	unmatchedPasswords    = "Passwords are unmatched"
-	invalidEmail		  = "Invalid email"
-	invalidUsername		  = "Invalid username"
-	invalidPassword		  = "Invalid password"
+	invalidEmail          = "Invalid email"
+	invalidUsername       = "Invalid username"
+	invalidPassword       = "Invalid password"
 	cantMarshal           = "cant marshal"
-	userNotLoggedIn 	  = "User not logged in"
+	userNotLoggedIn       = "User not logged in"
 )
-
 
 type authResponse struct {
 	Status string `json:"status"`
-	user userWithoutPasswords
+	user   userWithoutPasswords
 }
 
-type userWithRepeatedPassword struct{
+type userWithRepeatedPassword struct {
 	Username       string `json:"username"`
 	Password       string `json:"password"`
 	Email          string `json:"email"`
 	RepeatPassword string `json:"repeatpassword"`
 }
 
-type userWithoutPasswords struct{
-	Username       string `json:"username"`
-	Email          string `json:"email"`
+type userWithoutPasswords struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
 }
 
 func (us *userWithRepeatedPassword) OmitPassword() {
@@ -66,30 +65,30 @@ func (us *userWithRepeatedPassword) OmitPassword() {
 	us.RepeatPassword = ""
 }
 
-func validEmail(address string)  error{
-    _, err := mail.ParseAddress(address)
-    if err != nil {
-        return  invalidEmailError
-    }
-    return nil
+func validEmail(address string) error {
+	_, err := mail.ParseAddress(address)
+	if err != nil {
+		return invalidEmailError
+	}
+	return nil
 }
 
-func validUsername(username string)  error {
-	for _, char := range username{
+func validUsername(username string) error {
+	for _, char := range username {
 		if !(unicode.IsLetter(char) || unicode.Is(unicode.Cyrillic, char)) {
 			return invalidUsernameError
 		}
 	}
 	return nil
 }
-func validPassword(password string)  error {
+func validPassword(password string) error {
 	if len(password) < 8 {
 		return invalidPasswordError
 	}
 
 	return nil
 }
-func trimCredentials (email *string, username *string, password *string, repeatPassword * string){
+func trimCredentials(email *string, username *string, password *string, repeatPassword *string) {
 	*email = strings.Trim(*email, " ")
 	*username = strings.Trim(*username, " ")
 	*password = strings.Trim(*password, " ")
@@ -140,22 +139,20 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-
 	if err = validEmail(userForm.Email); err != nil {
 		http.Error(w, invalidEmail, http.StatusBadRequest)
 		return
-	} 
+	}
 
 	if err = validUsername(userForm.Username); err != nil {
 		http.Error(w, invalidUsername, http.StatusBadRequest)
 		return
-	} 
+	}
 
 	if err = validPassword(userForm.Password); err != nil {
 		http.Error(w, invalidPassword, http.StatusBadRequest)
 		return
-	} 
-
+	}
 
 	if userForm.Password != userForm.RepeatPassword {
 		http.Error(w, unmatchedPasswords, http.StatusBadRequest)
@@ -241,14 +238,16 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	id, err := sessions.CheckSession(r)
 
 	mockedResponse, _ := json.Marshal("")
-	
+
 	if err == sessions.ErrUserNotLoggedIn {
 		http.Error(w, errorBadInput, http.StatusForbidden)
+		w.Write(mockedResponse)
 		return
 	}
 	err = sessions.FinishSession(w, r, id)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
+		w.Write(mockedResponse)
 		return
 	}
 
@@ -257,7 +256,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 }
 
 func MainPage(w http.ResponseWriter, r *http.Request) {
-	b, err := json.Marshal(collections.Alabdsel)
+	b, err := json.Marshal(collections.DBFilms)
 	if err != nil {
 		http.Error(w, cantMarshal, http.StatusInternalServerError)
 		return
@@ -285,7 +284,7 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 
 	userInfo := DB.User{ID: userID}
 	userOutput := userWithoutPasswords{Email: userInfo.Email, Username: userInfo.Username}
-	tmp := authResponse{Status: strconv.Itoa(http.StatusOK), user:userOutput}
+	tmp := authResponse{Status: strconv.Itoa(http.StatusOK), user: userOutput}
 	userInfoJson, err := json.Marshal(tmp)
 	if err != nil {
 		http.Error(w, errorInternalServer, http.StatusInternalServerError)
