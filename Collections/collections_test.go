@@ -1,14 +1,16 @@
 package collections
 
 import (
+	constants "codex/Constants"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/gorilla/mux"
+	"github.com/stretchr/testify/assert"
 )
 
 type testRow struct {
@@ -30,7 +32,7 @@ var testTableSuccess = [...]testRow{
 var testTableFailure = [...]testRow{
 	{
 		inQuery: "-1",
-		out:     errParseID + "\n",
+		out:     constants.ErrParseID + "\n",
 		status:  http.StatusBadRequest,
 		name:    `negative skip`,
 	},

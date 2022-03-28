@@ -3,14 +3,17 @@ package authorization
 import (
 	"codex/DB"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/gorilla/mux"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	constants "codex/Constants"
 )
 
 type testRow struct {
@@ -34,21 +37,21 @@ var testTableRegisterFailure = [...]testRow{
 	{
 		inQuery:    "",
 		bodyString: `{"username": "Ivan","email": "ivan1@mail.ru","password": "12345678","repeatpassword": "12345678"}`,
-		out:        errorAlreadyIn + "\n",
+		out:        constants.ErrorAlreadyIn + "\n",
 		status:     http.StatusConflict,
 		name:       "already in",
 	},
 	{
 		inQuery:    "",
 		bodyString: `{"username": "Ivan",}`,
-		out:        errorBadInput + "\n",
+		out:        constants.ErrorBadInput + "\n",
 		status:     http.StatusBadRequest,
 		name:       "bad fields",
 	},
 	{
 		inQuery:    "",
 		bodyString: `{"username": "Ivan","email": "ivan1@mail.ru","password": "12345678","repeatpassword": "12345677"}`,
-		out:        errorBadInput + "\n",
+		out:        constants.ErrorBadInput + "\n",
 		status:     http.StatusBadRequest,
 		name:       "unmatching passwords",
 	},
@@ -115,21 +118,21 @@ var testTableGetFailure = [...]testRow{
 	{
 		inQuery:    "3",
 		bodyString: ``,
-		out:        errorBadInput + "\n",
+		out:        constants.ErrorBadInput + "\n",
 		status:     http.StatusNotFound,
 		name:       "out of index",
 	},
 	{
 		inQuery:    "a",
 		bodyString: ``,
-		out:        errorBadInput + "\n",
+		out:        constants.ErrorBadInput + "\n",
 		status:     http.StatusBadRequest,
 		name:       "no uinteger",
 	},
 	{
 		inQuery:    "",
 		bodyString: ``,
-		out:        errorBadInput + "\n",
+		out:        constants.ErrorBadInput + "\n",
 		status:     http.StatusBadRequest,
 		name:       "empty",
 	},
@@ -186,35 +189,35 @@ var testTableLoginFailure = [...]testRow{
 	{
 		inQuery:    "",
 		bodyString: `{"email": "raddom@mail.su","password": "12345678"}`,
-		out:        errorEmailNotFound + "\n",
+		out:        constants.ErrorEmailNotFound + "\n",
 		status:     http.StatusUnauthorized,
 		name:       "user not in base",
 	},
 	{
 		inQuery:    "",
 		bodyString: `{"email": "iva21@mail.ru","password": "12245678"}`,
-		out:        errorPasswordNotFound + "\n",
+		out:        constants.ErrorPasswordNotFound + "\n",
 		status:     http.StatusUnauthorized,
 		name:       "wrong pass",
 	},
 	{
 		inQuery:    "",
 		bodyString: `{"password": "12245678"}`,
-		out:        errorBadInput + "\n",
+		out:        constants.ErrorBadInput + "\n",
 		status:     http.StatusBadRequest,
 		name:       "no email",
 	},
 	{
 		inQuery:    "",
 		bodyString: `{"email": "iva21@mail.ru"}`,
-		out:        errorBadInput + "\n",
+		out:        constants.ErrorBadInput + "\n",
 		status:     http.StatusBadRequest,
 		name:       "no pass",
 	},
 	{
 		inQuery:    "",
 		bodyString: `{"emal": "iva21@mail.ru","password": "12345678"}`,
-		out:        errorBadInput + "\n",
+		out:        constants.ErrorBadInput + "\n",
 		status:     http.StatusBadRequest,
 		name:       "wrong json",
 	},
@@ -254,7 +257,7 @@ var testTableLogoutFailure = [...]testRow{
 	{
 		inQuery:    "",
 		bodyString: `{"email": "iva21@mail.ru","password": "123456"}`,
-		out:        errorBadInput + "\n",
+		out:        constants.ErrorBadInput + "\n",
 		status:     http.StatusForbidden,
 		name:       "logout not logged in",
 	},
