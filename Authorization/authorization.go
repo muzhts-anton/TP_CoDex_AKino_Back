@@ -262,6 +262,7 @@ func MainPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write(b)
+	w.WriteHeader(http.StatusOK)
 }
 
 func CheckAuth(w http.ResponseWriter, r *http.Request) {
