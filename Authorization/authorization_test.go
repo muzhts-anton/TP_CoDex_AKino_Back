@@ -186,14 +186,14 @@ var testTableLoginFailure = [...]testRow{
 	{
 		inQuery:    "",
 		bodyString: `{"email": "raddom@mail.su","password": "12345678"}`,
-		out:        errorBadCredentials + "\n",
+		out:        errorEmailNotFound + "\n",
 		status:     http.StatusUnauthorized,
 		name:       "user not in base",
 	},
 	{
 		inQuery:    "",
 		bodyString: `{"email": "iva21@mail.ru","password": "12245678"}`,
-		out:        errorBadCredentials + "\n",
+		out:        errorPasswordNotFound + "\n",
 		status:     http.StatusUnauthorized,
 		name:       "wrong pass",
 	},
