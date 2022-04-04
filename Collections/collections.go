@@ -6,13 +6,8 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-)
 
-const (
-	errDBMsg   = "DB error"
-	errParseID = "error parse ID"
-	errBadID   = "error Bad ID"
-	errEncMsg  = "Encoding error"
+	constants "codex/Constants"
 )
 
 type FilmType struct {
@@ -147,11 +142,11 @@ func GetCol(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	colnum, err := strconv.ParseUint(params["id"], 10, 64)
 	if err != nil {
-		http.Error(w, errParseID, http.StatusBadRequest)
+		http.Error(w, constants.ErrParseID, http.StatusBadRequest)
 		return
 	}
 	if colnum != 1 {
-		http.Error(w, errBadID, http.StatusBadRequest)
+		http.Error(w, constants.ErrBadID, http.StatusBadRequest)
 		return
 	}
 	collectionJSON := DBCollections[colnum-1]
@@ -162,4 +157,14 @@ func GetCol(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusOK)
 	w.Write(b)
+}
+
+func GetCollections(w http.ResponseWriter, r *http.Request) {
+	b, err := json.Marshal(DBFilms)
+	if err != nil {
+		http.Error(w, constants.CantMarshal, http.StatusInternalServerError)
+		return
+	}
+	w.Write(b)
+	w.WriteHeader(http.StatusOK)
 }
