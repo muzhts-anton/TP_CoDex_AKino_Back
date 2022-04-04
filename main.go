@@ -3,6 +3,8 @@ package main
 import (
 	"codex/Authorization"
 	"codex/Collections"
+	"codex/Movies"
+	"codex/Actors"
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
@@ -11,8 +13,8 @@ import (
 )
 
 func CorsMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { // http://localhost:3000
-		w.Header().Set("Access-Control-Allow-Origin", "https://tp-frontkinopoisk.herokuapp.com") // url to deployed front
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "http://park-akino.ru/") // url to deployed front
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, Authorization, X-CSRF-Token, Location")
@@ -27,18 +29,21 @@ func CorsMiddleware(next http.Handler) http.Handler {
 }
 
 func main() {
-
 	router := mux.NewRouter()
 	api := router.PathPrefix("/api/v1").Subrouter()
 
 	api.Use(CorsMiddleware)
-	api.HandleFunc("/", authorization.MainPage)
-	api.HandleFunc("/signup", authorization.Register)
-	api.HandleFunc("/login", authorization.Login)
-	api.HandleFunc("/logout", authorization.Logout)
-	api.HandleFunc("/user/checkAuth", authorization.CheckAuth)
+	api.HandleFunc("/mainPage", authorization.MainPage)
+	api.HandleFunc("/signup", authorization.Register).Methods("POST", "OPTIONS")
+	api.HandleFunc("/login", authorization.Login).Methods("POST", "OPTIONS")
+	api.HandleFunc("/logout", authorization.Logout).Methods("POST", "OPTIONS")
+	api.HandleFunc("/checkAuth", authorization.CheckAuth).Methods("GET", "OPTIONS")
 
-	api.HandleFunc("/collections/collection/{id:[0-9]+}", collections.GetCol)
+	api.HandleFunc("/collections/collection/{id:[0-9]+}", collections.GetCol).Methods("GET", "OPTIONS")
+
+	api.HandleFunc("/movies/{id:[0-9]+}", movies.GetMovie).Methods("GET", "OPTIONS")
+
+	api.HandleFunc("/actors/{id:[0-9]+}", actors.GetActor).Methods("GET", "OPTIONS")
 
 	port := os.Getenv("PORT") // to get port from Heroku
 	if port == "" {
