@@ -3,6 +3,8 @@ package main
 import (
 	"codex/Authorization"
 	"codex/Collections"
+	"codex/Actors"
+	"codex/Movies"
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
@@ -11,7 +13,7 @@ import (
 )
 
 func CorsMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { // http://localhost:3000
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "http://park-akino.ru") // url to deployed front
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
@@ -39,6 +41,10 @@ func main() {
 
 	api.HandleFunc("/collections/collection/{id:[0-9]+}", collections.GetCol).Methods("GET", "OPTIONS")
 	api.HandleFunc("/collections", collections.GetCollections).Methods("GET", "OPTIONS")
+
+	api.HandleFunc("/movies/{id:[0-9]+}", movies.GetMovie).Methods("GET", "OPTIONS")
+	api.HandleFunc("/actors/{id:[0-9]+}", actors.GetActor).Methods("GET", "OPTIONS")
+
 
 	port := os.Getenv("PORT") // to get port from Heroku
 	if port == "" {
