@@ -277,7 +277,12 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userInfo, _ := db.FindId(userId)
+	userInfo, err := db.FindId(userId)
+	if err != nil {
+		http.Error(w, constants.ErrParseID, http.StatusBadRequest)
+		return
+	}
+	
 	userInfoJson, err := json.Marshal(userWithoutPasswords{Email: userInfo.Email, Username: userInfo.Username})
 	if err != nil {
 		http.Error(w, constants.ErrorInternalServer, http.StatusInternalServerError)
