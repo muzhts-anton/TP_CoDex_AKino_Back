@@ -29,8 +29,8 @@ var InvalidUsernameError = errors.New("Invalid username")
 var InvalidPasswordError = errors.New("Invalid Password")
 
 type authResponse struct {
-	Status string `json:"status"`
-	user   userWithoutPasswords
+	Status string               `json:"status"`
+	User   userWithoutPasswords `json:"userdata"`
 }
 
 type userWithRepeatedPassword struct {
@@ -260,12 +260,12 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 
 	userInfo := DB.User{ID: userID}
 	userOutput := userWithoutPasswords{Email: userInfo.Email, Username: userInfo.Username}
-	tmp := authResponse{Status: strconv.Itoa(http.StatusOK), user: userOutput}
+	tmp := authResponse{Status: strconv.Itoa(http.StatusOK), User: userOutput}
 	userInfoJson, err := json.Marshal(tmp)
 	if err != nil {
 		http.Error(w, constants.ErrorInternalServer, http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	_, err = w.Write(userInfoJson)
+	w.Write(userInfoJson)
 }
