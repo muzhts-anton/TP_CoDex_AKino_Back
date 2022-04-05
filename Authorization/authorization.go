@@ -29,8 +29,9 @@ var InvalidUsernameError = errors.New("Invalid username")
 var InvalidPasswordError = errors.New("Invalid Password")
 
 type authResponse struct {
-	Status string               `json:"status"`
-	User   userWithoutPasswords `json:"userdata"`
+	Status string `json:"status"`
+	Id     string `json:"id"`
+	//User   userWithoutPasswords `json:"userdata"`
 }
 
 type userWithRepeatedPassword struct {
@@ -259,9 +260,25 @@ func CheckAuth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userInfo := DB.User{ID: userID}
-	userOutput := userWithoutPasswords{Email: userInfo.Email, Username: userInfo.Username}
-	tmp := authResponse{Status: strconv.Itoa(http.StatusOK), User: userOutput}
-	userInfoJson, err := json.Marshal(tmp)
+	userInfoJson, err := json.Marshal(authResponse{Status: strconv.Itoa(http.StatusOK), Id: strconv.FormatUint(userInfo.ID, 10)})
+	if err != nil {
+		http.Error(w, constants.ErrorInternalServer, http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(userInfoJson)
+}
+
+func GetUser(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	userId, err := strconv.ParseUint(params["id"], 10, 64)
+	if err != nil {
+		http.Error(w, constants.ErrParseID, http.StatusBadRequest)
+		return
+	}
+
+	userInfo, _ := db.FindId(userId)
+	userInfoJson, err := json.Marshal(userWithoutPasswords{Email: userInfo.Email, Username: userInfo.Username})
 	if err != nil {
 		http.Error(w, constants.ErrorInternalServer, http.StatusInternalServerError)
 		return

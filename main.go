@@ -29,7 +29,6 @@ func CorsMiddleware(next http.Handler) http.Handler {
 }
 
 func main() {
-
 	router := mux.NewRouter()
 	api := router.PathPrefix("/api/v1").Subrouter()
 
@@ -38,6 +37,7 @@ func main() {
 	api.HandleFunc("/login", authorization.Login).Methods("POST", "OPTIONS")
 	api.HandleFunc("/logout", authorization.Logout).Methods("POST", "OPTIONS")
 	api.HandleFunc("/checkAuth", authorization.CheckAuth).Methods("GET", "OPTIONS")
+	api.HandleFunc("/user/{id:[0-9]+}", authorization.GetUser).Methods("GET", "OPTIONS")
 
 	api.HandleFunc("/collections/collection/{id:[0-9]+}", collections.GetCol).Methods("GET", "OPTIONS")
 	api.HandleFunc("/collections", collections.GetCollections).Methods("GET", "OPTIONS")
