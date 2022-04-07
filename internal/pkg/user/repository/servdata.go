@@ -1,4 +1,4 @@
-package repository
+package usrrepository
 
 import (
 	"codex/internal/pkg/domain"

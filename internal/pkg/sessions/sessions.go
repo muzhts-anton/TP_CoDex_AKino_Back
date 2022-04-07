@@ -2,7 +2,7 @@ package sessions
 
 import (
 	"codex/internal/pkg/domain"
-	"errors"
+
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 	"net/http"

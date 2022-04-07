@@ -1,4 +1,4 @@
-package delivery
+package usrdelivery
 
 import (
 	"codex/internal/pkg/domain"

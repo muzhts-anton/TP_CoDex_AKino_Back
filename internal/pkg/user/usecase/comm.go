@@ -1,4 +1,4 @@
-package usecase
+package usrusecase
 
 import (
 	"codex/internal/pkg/domain"
@@ -10,7 +10,7 @@ type userUsecase struct {
 	userRepo domain.UserRepository
 }
 
-func InitUsrUc(u domain.UserRepository) domain.UserUsecase {
+func InitUsrUsc(u domain.UserRepository) domain.UserUsecase {
 	return &userUsecase{
 		userRepo: u,
 	}

@@ -27,6 +27,9 @@ type errObj struct {
 	BadInput error
 
 	AlreadyIn error
+
+	ParseId error
+	SmallBd error
 }
 
 type err struct {
@@ -44,7 +47,7 @@ var Err = err{
 		FinishSession:   errors.New("Passed through if on FinishSession"),
 
 		NoUser:         errors.New("No user found"),
-		InternalServer: errors.New("Internal server"),
+		InternalServer: errors.New("Internal server error"),
 
 		InvalidEmail:    errors.New("Invalid email"),
 		InvalidUsername: errors.New("Invalid username"),
@@ -57,5 +60,8 @@ var Err = err{
 		BadInput: errors.New("Bad input"),
 
 		AlreadyIn: errors.New("User is already logged in"),
+
+		ParseId: errors.New("Parse Id error"),
+		SmallBd: errors.New("Sorry, our database is too small yet"),
 	},
 }

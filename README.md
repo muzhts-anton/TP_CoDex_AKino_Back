@@ -4,6 +4,7 @@
 ## Деплой
 
 Front: https://tp-frontkinopoisk.herokuapp.com/
+Front: https://park-akino.ru
 Back: https://teamprojectkinopoisk.herokuapp.com/
 
 ## API
