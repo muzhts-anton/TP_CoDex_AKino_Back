@@ -27,8 +27,3 @@ https://app.swaggerhub.com/apis/Kislv/AKino/0-oas3
 https://github.com/frontend-park-mail-ru/2022_1_CoDex/tree/develop
 
 Команда для запуска тестов: go test -coverpkg=./... -coverprofile=cover ./... && cat cover | grep -v "mock" | grep -v  "easyjson" | grep -v "proto" > cover.out && go tool cover -func=cover.out
-
-
-РК:
-1. 
-2. Сделать еще одну структуру для хранения пользователя

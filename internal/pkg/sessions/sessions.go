@@ -1,17 +1,16 @@
 package sessions
 
 import (
+	"codex/internal/pkg/domain"
 	"errors"
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 	"net/http"
 )
 
-var ErrUserNotLoggedIn = errors.New("user not logged in")
-var errUint64Cast = errors.New("id uint64 cast error")
+const sessionName = "session-name"
 
 var store = sessions.NewCookieStore(securecookie.GenerateRandomKey(32))
-var sessionName = "session-name"
 
 func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	session, _ := store.Get(r, sessionName)
@@ -36,6 +35,7 @@ func FinishSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 	if err != nil {
 		return err
 	}
+
 	sessionId, isIn := session.Values["id"]
 	if isIn && id == sessionId {
 		session.Options.MaxAge = -1
@@ -46,9 +46,10 @@ func FinishSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return err
 		}
-	}else{
-		return errors.New("Passed through if on FinishSession")
+	} else {
+		return domain.Err.ErrObj.FinishSession
 	}
+
 	return nil
 }
 
@@ -57,13 +58,16 @@ func CheckSession(r *http.Request) (uint64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	id, isIn := session.Values["id"]
 	if !isIn || session.IsNew {
-		return 0, ErrUserNotLoggedIn
+		return 0, domain.Err.ErrObj.UserNotLoggedIn
 	}
+
 	idCasted, ok := id.(uint64)
 	if !ok {
-		return 0, errUint64Cast
+		return 0, domain.Err.ErrObj.Uint64Cast
 	}
+
 	return idCasted, nil
 }
