@@ -23,7 +23,7 @@ type MovieType struct {
 type CollType struct {
 	Title       string      `json:"title"`
 	Description string      `json:"description"`
-	MovieList   []MovieType `json:"movieList"`
+	MovieList   []MovieType `json:"movielist"`
 }
 
 type CollectionsRepository interface {
