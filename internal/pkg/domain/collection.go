@@ -12,11 +12,11 @@ type FilmSelection struct {
 }
 
 type MovieType struct {
-	MovieHref   string `json:"moviehref"`
-	ImgHref     string `json:"imghref"`
+	Id          string `json:"ID"`
+	ImgHref     string `json:"poster"`
 	Title       string `json:"title"`
-	Info        string `json:"info"`
 	Rating      string `json:"rating"`
+	Info        string `json:"info"`
 	Description string `json:"description"`
 }
 
