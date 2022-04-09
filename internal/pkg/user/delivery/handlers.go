@@ -17,5 +17,5 @@ func SetUsrHandlers(router *mux.Router, uc domain.UserUsecase) {
 	router.HandleFunc("/user/signup", handler.Register).Methods("POST", "OPTIONS")
 	router.HandleFunc("/user/login", handler.Login).Methods("POST", "OPTIONS")
 	router.HandleFunc("/user/logout", handler.Logout).Methods("POST", "OPTIONS")
-	router.HandleFunc("/user/checkAuth", handler.CheckAuth).Methods("GET", "OPTIONS")
+	router.HandleFunc("/user/authcheck", handler.CheckAuth).Methods("GET", "OPTIONS")
 }
