@@ -36,7 +36,7 @@ func (ur *dbUserRepository) GetById(id uint64) (domain.User, error) {
 	defer ur.RUnlock()
 
 	if int(id) <= len(ur.users) && id != 0 {
-		return ur.users[id-1], nil
+		return ur.users[id], nil
 	}
 
 	return domain.User{}, domain.Err.ErrObj.NoUser
