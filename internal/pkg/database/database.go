@@ -8,7 +8,7 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
-const connString = "user=dev password=1234 host=localhost port=5432 dbname=film4u"
+const connString = "user=akino password=1234 host=localhost port=5432 dbname=codex"
 
 type DBrow_t [][]byte
 
