@@ -8,7 +8,7 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
-const connString = "user=akino password=1234 host=localhost port=5432 dbname=codex"
+const connString = "user=wupgrkjxdajdgp password=2ce29bb635e719c707788d482888c13a9fd48b37e0f46d3085702c59c979cb84 host=ec2-52-48-159-67.eu-west-1.compute.amazonaws.com port=5432 dbname=d6f3hunae7bqde"
 
 type DBrow_t [][]byte
 
