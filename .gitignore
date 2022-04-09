@@ -16,3 +16,12 @@
 
 # Go workspace file
 go.work
+
+# Env
+.vscode/
+
+# Local
+logs.txt
+oldbd.txt
+bdsetplan.txt
+old/

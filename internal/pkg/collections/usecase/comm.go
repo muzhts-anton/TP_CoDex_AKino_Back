@@ -14,23 +14,20 @@ func InitColUsc(cr domain.CollectionsRepository) domain.CollectionsUsecase {
 	}
 }
 
-func (cu collectionsUsecase) GetCollection(id uint64) (domain.CollType, error) {
-	if id != 1 { // tmp, cause the database is small >.<
-		return domain.CollType{}, domain.Err.ErrObj.SmallBd
-	}
-
-	coll, err := cu.collectionsRepo.GetCollection(id - 1)
+func (cu collectionsUsecase) GetCollection(id uint64) (domain.Collection, error) {
+	coll, err := cu.collectionsRepo.GetCollection(id)
 	if err != nil {
-		return domain.CollType{}, err
+		return domain.Collection{}, err
 	}
 
 	return coll, err
 }
 
-func (cu collectionsUsecase) GetFeed() (domain.FilmSelection, error) {
+func (cu collectionsUsecase) GetFeed() (domain.Feed, error) {
 	feed, err := cu.collectionsRepo.GetFeed()
 	if err != nil {
-		return domain.FilmSelection{}, err
+		return domain.Feed{}, err
 	}
+
 	return feed, nil
 }

@@ -1,13 +1,13 @@
 package domain
 
-const BasePicture = "/pic/1.jpg"
+const BaseUserPicture = "/profile.svg"
 
 type User struct {
 	Id             uint64 `json:"-"`
 	Username       string `json:"username"`
-	Password       string `json:"password"`
+	Password       string `json:"password,omitempty"`
 	Email          string `json:"email"`
-	RepeatPassword string `json:"repeatpassword"`
+	RepeatPassword string `json:"repeatpassword,omitempty"`
 }
 
 type UserBasic struct {

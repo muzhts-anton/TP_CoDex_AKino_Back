@@ -1,127 +1,94 @@
 package colrepository
 
 import (
+	"codex/internal/pkg/database"
 	"codex/internal/pkg/domain"
+
+	"encoding/binary"
+	"fmt"
+	"math"
 )
 
-var dbCollections = []domain.CollType{
-	{
-		Title:       "Топ 256",
-		Description: "Вот такая вот подборочка :)",
-		MovieList: []domain.MovieType{
-			{
-				Id:          "1",
-				ImgHref:     "greenMile.png",
-				Title:       "Зелёная миля",
-				Info:        "1999, США. Драма",
-				Rating:      "9.1",
-				Description: "Пол Эджкомб — начальник блока смертников в тюрьме «Холодная гора», каждый из узников которого однажды проходит «зеленую милю» по пути к месту казни. Пол повидал много заключённых и надзирателей за время работы. Однако гигант Джон Коффи, обвинённый в страшном преступлении, стал одним из самых необычных обитателей блока.",
-			},
-			{
-				Id:          "2",
-				ImgHref:     "showshenkRedemption.png",
-				Title:       "Побег из Шоушенка",
-				Info:        "1994, США. Драма",
-				Rating:      "8.9",
-				Description: "Бухгалтер Энди Дюфрейн обвинён в убийстве собственной жены и её любовника. Оказавшись в тюрьме под названием Шоушенк, он сталкивается с жестокостью и беззаконием, царящими по обе стороны решётки. Каждый, кто попадает в эти стены, становится их рабом до конца жизни. Но Энди, обладающий живым умом и доброй душой, находит подход как к заключённым, так и к охранникам, добиваясь их особого к себе расположения.",
-			},
-		},
-	},
-}
+const (
+	queryCountCollections = `
+	SELECT COUNT(*) FROM Collections;
+	`
 
-var dbFilms = domain.FilmSelection{
-	Coll: []domain.FilmType{
-		{
-			Description: "Top 256",
-			ImgSrc:      "top.png",
-			Page:        "collections",
-			Number:      "1",
-		},
-		{
-			Description: "Приключения",
-			ImgSrc:      "adventures.png",
-			Page:        "collections",
-			Number:      "2",
-		},
-		{
-			Description: "Для детей",
-			ImgSrc:      "childish.png",
-			Page:        "collections",
-			Number:      "3",
-		},
-		{
-			Description: "Фильмы по комиксам",
-			ImgSrc:      "comics.png",
-			Page:        "collections",
-			Number:      "4",
-		},
-		{
-			Description: "Драмы",
-			ImgSrc:      "drama.png",
-			Page:        "collections",
-			Number:      "5",
-		},
-		{
-			Description: "Для всей семьи",
-			ImgSrc:      "family.png",
-			Page:        "collections",
-			Number:      "6",
-		},
-		{
-			Description: "Рекомендации редакции",
-			ImgSrc:      "ourTop.png",
-			Page:        "collections",
-			Number:      "7",
-		},
-		{
-			Description: "Романтические",
-			ImgSrc:      "romantic.png",
-			Page:        "collections",
-			Number:      "8",
-		},
-		{
-			Description: "Спасение мира",
-			ImgSrc:      "saveTheWorld.png",
-			Page:        "collections",
-			Number:      "9",
-		},
-		{
-			Description: "Советское кино",
-			ImgSrc:      "soviet.png",
-			Page:        "collections",
-			Number:      "10",
-		},
-		{
-			Description: "Про шпионов",
-			ImgSrc:      "spy.png",
-			Page:        "collections",
-			Number:      "11",
-		},
-		{
-			Description: "Сказки",
-			ImgSrc:      "tales.png",
-			Page:        "collections",
-			Number:      "12",
-		},
-	},
-}
+	queryGetCollections = `
+	SELECT * FROM Collections
+	JOIN Movies on Collections.id = Movies.incollection
+	WHERE Collections.id = $1;
+	`
+
+	queryGetFeed = `
+	SELECT * FROM Feeds;
+	`
+)
 
 type dbCollectionsRepository struct {
-	Collections []domain.CollType
-	Films       domain.FilmSelection
+	dbm *database.DBManager
 }
 
-func InitColRep() domain.CollectionsRepository {
-	return &dbCollectionsRepository{
-		Collections: dbCollections,
-		Films:       dbFilms,
+func InitColRep(manager *database.DBManager) domain.CollectionsRepository {
+	return &dbCollectionsRepository{dbm: manager}
+}
+
+func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, error) {
+	result, err := cr.dbm.Query(queryCountCollections)
+	if err != nil {
+		return domain.Collection{}, domain.Err.ErrObj.InternalServer
 	}
+
+	dbsize := binary.BigEndian.Uint64(result[0][0])
+	if id > dbsize {
+		return domain.Collection{}, domain.Err.ErrObj.SmallBd
+	}
+
+	respColl, err := cr.dbm.Query(queryGetCollections, id)
+	if err != nil {
+		return domain.Collection{}, domain.Err.ErrObj.InternalServer
+	}
+
+	movies := make([]domain.MovieRow, 0)
+	for i := range respColl {
+		movies = append(movies, domain.MovieRow{
+			Id:          fmt.Sprint((binary.BigEndian.Uint64(respColl[i][3]))),
+			ImgHref:     string(respColl[i][4]),
+			Title:       string(respColl[i][5]),
+			Rating:      fmt.Sprint(math.Float64frombits(binary.BigEndian.Uint64(respColl[i][6]))),
+			Info:        string(respColl[i][7]),
+			Description: string(respColl[i][8]),
+		})
+	}
+
+	out := domain.Collection{
+		Title:       string(respColl[0][1]),
+		Description: string(respColl[0][2]),
+		MovieList:   movies,
+	}
+
+	return out, nil
 }
 
-func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.CollType, error) {
-	return dbCollections[id], nil
-}
+func (cr *dbCollectionsRepository) GetFeed() (domain.Feed, error) {
+	respFeed, err := cr.dbm.Query(queryGetFeed)
+	if err != nil {
+		return domain.Feed{}, domain.Err.ErrObj.InternalServer
+	}
 
-func (cr *dbCollectionsRepository) GetFeed() (domain.FilmSelection, error) {
-	return dbFilms, nil
+	movies := make([]domain.FeedRow, 0)
+	for i := range respFeed {
+		movies = append(movies, domain.FeedRow{
+			Description: string(respFeed[i][1]),
+			ImgSrc:      string(respFeed[i][2]),
+			Page:        string(respFeed[i][3]),
+			Num:         fmt.Sprint((binary.BigEndian.Uint64(respFeed[i][4]))),
+		})
+	}
+
+	out := domain.Feed{
+		Coll: movies,
+	}
+
+	return out, nil
 }
