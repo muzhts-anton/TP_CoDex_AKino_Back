@@ -35,7 +35,7 @@ func (ur *dbUserRepository) GetById(id uint64) (domain.User, error) {
 	ur.RLock()
 	defer ur.RUnlock()
 
-	if int(id) <= len(ur.users) && id != 0 {
+	if int(id) <= len(ur.users) {
 		return ur.users[id], nil
 	}
 
