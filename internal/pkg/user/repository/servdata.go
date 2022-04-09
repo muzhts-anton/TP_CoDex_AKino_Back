@@ -44,7 +44,7 @@ func (ur *dbUserRepository) GetById(id uint64) (domain.User, error) {
 
 func (ur *dbUserRepository) AddUser(us domain.User) (uint64, error) {
 	ur.RLock()
-	us.Id = uint64(len(ur.users) + 1)
+	us.Id = uint64(len(ur.users))
 	ur.RUnlock()
 
 	us.Email = strings.ToLower(us.Email)
