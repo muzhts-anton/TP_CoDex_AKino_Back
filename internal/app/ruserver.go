@@ -13,6 +13,10 @@ import (
 	"codex/internal/pkg/collections/usecase"
 	"codex/internal/pkg/collections/delivery"
 
+	"codex/internal/pkg/movie/repository"
+	"codex/internal/pkg/movie/usecase"
+	"codex/internal/pkg/movie/delivery"
+
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -29,14 +33,17 @@ func RunServer() {
 	db.Connect()
 	defer db.Disconnect()
 
+	movRep := movrepository.InitMovRep(db)
 	usrRep := usrrepository.InitUsrRep(db)
 	colRep := colrepository.InitColRep(db)
 
+	movUsc := movusecase.InitMovUsc(movRep)
 	usrUsc := usrusecase.InitUsrUsc(usrRep)
 	colUsc := colusecase.InitColUsc(colRep)
 
+	movdelivery.SetMovHandlers(api, movUsc)
 	usrdelivery.SetUsrHandlers(api, usrUsc)
-	coldelivery.NewHandlers(api, colUsc)
+	coldelivery.SetColHandlers(api, colUsc)
 
 	port := os.Getenv("PORT") // to get port from Heroku
 	if port == "" {

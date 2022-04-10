@@ -61,7 +61,8 @@ CREATE TABLE actors (
     height VARCHAR(50),
     birthday VARCHAR(50),
     birthplace VARCHAR(100),
-    genres VARCHAR(100)
+    genres VARCHAR(100),
+    total BIGINT
 );
 
 CREATE TABLE movies_actors (
@@ -85,7 +86,7 @@ CREATE TABLE actors_actors (
 CREATE TABLE comments (
     user_id BIGINT REFERENCES users (id),
     movie_id BIGINT REFERENCES movies (id),
-    commentdate DATE,
+    commentdate VARCHAR(50),
     commenttype VARCHAR(50),
     content VARCHAR(500),
     CONSTRAINT comment_id PRIMARY KEY (movie_id, user_id)
@@ -94,6 +95,6 @@ CREATE TABLE comments (
 CREATE TABLE ratings (
     user_id BIGINT REFERENCES users (id),
     movie_id BIGINT REFERENCES movies (id),
-    rating INT,
+    rating BIGINT,
     CONSTRAINT ratings_id PRIMARY KEY (user_id, movie_id)
 );

@@ -32,55 +32,57 @@ type dbCollectionsRepository struct {
 }
 
 func InitColRep(manager *database.DBManager) domain.CollectionsRepository {
-	return &dbCollectionsRepository{dbm: manager}
+	return &dbCollectionsRepository{
+		dbm: manager,
+	}
 }
 
 func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, error) {
-	result, err := cr.dbm.Query(queryCountCollections)
+	resp, err := cr.dbm.Query(queryCountCollections)
 	if err != nil {
 		return domain.Collection{}, domain.Err.ErrObj.InternalServer
 	}
 
-	dbsize := binary.BigEndian.Uint64(result[0][0]) // may be unnecessary idk
+	dbsize := binary.BigEndian.Uint64(resp[0][0])
 	if id > dbsize {
 		return domain.Collection{}, domain.Err.ErrObj.SmallBd
 	}
 
-	respColl, err := cr.dbm.Query(queryGetCollections, id)
+	resp, err = cr.dbm.Query(queryGetCollections, id)
 	if err != nil {
 		return domain.Collection{}, domain.Err.ErrObj.InternalServer
 	}
 
-	movies := make([]domain.MovieRow, 0)
-	for i := range respColl {
-		movies = append(movies, domain.MovieRow{
-			Id:          fmt.Sprint((binary.BigEndian.Uint64(respColl[i][2]))),
-			Poster:      string(respColl[i][3]),
-			Title:       string(respColl[i][4]),
-			Rating:      fmt.Sprint(math.Float64frombits(binary.BigEndian.Uint64(respColl[i][5]))),
-			Info:        string(respColl[i][6]),
-			Description: string(respColl[i][7]),
+	movies := make([]domain.MovieBasic, 0)
+	for i := range resp {
+		movies = append(movies, domain.MovieBasic{
+			Id:          fmt.Sprint((binary.BigEndian.Uint64(resp[i][2]))),
+			Poster:      string(resp[i][3]),
+			Title:       string(resp[i][4]),
+			Rating:      fmt.Sprint(math.Float64frombits(binary.BigEndian.Uint64(resp[i][5]))),
+			Info:        string(resp[i][6]),
+			Description: string(resp[i][7]),
 		})
 	}
 
 	out := domain.Collection{
-		Title:       string(respColl[0][0]),
-		Description: string(respColl[0][1]),
+		Title:       string(resp[0][0]),
+		Description: string(resp[0][1]),
 		MovieList:   movies,
 	}
 
 	return out, nil
 }
 
-func (cr *dbCollectionsRepository) GetFeed() (domain.Feed, error) {
+func (cr *dbCollectionsRepository) GetFeed() (domain.FeedResponse, error) {
 	resp, err := cr.dbm.Query(queryGetFeed)
 	if err != nil {
-		return domain.Feed{}, domain.Err.ErrObj.InternalServer
+		return domain.FeedResponse{}, domain.Err.ErrObj.InternalServer
 	}
 
-	movies := make([]domain.FeedRow, 0)
+	movies := make([]domain.Feed, 0)
 	for i := range resp {
-		movies = append(movies, domain.FeedRow{
+		movies = append(movies, domain.Feed{
 			Description: string(resp[i][0]),
 			ImgSrc:      string(resp[i][1]),
 			Page:        string(resp[i][2]),
@@ -88,8 +90,8 @@ func (cr *dbCollectionsRepository) GetFeed() (domain.Feed, error) {
 		})
 	}
 
-	out := domain.Feed{
-		Coll: movies,
+	out := domain.FeedResponse{
+		CollectionList: movies,
 	}
 
 	return out, nil

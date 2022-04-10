@@ -23,10 +23,10 @@ func (cu collectionsUsecase) GetCollection(id uint64) (domain.Collection, error)
 	return coll, err
 }
 
-func (cu collectionsUsecase) GetFeed() (domain.Feed, error) {
+func (cu collectionsUsecase) GetFeed() (domain.FeedResponse, error) {
 	feed, err := cu.collectionsRepo.GetFeed()
 	if err != nil {
-		return domain.Feed{}, err
+		return domain.FeedResponse{}, err
 	}
 
 	return feed, nil

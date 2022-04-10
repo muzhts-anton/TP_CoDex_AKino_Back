@@ -10,7 +10,7 @@ type CollectionsHandler struct {
 	CollectionsUsecase domain.CollectionsUsecase
 }
 
-func NewHandlers(router *mux.Router, uc domain.CollectionsUsecase) {
+func SetColHandlers(router *mux.Router, uc domain.CollectionsUsecase) {
 	handler := &CollectionsHandler{
 		CollectionsUsecase: uc,
 	}

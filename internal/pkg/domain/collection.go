@@ -1,37 +1,28 @@
 package domain
 
-type FeedRow struct {
+type Feed struct {
 	Description string `json:"description"`
 	ImgSrc      string `json:"imgsrc"`
 	Page        string `json:"page"`
 	Num         string `json:"number"`
 }
 
-type Feed struct {
-	Coll []FeedRow `json:"collectionlist"`
-}
-
-type MovieRow struct {
-	Id          string `json:"ID"`
-	Poster      string `json:"poster"`
-	Title       string `json:"title"`
-	Rating      string `json:"rating"`
-	Info        string `json:"info"`
-	Description string `json:"description"`
+type FeedResponse struct {
+	CollectionList []Feed `json:"collectionlist"`
 }
 
 type Collection struct {
-	Title       string     `json:"title"`
-	Description string     `json:"description"`
-	MovieList   []MovieRow `json:"movielist"`
+	Title       string       `json:"title"`
+	Description string       `json:"description"`
+	MovieList   []MovieBasic `json:"movielist"`
 }
 
 type CollectionsRepository interface {
 	GetCollection(id uint64) (Collection, error)
-	GetFeed() (Feed, error)
+	GetFeed() (FeedResponse, error)
 }
 
 type CollectionsUsecase interface {
 	GetCollection(id uint64) (Collection, error)
-	GetFeed() (Feed, error)
+	GetFeed() (FeedResponse, error)
 }
