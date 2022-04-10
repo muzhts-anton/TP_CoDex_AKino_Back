@@ -77,4 +77,9 @@ const (
 	FROM movies
 	WHERE id = $1;
 	`
+
+	queryPostComment = `
+	INSERT INTO comments (user_id, movie_id, commentdate, commenttype, content)
+	VALUES ($1, $2, $3, $4, $5);
+	`
 )

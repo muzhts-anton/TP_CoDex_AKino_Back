@@ -6,7 +6,7 @@ import (
 	"codex/internal/pkg/utils/cast"
 	
 	"math"
-	_ "time"
+	"time"
 )
 
 type dbMovieRepository struct {
@@ -116,7 +116,7 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 	if cast.ToUint64(resp[0][0]) == 0 {
 		return 0.0, domain.Err.ErrObj.InvalidId
 	}
-	
+
 	// get info from db
 	resp, err = mr.dbm.Query(queryGetMovieRating, movieId)
 	if err != nil {
@@ -155,7 +155,30 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 	return newRating, nil
 }
 
-func (fr *dbMovieRepository) PostComment(movieId uint64, userId uint64, rating int) (domain.Comment, error) {
+func (mr *dbMovieRepository) PostComment(movieId uint64, userId uint64, content string, comtype string) (error) {
 	// time.Now().Format("2006-01-02 15:04:05")
-	return domain.Comment{}, nil
+	// checking ids
+	resp, err := mr.dbm.Query(queryUserExist, userId)
+	if err != nil {
+		return domain.Err.ErrObj.InternalServer
+	}
+	if cast.ToUint64(resp[0][0]) == 0 {
+		return domain.Err.ErrObj.InvalidId
+	}
+
+	resp, err = mr.dbm.Query(queryMovieExist, movieId)
+	if err != nil {
+		return domain.Err.ErrObj.InternalServer
+	}
+	if cast.ToUint64(resp[0][0]) == 0 {
+		return domain.Err.ErrObj.InvalidId
+	}
+
+	// post comment
+	_, err = mr.dbm.Query(queryPostComment, userId, movieId, time.Now().Format("2006-01-02 15:04:05"), comtype, content)
+	if err != nil {
+		return domain.Err.ErrObj.InternalServer
+	}
+
+	return nil
 }
