@@ -7,7 +7,9 @@ const (
 	`
 
 	queryGetCollections = `
-	SELECT collections.title, collections.description, movies.id, movies.poster, movies.title, movies.rating, movies.info, movies.description
+	SELECT
+		collections.title, collections.description, movies.id, movies.poster,
+		movies.title, movies.rating, movies.info, movies.description
 	FROM collections
 	JOIN movies on collections.id = movies.incollection
 	WHERE collections.id = $1;

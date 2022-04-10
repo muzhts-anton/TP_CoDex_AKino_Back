@@ -4,9 +4,7 @@ import (
 	"codex/internal/pkg/database"
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/cast"
-
-	_ "math"
-	_ "time"
+	"codex/internal/pkg/utils/log"
 )
 
 type dbActorRepository struct {
@@ -22,7 +20,14 @@ func InitActRep(manager *database.DBManager) domain.ActorRepository {
 func (ar *dbActorRepository) GetActor(id uint64) (domain.Actor, error) {
 	resp, err := ar.dbm.Query(queryGetActor, id)
 	if err != nil {
+		log.Warn("{GetActor} in query: " + queryGetActor)
+		log.Error(err)
 		return domain.Actor{}, domain.Err.ErrObj.InternalServer
+	}
+	if len(resp) == 0 {
+		log.Warn("{GetActor}")
+		log.Error(domain.Err.ErrObj.SmallBd)
+		return domain.Actor{}, domain.Err.ErrObj.SmallBd
 	}
 
 	actor := domain.Actor{
@@ -44,7 +49,14 @@ func (ar *dbActorRepository) GetActor(id uint64) (domain.Actor, error) {
 func (ar *dbActorRepository) GetMovies(id uint64) ([]domain.MovieBasic, error) {
 	resp, err := ar.dbm.Query(queryGetMovies, id)
 	if err != nil {
+		log.Warn("{GetMovies} in query: " + queryGetMovies)
+		log.Error(err)
 		return nil, domain.Err.ErrObj.InternalServer
+	}
+	if len(resp) == 0 {
+		log.Warn("{GetMovies}")
+		log.Error(domain.Err.ErrObj.SmallBd)
+		return nil, domain.Err.ErrObj.SmallBd
 	}
 
 	movies := make([]domain.MovieBasic, 0)
@@ -65,7 +77,14 @@ func (ar *dbActorRepository) GetMovies(id uint64) ([]domain.MovieBasic, error) {
 func (ar *dbActorRepository) GetRelated(id uint64) ([]domain.ActorBasic, error) {
 	resp, err := ar.dbm.Query(queryGetRelated, id)
 	if err != nil {
+		log.Warn("{GetRelated} in query: " + queryGetRelated)
+		log.Error(err)
 		return nil, domain.Err.ErrObj.InternalServer
+	}
+	if len(resp) == 0 {
+		log.Warn("{GetRelated}")
+		log.Error(domain.Err.ErrObj.SmallBd)
+		return nil, domain.Err.ErrObj.SmallBd
 	}
 
 	actors := make([]domain.ActorBasic, 0)
