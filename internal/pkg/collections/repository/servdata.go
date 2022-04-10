@@ -11,17 +11,19 @@ import (
 
 const (
 	queryCountCollections = `
-	SELECT COUNT(*) FROM Collections;
+	SELECT COUNT(*) FROM collections;
 	`
 
 	queryGetCollections = `
-	SELECT * FROM Collections
-	JOIN Movies on Collections.id = Movies.incollection
-	WHERE Collections.id = $1;
+	SELECT collections.title, collections.description, movies.id, movies.poster, movies.title, movies.rating, movies.info, movies.description
+	FROM collections
+	JOIN movies on collections.id = movies.incollection
+	WHERE collections.id = $1;
 	`
 
 	queryGetFeed = `
-	SELECT * FROM Feeds;
+	SELECT description, poster, page, num
+	FROM feed;
 	`
 )
 
@@ -39,7 +41,7 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 		return domain.Collection{}, domain.Err.ErrObj.InternalServer
 	}
 
-	dbsize := binary.BigEndian.Uint64(result[0][0])
+	dbsize := binary.BigEndian.Uint64(result[0][0]) // may be unnecessary idk
 	if id > dbsize {
 		return domain.Collection{}, domain.Err.ErrObj.SmallBd
 	}
@@ -52,18 +54,18 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 	movies := make([]domain.MovieRow, 0)
 	for i := range respColl {
 		movies = append(movies, domain.MovieRow{
-			Id:          fmt.Sprint((binary.BigEndian.Uint64(respColl[i][3]))),
-			ImgHref:     string(respColl[i][4]),
-			Title:       string(respColl[i][5]),
-			Rating:      fmt.Sprint(math.Float64frombits(binary.BigEndian.Uint64(respColl[i][6]))),
-			Info:        string(respColl[i][7]),
-			Description: string(respColl[i][8]),
+			Id:          fmt.Sprint((binary.BigEndian.Uint64(respColl[i][2]))),
+			Poster:      string(respColl[i][3]),
+			Title:       string(respColl[i][4]),
+			Rating:      fmt.Sprint(math.Float64frombits(binary.BigEndian.Uint64(respColl[i][5]))),
+			Info:        string(respColl[i][6]),
+			Description: string(respColl[i][7]),
 		})
 	}
 
 	out := domain.Collection{
-		Title:       string(respColl[0][1]),
-		Description: string(respColl[0][2]),
+		Title:       string(respColl[0][0]),
+		Description: string(respColl[0][1]),
 		MovieList:   movies,
 	}
 
@@ -71,18 +73,18 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 }
 
 func (cr *dbCollectionsRepository) GetFeed() (domain.Feed, error) {
-	respFeed, err := cr.dbm.Query(queryGetFeed)
+	resp, err := cr.dbm.Query(queryGetFeed)
 	if err != nil {
 		return domain.Feed{}, domain.Err.ErrObj.InternalServer
 	}
 
 	movies := make([]domain.FeedRow, 0)
-	for i := range respFeed {
+	for i := range resp {
 		movies = append(movies, domain.FeedRow{
-			Description: string(respFeed[i][1]),
-			ImgSrc:      string(respFeed[i][2]),
-			Page:        string(respFeed[i][3]),
-			Num:         fmt.Sprint((binary.BigEndian.Uint64(respFeed[i][4]))),
+			Description: string(resp[i][0]),
+			ImgSrc:      string(resp[i][1]),
+			Page:        string(resp[i][2]),
+			Num:         fmt.Sprint((binary.BigEndian.Uint64(resp[i][3]))),
 		})
 	}
 

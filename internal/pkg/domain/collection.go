@@ -11,10 +11,9 @@ type Feed struct {
 	Coll []FeedRow `json:"collectionlist"`
 }
 
-
 type MovieRow struct {
 	Id          string `json:"ID"`
-	ImgHref     string `json:"poster"`
+	Poster      string `json:"poster"`
 	Title       string `json:"title"`
 	Rating      string `json:"rating"`
 	Info        string `json:"info"`

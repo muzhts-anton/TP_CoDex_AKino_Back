@@ -9,22 +9,24 @@ import (
 )
 
 const (
-	queryGetById = `
-	SELECT * FROM Users
-	WHERE id = $1
+	queryGetByEmail = `
+	SELECT id, username, email, imgsrc
+	FROM users
+	WHERE email = $1;
 	`
 
-	queryGetByEmail = `
-	SELECT * FROM Users
-	WHERE email = $1
+	queryGetById = `
+	SELECT id, username, email, imgsrc
+	FROM users
+	WHERE id = $1;
 	`
 
 	queryAddUser = `
 	INSERT INTO
-		Users (username, email, password)
+		users (username, email, password)
 	VALUES
 		($1, $2, $3)
-	RETURNING id
+	RETURNING id;
 	`
 )
 
@@ -45,13 +47,14 @@ func (ur *dbUserRepository) GetByEmail(email string) (domain.User, error) {
 		return domain.User{}, domain.Err.ErrObj.InternalServer
 	}
 
-	raw := resp[0]
+	row := resp[0]
 	out := domain.User{
-		Id:             binary.BigEndian.Uint64(raw[0]),
-		Username:       string(raw[1]),
-		Password:       string(raw[2]),
-		Email:          string(raw[3]),
-		RepeatPassword: string(raw[2]),
+		Id:             binary.BigEndian.Uint64(row[0]),
+		Username:       string(row[1]),
+		Password:       "",
+		Email:          string(row[2]),
+		Imgsrc:         string(row[3]),
+		RepeatPassword: "",
 	}
 
 	return out, nil
@@ -66,13 +69,14 @@ func (ur *dbUserRepository) GetById(id uint64) (domain.User, error) {
 		return domain.User{}, domain.Err.ErrObj.InternalServer
 	}
 
-	raw := resp[0]
+	row := resp[0]
 	out := domain.User{
-		Id:             binary.BigEndian.Uint64(raw[0]),
-		Username:       string(raw[1]),
-		Password:       string(raw[2]),
-		Email:          string(raw[3]),
-		RepeatPassword: string(raw[2]),
+		Id:             binary.BigEndian.Uint64(row[0]),
+		Username:       string(row[1]),
+		Password:       "",
+		Email:          string(row[2]),
+		Imgsrc:         string(row[3]),
+		RepeatPassword: "",
 	}
 
 	return out, nil
@@ -84,11 +88,10 @@ func (ur *dbUserRepository) AddUser(us domain.User) (uint64, error) {
 		return 0, domain.Err.ErrObj.InternalServer
 	}
 
-	us.Password = string(passwordByte)
+	resp, err := ur.dbm.Query(queryAddUser, us.Username, us.Email, passwordByte)
+	if err != nil {
+		return 0, err
+	}
 
-	resp, err := ur.dbm.Query(queryAddUser, us.Username, us.Email, us.Password)
-
-	us.Id = binary.BigEndian.Uint64(resp[0][0])
-
-	return us.Id, nil
+	return binary.BigEndian.Uint64(resp[0][0]), nil
 }
