@@ -8,10 +8,10 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
-//const connString = "user=wupgrkjxdajdgp password=2ce29bb635e719c707788d482888c13a9fd48b37e0f46d3085702c59c979cb84 host=ec2-52-48-159-67.eu-west-1.compute.amazonaws.com port=5432 dbname=d6f3hunae7bqde"
-const connString = "user=akino password=1234 host=localhost port=5432 dbname=codex"
+const connString = "user=wupgrkjxdajdgp password=2ce29bb635e719c707788d482888c13a9fd48b37e0f46d3085702c59c979cb84 host=ec2-52-48-159-67.eu-west-1.compute.amazonaws.com port=5432 dbname=d6f3hunae7bqde"
+// const connString = "user=akino password=1234 host=localhost port=5432 dbname=codex"
 
-type DBrow_t [][]byte
+type DBbyterow [][]byte
 
 type ConnectionPool interface {
 	Begin(context.Context) (pgx.Tx, error)
@@ -29,14 +29,14 @@ func InitDatabase() *DBManager{
 func (dbm *DBManager)Connect()  {
 	pool, err := pgxpool.Connect(context.Background(), connString)
 	if err != nil {
-		log.Warn("Postgres error")
+		log.Warn("{Connect} Postgres error")
 		log.Error(err)
 		return
 	}
 
 	err = pool.Ping(context.Background())
 	if err != nil {
-		log.Warn("Ping error")
+		log.Warn("{Connect} Ping error")
 		log.Error(err)
 		return
 	}
@@ -50,11 +50,11 @@ func (dbm *DBManager) Disconnect() {
 	log.Info("Postgres disconnected")
 }
 
-func (dbm *DBManager) Query(queryString string, params ...interface{}) ([]DBrow_t, error) {
+func (dbm *DBManager) Query(queryString string, params ...interface{}) ([]DBbyterow, error) {
 	transactionContext := context.Background()
 	tx, err := dbm.Pool.Begin(transactionContext)
 	if err != nil {
-		log.Warn("Error connecting to a pool")
+		log.Warn("{Query} Error connecting to a pool")
 		log.Error(err)
 		return nil, err
 	}
@@ -63,22 +63,22 @@ func (dbm *DBManager) Query(queryString string, params ...interface{}) ([]DBrow_
 
 	rows, err := tx.Query(transactionContext, queryString, params...)
 	if err != nil {
-		log.Warn("Error in query: " + queryString)
+		log.Warn("{Query} Error in query: " + queryString)
 		log.Error(err)
 		return nil, err
 	}
 	defer rows.Close()
 
-	result := make([]DBrow_t, 0)
+	result := make([]DBbyterow, 0)
 	for rows.Next() {
-		rowBuffer := make(DBrow_t, 0)
+		rowBuffer := make(DBbyterow, 0)
 		rowBuffer = append(rowBuffer, rows.RawValues()...)
 		result = append(result, rowBuffer)
 	}
 
 	err = tx.Commit(transactionContext)
 	if err != nil {
-		log.Warn("Error committing")
+		log.Warn("{Query} Error committing")
 		log.Error(err)
 		return nil, err
 	}
@@ -90,7 +90,7 @@ func (dbm *DBManager) Execute(queryString string, params ...interface{}) error {
 	transactionContext := context.Background()
 	tx, err := dbm.Pool.Begin(transactionContext)
 	if err != nil {
-		log.Warn("Error connecting to a pool")
+		log.Warn("{Execute} Error connecting to a pool")
 		log.Error(err)
 		return err
 	}
@@ -99,14 +99,14 @@ func (dbm *DBManager) Execute(queryString string, params ...interface{}) error {
 
 	_, err = tx.Exec(transactionContext, queryString, params...)
 	if err != nil {
-		log.Warn("Error in query: " + queryString)
+		log.Warn("{Execute} Error in query: " + queryString)
 		log.Error(err)
 		return err
 	}
 
 	err = tx.Commit(transactionContext)
 	if err != nil {
-		log.Warn("Error committing")
+		log.Warn("{Execute} Error committing")
 		log.Error(err)
 		return err
 	}
