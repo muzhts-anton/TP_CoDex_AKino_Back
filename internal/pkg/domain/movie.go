@@ -45,14 +45,14 @@ type MovieRepository interface {
 	GetMovie(id uint64) (Movie, error)
 	GetRelated(id uint64) ([]MovieSummary, error)
 	GetComments(id uint64) ([]Comment, error)
-	PostRating(id uint64, authorId uint64, rating float64) (float64, error)
-	PostComment(id uint64, authorId uint64) (Comment, error)
+	PostRating(movieId uint64, userId uint64, rating int) (float64, error)
+	PostComment(movieId uint64, userId uint64, rating int) (Comment, error)
 }
 
 type MovieUsecase interface {
 	GetMovie(id uint64) (Movie, error)
 	GetRelated(id uint64) ([]MovieSummary, error)
 	GetComments(id uint64) ([]Comment, error)
-	PostRating(id uint64, authorId uint64, rating float64) (float64, error)
-	PostComment(id uint64, authorId uint64) (Comment, error)
+	PostRating(movieId uint64, userId uint64, rating int) (float64, error)
+	PostComment(movieId uint64, userId uint64, rating int) (Comment, error)
 }

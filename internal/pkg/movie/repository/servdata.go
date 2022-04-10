@@ -4,7 +4,8 @@ import (
 	"codex/internal/pkg/database"
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/cast"
-
+	
+	"math"
 	_ "time"
 )
 
@@ -98,11 +99,63 @@ func (mr *dbMovieRepository) GetComments(id uint64) ([]domain.Comment, error) {
 	return out, nil
 }
 
-func (fr *dbMovieRepository) PostRating(id uint64, authorId uint64, rating float64) (float64, error) {
-	return 0.0, nil
+func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating int) (float64, error) {
+	// checking ids
+	resp, err := mr.dbm.Query(queryUserExist, userId)
+	if err != nil {
+		return 0.0, domain.Err.ErrObj.InternalServer
+	}
+	if cast.ToUint64(resp[0][0]) == 0 {
+		return 0.0, domain.Err.ErrObj.InvalidId
+	}
+
+	resp, err = mr.dbm.Query(queryMovieExist, movieId)
+	if err != nil {
+		return 0.0, domain.Err.ErrObj.InternalServer
+	}
+	if cast.ToUint64(resp[0][0]) == 0 {
+		return 0.0, domain.Err.ErrObj.InvalidId
+	}
+	
+	// get info from db
+	resp, err = mr.dbm.Query(queryGetMovieRating, movieId)
+	if err != nil {
+		return 0.0, domain.Err.ErrObj.InternalServer
+	}
+
+	oldRating := cast.ToFloat64(resp[0][0])
+
+	resp, err = mr.dbm.Query(queryGetMovieVotesnum, movieId)
+	if err != nil {
+		return 0.0, domain.Err.ErrObj.InternalServer
+	}
+
+	oldVotesnum := cast.ToUint64(resp[0][0])
+
+	// compute new rating and push it to db movie table
+	newRating := (oldRating*float64(oldVotesnum) + float64(rating)) / float64(oldVotesnum+1)
+	newRating = math.Round(newRating*100) / 100
+
+	_, err = mr.dbm.Query(queryIncrementVotesnum, movieId)
+	if err != nil {
+		return 0.0, domain.Err.ErrObj.InternalServer
+	}
+
+	_, err = mr.dbm.Query(querySetMovieRating, newRating, movieId)
+	if err != nil {
+		return 0.0, domain.Err.ErrObj.InternalServer
+	}
+
+	// append info to ratings table
+	_, err = mr.dbm.Query(queryPostRating, userId, movieId, rating)
+	if err != nil {
+		return 0.0, domain.Err.ErrObj.InternalServer
+	}
+
+	return newRating, nil
 }
 
-func (fr *dbMovieRepository) PostComment(id uint64, authorId uint64) (domain.Comment, error) {
+func (fr *dbMovieRepository) PostComment(movieId uint64, userId uint64, rating int) (domain.Comment, error) {
 	// time.Now().Format("2006-01-02 15:04:05")
 	return domain.Comment{}, nil
 }
