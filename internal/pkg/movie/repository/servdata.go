@@ -156,7 +156,6 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 }
 
 func (mr *dbMovieRepository) PostComment(movieId uint64, userId uint64, content string, comtype string) (error) {
-	// time.Now().Format("2006-01-02 15:04:05")
 	// checking ids
 	resp, err := mr.dbm.Query(queryUserExist, userId)
 	if err != nil {

@@ -1,7 +1,7 @@
 package domain
 
 type Actor struct {
-	Id           uint64 `json:"ID"`
+	Id           string `json:"ID"`
 	Imgsrc       string `json:"avatar"`
 	Name         string `json:"name"`
 	NameOriginal string `json:"originalName"`
@@ -10,7 +10,7 @@ type Actor struct {
 	Birthday     string `json:"birthdate"`
 	Birthplace   string `json:"birthplace"`
 	Genres       string `json:"genres"`
-	Total        uint64 `json:"total"`
+	Total        string `json:"total"`
 }
 
 type ActorBasic struct {
@@ -23,4 +23,16 @@ type ActorResponse struct {
 	Person  Actor        `json:"actor"`
 	Related []ActorBasic `json:"related"`
 	Movies  []MovieBasic `json:"movies"`
+}
+
+type ActorRepository interface {
+	GetActor(id uint64) (Actor, error)
+	GetMovies(id uint64) ([]MovieBasic, error)
+	GetRelated(id uint64) ([]ActorBasic, error)
+}
+
+type ActorUsecase interface {
+	GetActor(id uint64) (Actor, error)
+	GetMovies(id uint64) ([]MovieBasic, error)
+	GetRelated(id uint64) ([]ActorBasic, error)
 }

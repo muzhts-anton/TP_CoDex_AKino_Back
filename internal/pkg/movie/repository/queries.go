@@ -5,10 +5,8 @@ const (
 	SELECT
 		id, poster, title, titleoriginal, rating, info, description, trailer,
 		releaseyear, country, genre, motto, director, budget, gross, duration
-	FROM
-		movies
-	WHERE
-		id = $1;
+	FROM movies
+	WHERE id = $1;
 	`
 
 	queryGetRelated = `

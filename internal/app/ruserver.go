@@ -17,6 +17,10 @@ import (
 	"codex/internal/pkg/movie/usecase"
 	"codex/internal/pkg/movie/delivery"
 
+	"codex/internal/pkg/actor/repository"
+	"codex/internal/pkg/actor/usecase"
+	"codex/internal/pkg/actor/delivery"
+
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -33,14 +37,17 @@ func RunServer() {
 	db.Connect()
 	defer db.Disconnect()
 
+	actRep := actrepository.InitActRep(db)
 	movRep := movrepository.InitMovRep(db)
 	usrRep := usrrepository.InitUsrRep(db)
 	colRep := colrepository.InitColRep(db)
 
+	actUsc := actusecase.InitActUsc(actRep)
 	movUsc := movusecase.InitMovUsc(movRep)
 	usrUsc := usrusecase.InitUsrUsc(usrRep)
 	colUsc := colusecase.InitColUsc(colRep)
 
+	actdelivery.SetActHandlers(api, actUsc)
 	movdelivery.SetMovHandlers(api, movUsc)
 	usrdelivery.SetUsrHandlers(api, usrUsc)
 	coldelivery.SetColHandlers(api, colUsc)
