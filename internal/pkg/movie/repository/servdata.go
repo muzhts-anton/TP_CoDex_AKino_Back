@@ -176,7 +176,12 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 		return 0.0, domain.Err.ErrObj.InternalServer
 	}
 
-	oldRating := cast.ToFloat64(resp[0][0])
+	var oldRating float64
+	if len(resp) == 0 {
+		oldRating = 0.0
+	} else {
+		oldRating = cast.ToFloat64(resp[0][0])
+	}
 
 	resp, err = mr.dbm.Query(queryGetMovieVotesnum, movieId)
 	if err != nil {
@@ -185,7 +190,12 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 		return 0.0, domain.Err.ErrObj.InternalServer
 	}
 
-	oldVotesnum := cast.ToUint64(resp[0][0])
+	var oldVotesnum uint64
+	if len(resp) == 0 {
+		oldVotesnum = 0
+	} else {
+		oldVotesnum = cast.ToUint64(resp[0][0])
+	}
 
 	// check if rating is new for user
 	resp, err = mr.dbm.Query(queryGetCheckRatingUser, userId, movieId)
@@ -200,7 +210,7 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 	var newRating float64
 
 	// compute new rating and push it to db movie table
-	if isOldRating == 0 {
+	if isOldRating == 1 {
 		resp, err = mr.dbm.Query(queryGetOldRatingUser, userId, movieId)
 		if err != nil {
 			log.Warn("{PostRating} in query: " + queryGetOldRatingUser)

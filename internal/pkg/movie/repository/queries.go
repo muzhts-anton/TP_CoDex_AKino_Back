@@ -77,8 +77,8 @@ const (
 	SELECT ratings.rating
 	FROM ratings
 	JOIN movies ON ratings.movie_id = movies.id
-	JOIN users on ratings.user_id = users.id
-	WHERE ratings.user_id = $1 and ratings.movie_id = $2;
+	JOIN users ON ratings.user_id = users.id
+	WHERE ratings.user_id = $1 AND ratings.movie_id = $2;
 	`
 
 	queryIncrementVotesnum = `
