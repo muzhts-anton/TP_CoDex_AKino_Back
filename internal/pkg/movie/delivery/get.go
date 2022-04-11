@@ -51,6 +51,7 @@ func (handler *MovieHandler) GetMovie(w http.ResponseWriter, r *http.Request) {
 }
 
 func (handler *MovieHandler) PostRating(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("lol"))
 	type ratingReq struct {
 		MovieId string `json:"movieId"`
 		UserId  string `json:"userId"`
