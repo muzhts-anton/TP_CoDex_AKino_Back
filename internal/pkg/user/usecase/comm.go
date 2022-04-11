@@ -67,16 +67,16 @@ func (uc userUsecase) Login(ub domain.UserBasic) (domain.User, error) {
 		return domain.User{}, domain.Err.ErrObj.EmptyField
 	}
 
-	us, err := uc.userRepo.GetByEmail(ub.Email)
+	usr, err := uc.userRepo.GetByEmail(ub.Email)
 	if err != nil {
 		return domain.User{}, err
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(us.Password), []byte(ub.Password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(usr.Password), []byte(ub.Password)); err != nil {
 		return domain.User{}, domain.Err.ErrObj.BadPassword
 	}
 
-	return us.ClearPasswords(), nil
+	return usr.ClearPasswords(), nil
 }
 
 func (uc userUsecase) CheckAuth(id uint64) (domain.User, error) {

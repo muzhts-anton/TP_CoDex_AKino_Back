@@ -2,7 +2,7 @@ package usrrepository
 
 const (
 	queryGetByEmail = `
-	SELECT id, username, email, imgsrc
+	SELECT id, username, email, imgsrc, password
 	FROM users
 	WHERE email = $1;
 	`

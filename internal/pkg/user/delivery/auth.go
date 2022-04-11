@@ -54,8 +54,7 @@ func (handler *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = sessions.CheckSession(r)
-	if err != domain.Err.ErrObj.UserNotLoggedIn {
+	if _, err = sessions.CheckSession(r); err != domain.Err.ErrObj.UserNotLoggedIn {
 		http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
 		return
 	}

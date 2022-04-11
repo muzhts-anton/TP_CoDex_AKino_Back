@@ -3,10 +3,12 @@ package usrrepository
 import (
 	"codex/internal/pkg/database"
 	"codex/internal/pkg/domain"
-	_"codex/internal/pkg/utils/cast"
+	"codex/internal/pkg/utils/cast"
+	_ "codex/internal/pkg/utils/cast"
 	"codex/internal/pkg/utils/log"
 
 	"encoding/binary"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -35,12 +37,12 @@ func (ur *dbUserRepository) GetByEmail(email string) (domain.User, error) {
 	
 	row := resp[0]
 	out := domain.User{
-		Id:             binary.BigEndian.Uint64(row[0]),
-		Username:       string(row[1]),
-		Password:       "",
-		Email:          string(row[2]),
-		Imgsrc:         string(row[3]),
-		RepeatPassword: "",
+		Id:             cast.ToUint64(row[0]),
+		Username:       cast.ToString(row[1]),
+		Password:       cast.ToString(row[4]),
+		Email:          cast.ToString(row[2]),
+		Imgsrc:         cast.ToString(row[3]),
+		RepeatPassword: cast.ToString(row[4]),
 	}
 
 	return out, nil
