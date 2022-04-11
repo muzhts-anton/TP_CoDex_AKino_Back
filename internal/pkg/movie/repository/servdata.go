@@ -187,15 +187,41 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 
 	oldVotesnum := cast.ToUint64(resp[0][0])
 
-	// compute new rating and push it to db movie table
-	newRating := (oldRating*float64(oldVotesnum) + float64(rating)) / float64(oldVotesnum+1)
-	newRating = math.Round(newRating*100) / 100
-
-	_, err = mr.dbm.Query(queryIncrementVotesnum, movieId)
+	// check if rating is new for user
+	resp, err = mr.dbm.Query(queryGetCheckRatingUser, userId, movieId)
 	if err != nil {
-		log.Warn("{PostRating} in query: " + queryIncrementVotesnum)
+		log.Warn("{PostRating} in query: " + queryGetCheckRatingUser)
 		log.Error(err)
 		return 0.0, domain.Err.ErrObj.InternalServer
+	}
+
+	// 0 means the rating is new for the movie from this user. 1 means user changes his rating
+	isOldRating := cast.ToUint64(resp[0][0])
+	var newRating float64
+
+	// compute new rating and push it to db movie table
+	if isOldRating == 0 {
+		resp, err = mr.dbm.Query(queryGetOldRatingUser, userId, movieId)
+		if err != nil {
+			log.Warn("{PostRating} in query: " + queryGetOldRatingUser)
+			log.Error(err)
+			return 0.0, domain.Err.ErrObj.InternalServer
+		}
+
+		newRating = oldRating - ((float64(cast.ToUint64(resp[0][0]) - uint64(rating))) / float64(oldVotesnum))
+	} else {
+		newRating = (oldRating*float64(oldVotesnum) + float64(rating)) / float64(oldVotesnum+1)
+	}
+
+	newRating = math.Round(newRating*100) / 100
+
+	if isOldRating == 0 {
+		_, err = mr.dbm.Query(queryIncrementVotesnum, movieId)
+		if err != nil {
+			log.Warn("{PostRating} in query: " + queryIncrementVotesnum)
+			log.Error(err)
+			return 0.0, domain.Err.ErrObj.InternalServer
+		}
 	}
 
 	_, err = mr.dbm.Query(querySetMovieRating, newRating, movieId)
@@ -206,11 +232,20 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 	}
 
 	// append info to ratings table
-	_, err = mr.dbm.Query(queryPostRating, userId, movieId, rating)
-	if err != nil {
-		log.Warn("{PostRating} in query: " + queryPostRating)
-		log.Error(err)
-		return 0.0, domain.Err.ErrObj.InternalServer
+	if isOldRating == 0 {
+		_, err = mr.dbm.Query(queryPostRating, userId, movieId, rating)
+		if err != nil {
+			log.Warn("{PostRating} in query: " + queryPostRating)
+			log.Error(err)
+			return 0.0, domain.Err.ErrObj.InternalServer
+		}
+	} else {
+		_, err = mr.dbm.Query(queryChangeRating, rating, userId)
+		if err != nil {
+			log.Warn("{PostRating} in query: " + queryChangeRating)
+			log.Error(err)
+			return 0.0, domain.Err.ErrObj.InternalServer
+		}
 	}
 
 	return newRating, nil

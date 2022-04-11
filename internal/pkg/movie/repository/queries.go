@@ -45,6 +45,12 @@ const (
 	VALUES ($1, $2, $3);
 	`
 
+	queryChangeRating = `
+	UPDATE ratings
+	SET rating = $1
+	WHERE user_id = $2;
+	`
+
 	queryGetMovieRating = `
 	SELECT movies.rating
 	FROM ratings
@@ -57,6 +63,22 @@ const (
 	FROM ratings
 	JOIN movies ON ratings.movie_id = movies.id
 	WHERE ratings.movie_id = $1;	
+	`
+
+	queryGetCheckRatingUser = `
+	SELECT COUNT(*)
+	FROM ratings
+	JOIN movies ON ratings.movie_id = movies.id
+	JOIN users on ratings.user_id = users.id
+	WHERE ratings.user_id = $1 and ratings.movie_id = $2;
+	`
+
+	queryGetOldRatingUser = `
+	SELECT ratings.rating
+	FROM ratings
+	JOIN movies ON ratings.movie_id = movies.id
+	JOIN users on ratings.user_id = users.id
+	WHERE ratings.user_id = $1 and ratings.movie_id = $2;
 	`
 
 	queryIncrementVotesnum = `

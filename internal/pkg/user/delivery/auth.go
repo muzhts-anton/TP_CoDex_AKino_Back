@@ -93,7 +93,7 @@ func (handler *UserHandler) Logout(w http.ResponseWriter, r *http.Request) {
 func (handler *UserHandler) CheckAuth(w http.ResponseWriter, r *http.Request) {
 	type authResp struct {
 		Status string `json:"status"`
-		Id     string `json:"id,omitempty"`
+		Id     string `json:"ID,omitempty"`
 	}
 
 	userId, err := sessions.CheckSession(r)
