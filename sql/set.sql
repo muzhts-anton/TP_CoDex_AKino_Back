@@ -14,7 +14,7 @@ CREATE TABLE users (
     username VARCHAR(50),
     password VARCHAR(100),
     email VARCHAR(50),
-    imgsrc VARCHAR(50)
+    imgsrc VARCHAR(50) DEFAULT '/profile.svg'
 );
 
 CREATE TABLE feed (

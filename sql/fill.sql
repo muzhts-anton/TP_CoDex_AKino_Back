@@ -16,72 +16,72 @@ VALUES
 INSERT INTO
     feed (id, description, poster, PAGE, num)
 VALUES
-    (1, 'Топ 256', 'top.png', 'collections', '1'),
+    (1, 'Топ 256', 'top.webp', 'collections', '1'),
     (
         2,
         'Приключения',
-        'adventures.png',
+        'adventures.webp',
         'collections',
         2
     ),
     (
         3,
         'Для детей',
-        'childish.png',
+        'childish.webp',
         'collections',
         3
     ),
     (
         4,
         'По комиксам',
-        'comics.png',
+        'comics.webp',
         'collections',
         4
     ),
-    (5, 'Драмы', 'drama.png', 'collections', '5'),
+    (5, 'Драмы', 'drama.webp', 'collections', '5'),
     (
         6,
         'Для всей семьи',
-        'family.png',
+        'family.webp',
         'collections',
         6
     ),
     (
         7,
         'Рекоммендации редакции',
-        'ourTop.png',
+        'ourTop.webp',
         'collections',
         7
     ),
     (
         8,
         'Романтические',
-        'romantic.png',
+        'romantic.webp',
         'collections',
         8
     ),
     (
         9,
         'Спасение мира',
-        'saveTheWorld.png',
+        'saveTheWorld.webp',
         'collections',
         9
     ),
     (
         10,
         'Советские',
-        'soviet.png',
+        'soviet.webp',
         'collections',
         10
     ),
     (
         11,
         'Про шпионов',
-        'spy.png',
+        'spy.webp',
         'collections',
         11
     ),
-    (12, 'Сказки', 'tales.png', 'collections', 12);
+    (12, 'Сказки', 'tales.webp', 'collections', 12);
 
 INSERT INTO
     collections (id, title, description)
@@ -114,7 +114,7 @@ INSERT INTO
     )
 VALUES
     (
-        'showshenkRedemption.png',
+        'showshenkRedemption.webp',
         'Побег из Шоушенка',
         'The Shawshank Redemption',
         9.0,
@@ -133,7 +133,7 @@ VALUES
         1
     ),
     (
-        'hz.png',
+        'ironman.webp',
         'Железный Человек',
         'Iron Man',
         10.0,
@@ -166,7 +166,7 @@ INSERT INTO
     )
 VALUES
     (
-        'tales.png',
+        'tales.webp',
         'Баба Яга',
         'Baba Yaga',
         'Актёр',
@@ -177,7 +177,7 @@ VALUES
         500
     ),
     (
-        'tales.png',
+        'comics.webp',
         'Роберт Дауни мл.',
         'Robert Downey Jr.',
         'Актер, Продюсер, Сценарист, Гений, Миллиардер, Плейбой, Филантроп.',
