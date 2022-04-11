@@ -3,7 +3,7 @@ package domain
 const BaseUserPicture = "/profile.svg"
 
 type User struct {
-	Id             uint64 `json:"-"`
+	Id             uint64 `json:"ID"`
 	Username       string `json:"username"`
 	Password       string `json:"password,omitempty"`
 	Email          string `json:"email"`
