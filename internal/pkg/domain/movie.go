@@ -36,7 +36,7 @@ type MovieBasic struct {
 }
 
 type MovieSummary struct {
-	Id     string `json:"ID"`
+	Href   string `json:"href"`
 	Poster string `json:"poster"`
 	Title  string `json:"title"`
 }

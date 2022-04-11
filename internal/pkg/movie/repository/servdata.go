@@ -93,7 +93,7 @@ func (mr *dbMovieRepository) GetRelated(id uint64) ([]domain.MovieSummary, error
 	out := make([]domain.MovieSummary, 0)
 	for i := range resp {
 		out = append(out, domain.MovieSummary{
-			Id:     cast.IntToStr(cast.ToUint64(resp[i][0])),
+			Href:   "/movies/" + cast.IntToStr(cast.ToUint64(resp[i][0])),
 			Poster: cast.ToString(resp[i][1]),
 			Title:  cast.ToString(resp[i][2]),
 		})
