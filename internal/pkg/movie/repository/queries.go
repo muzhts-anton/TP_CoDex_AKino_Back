@@ -8,6 +8,13 @@ const (
 	FROM movies
 	WHERE id = $1;
 	`
+	
+	queryGetMovieCast = `
+	SELECT actors.name, actors.id
+	FROM movies_actors
+	JOIN actors ON movies_actors.actor_id = actors.id
+	WHERE movies_actors.movie_id = $1;
+	`
 
 	queryGetRelated = `
 	SELECT movies.id, movies.poster, movies.title

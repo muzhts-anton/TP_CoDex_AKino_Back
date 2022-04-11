@@ -18,6 +18,12 @@ type Movie struct {
 	Budget        string `json:"budget"`
 	Gross         string `json:"gross"`
 	Duration      string `json:"duration"`
+	Actors        []Cast `json:"cast"`
+}
+
+type Cast struct {
+	Name string `json:"name"`
+	Href string `json:"href"`
 }
 
 type MovieBasic struct {
@@ -46,7 +52,7 @@ type MovieRepository interface {
 	GetRelated(id uint64) ([]MovieSummary, error)
 	GetComments(id uint64) ([]Comment, error)
 	PostRating(movieId uint64, userId uint64, rating int) (float64, error)
-	PostComment(movieId uint64, userId uint64, content string, comtype string) (error)
+	PostComment(movieId uint64, userId uint64, content string, comtype string) error
 }
 
 type MovieUsecase interface {
@@ -54,5 +60,5 @@ type MovieUsecase interface {
 	GetRelated(id uint64) ([]MovieSummary, error)
 	GetComments(id uint64) ([]Comment, error)
 	PostRating(movieId uint64, userId uint64, rating int) (float64, error)
-	PostComment(movieId uint64, userId uint64, content string, commenttype int) (error)
+	PostComment(movieId uint64, userId uint64, content string, commenttype int) error
 }

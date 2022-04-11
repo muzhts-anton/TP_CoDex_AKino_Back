@@ -56,7 +56,7 @@ func (ar *dbActorRepository) GetMovies(id uint64) ([]domain.MovieBasic, error) {
 	if len(resp) == 0 {
 		log.Warn("{GetMovies}")
 		log.Error(domain.Err.ErrObj.SmallBd)
-		return nil, domain.Err.ErrObj.SmallBd
+		return nil, domain.Err.ErrObj.SmallBd // ? all actors should have at least 1 movie in career (in our db inc.)
 	}
 
 	movies := make([]domain.MovieBasic, 0)
@@ -82,9 +82,7 @@ func (ar *dbActorRepository) GetRelated(id uint64) ([]domain.ActorBasic, error) 
 		return nil, domain.Err.ErrObj.InternalServer
 	}
 	if len(resp) == 0 {
-		log.Warn("{GetRelated}")
-		log.Error(domain.Err.ErrObj.SmallBd)
-		return nil, domain.Err.ErrObj.SmallBd
+		return []domain.ActorBasic{}, nil
 	}
 
 	actors := make([]domain.ActorBasic, 0)

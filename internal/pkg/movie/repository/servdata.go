@@ -51,7 +51,30 @@ func (mr *dbMovieRepository) GetMovie(id uint64) (domain.Movie, error) {
 		Budget:        cast.ToString(row[13]),
 		Gross:         cast.ToString(row[14]),
 		Duration:      cast.ToString(row[15]),
+		Actors:        []domain.Cast{},
 	}
+
+	resp, err = mr.dbm.Query(queryGetMovieCast, id)
+	if err != nil {
+		log.Warn("{GetMovie} in query: " + queryGetMovieCast)
+		log.Error(err)
+		return domain.Movie{}, domain.Err.ErrObj.InternalServer
+	}
+	if len(resp) == 0 {
+		log.Warn("{GetMovie} no cast o_0")
+		log.Error(domain.Err.ErrObj.SmallBd)
+		return domain.Movie{}, domain.Err.ErrObj.SmallBd
+	}
+
+	actors := make([]domain.Cast, 0)
+	for i := range resp {
+		actors = append(actors, domain.Cast{
+			Name: cast.ToString(resp[i][0]),
+			Href: "/actors/" + cast.IntToStr(cast.ToUint64(resp[i][1])),
+		})
+	}
+
+	out.Actors = actors
 
 	return out, nil
 }
@@ -64,9 +87,7 @@ func (mr *dbMovieRepository) GetRelated(id uint64) ([]domain.MovieSummary, error
 		return nil, domain.Err.ErrObj.InternalServer
 	}
 	if len(resp) == 0 {
-		log.Warn("{GetRelated}")
-		log.Error(domain.Err.ErrObj.SmallBd)
-		return nil, domain.Err.ErrObj.SmallBd
+		return []domain.MovieSummary{}, nil
 	}
 
 	out := make([]domain.MovieSummary, 0)
@@ -89,9 +110,7 @@ func (mr *dbMovieRepository) GetComments(id uint64) ([]domain.Comment, error) {
 		return nil, domain.Err.ErrObj.InternalServer
 	}
 	if len(resp) == 0 {
-		log.Warn("{GetComments}")
-		log.Error(domain.Err.ErrObj.SmallBd)
-		return nil, domain.Err.ErrObj.SmallBd
+		return []domain.Comment{}, nil
 	}
 
 	out := make([]domain.Comment, 0)
