@@ -26,7 +26,8 @@ type errObj struct {
 
 	BadInput error
 
-	AlreadyIn error
+	AlreadyIn   error
+	EmailExists error
 
 	ParseId error
 	SmallBd error
@@ -64,6 +65,7 @@ var Err = err{
 		BadInput: errors.New("Bad input"),
 
 		AlreadyIn: errors.New("User is already logged in"),
+		EmailExists: errors.New("Email not unique"),
 
 		ParseId: errors.New("Parse Id error"),
 		SmallBd: errors.New("Sorry, our database is too small yet"),

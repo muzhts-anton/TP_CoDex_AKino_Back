@@ -49,13 +49,15 @@ func (uc userUsecase) Register(us domain.User) (domain.User, error) {
 	}
 
 	if _, err := uc.userRepo.GetByEmail(us.Email); err == nil {
-		return domain.User{}, err
+		return domain.User{}, domain.Err.ErrObj.EmailExists
 	}
 
-	_, err := uc.userRepo.AddUser(us)
+	idupd, err := uc.userRepo.AddUser(us)
 	if err != nil {
 		return domain.User{}, err
 	}
+
+	us.Id = idupd
 
 	return us.ClearPasswords(), nil
 }
