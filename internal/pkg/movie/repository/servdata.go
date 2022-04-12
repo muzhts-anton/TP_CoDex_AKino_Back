@@ -144,7 +144,7 @@ func (mr *dbMovieRepository) GetComments(id uint64) ([]domain.Comment, error) {
 }
 
 func (mr *dbMovieRepository) GetReviewRating(movieId, userId uint64) (string, string, error) {
-	resp, err := mr.dbm.Query(queryGetCommentsCount, movieId)
+	resp, err := mr.dbm.Query(queryGetCommentsCount, movieId, userId)
 	if err != nil {
 		log.Warn("{PostComment} in query: " + queryGetCommentsCount)
 		log.Error(err)
