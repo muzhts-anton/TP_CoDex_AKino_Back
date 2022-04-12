@@ -18,7 +18,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE feed (
-    id BIGSERIAL NOT NULL PRIMARY KEY, 
+    id BIGSERIAL NOT NULL PRIMARY KEY,
     description VARCHAR(50),
     poster VARCHAR(50),
     page VARCHAR(50),

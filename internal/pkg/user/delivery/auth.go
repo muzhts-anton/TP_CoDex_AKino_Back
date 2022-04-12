@@ -35,6 +35,7 @@ func (handler *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
 	}
+	
 	w.WriteHeader(http.StatusCreated)
 	w.Write(out)
 }

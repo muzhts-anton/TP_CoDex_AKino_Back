@@ -16,3 +16,4 @@ go-test:
 go-tool:
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go tool cover -func=cover.out
 
+# Команда для запуска тестов: go test -coverpkg=./... -coverprofile=cover ./... && cat cover | grep -v "mock" | grep -v  "easyjson" | grep -v "proto" > cover.out && go tool cover -func=cover.out

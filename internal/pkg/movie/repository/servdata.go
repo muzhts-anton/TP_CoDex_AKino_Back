@@ -5,6 +5,7 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/cast"
 	"codex/internal/pkg/utils/log"
+	"fmt"
 
 	"math"
 	"time"
@@ -221,6 +222,7 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 		newRating = oldRating - ((float64(cast.ToUint64(resp[0][0]) - uint64(rating))) / float64(oldVotesnum))
 	} else {
 		newRating = (oldRating*float64(oldVotesnum) + float64(rating)) / float64(oldVotesnum+1)
+		fmt.Println("oldR: %v\noldV: %v\n, rating: %v", oldRating, oldVotesnum, rating)
 	}
 
 	newRating = math.Round(newRating*100) / 100

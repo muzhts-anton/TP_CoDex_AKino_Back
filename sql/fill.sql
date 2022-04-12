@@ -2,15 +2,33 @@ INSERT INTO
     users (
         username,
         password,
-        email,
-        imgsrc
+        email
     )
 VALUES
     (
         'Ванька',
         '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
-        'ivan@mail.ru',
-        '/profile.svg'
+        'ivan@vk.ru'
+    ),
+    (
+        'tmp1',
+        '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
+        'tmp1@vk.ru'
+    ),
+    (
+        'tmp2',
+        '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
+        'tmp2@vk.ru'
+    ),
+    (
+        'tmp3',
+        '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
+        'tmp3@vk.ru'
+    ),
+    (
+        'tmp4',
+        '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
+        'tmp4@vk.ru'
     );
 
 INSERT INTO
@@ -224,7 +242,8 @@ INSERT INTO
         relation_id
     )
 VALUES
-    (1, 2);
+    (1, 2),
+    (2, 1);
 
 INSERT INTO
     movies_movies (
@@ -232,7 +251,8 @@ INSERT INTO
         relation_id
     )
 VALUES
-    (1, 2);
+    (1, 2),
+    (2, 1);
 
 INSERT INTO
     movies_actors (
@@ -242,4 +262,3 @@ INSERT INTO
 VALUES
     (1, 1),
     (2, 2);
-
