@@ -2,12 +2,14 @@ package movdelivery
 
 import (
 	"codex/internal/pkg/domain"
+	"codex/internal/pkg/sessions"
 	"codex/internal/pkg/utils/cast"
 
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 func (handler *MovieHandler) GetMovie(w http.ResponseWriter, r *http.Request) {
@@ -36,10 +38,29 @@ func (handler *MovieHandler) GetMovie(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var rexiewExist, userRating string
+
+	userId, err := sessions.CheckSession(r)
+	if err == domain.Err.ErrObj.UserNotLoggedIn {
+		rexiewExist = ""
+		userRating = ""
+	} else if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	} else {
+		rexiewExist, userRating, err = handler.MovieUsecase.GetReviewRating(movId, userId)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+	}
+
 	out, err := json.Marshal(domain.MovieResponse{
-		Movie:    movie,
-		Related:  related,
-		Comments: comments,
+		Movie:       movie,
+		Related:     related,
+		Comments:    comments,
+		ReviewExist: rexiewExist,
+		UserRating:  userRating,
 	})
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)

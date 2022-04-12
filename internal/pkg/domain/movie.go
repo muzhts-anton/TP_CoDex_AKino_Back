@@ -42,15 +42,18 @@ type MovieSummary struct {
 }
 
 type MovieResponse struct {
-	Movie    Movie          `json:"movie"`
-	Related  []MovieSummary `json:"related"`
-	Comments []Comment      `json:"reviews"`
+	Movie       Movie          `json:"movie"`
+	Related     []MovieSummary `json:"related"`
+	Comments    []Comment      `json:"reviews"`
+	ReviewExist string         `json:"reviewex"`
+	UserRating  string         `json:"userrating"`
 }
 
 type MovieRepository interface {
 	GetMovie(id uint64) (Movie, error)
 	GetRelated(id uint64) ([]MovieSummary, error)
 	GetComments(id uint64) ([]Comment, error)
+	GetReviewRating(movieId, userId uint64) (string, string, error)
 	PostRating(movieId uint64, userId uint64, rating int) (float64, error)
 	PostComment(movieId uint64, userId uint64, content string, comtype string) (Comment, error)
 }
@@ -59,6 +62,7 @@ type MovieUsecase interface {
 	GetMovie(id uint64) (Movie, error)
 	GetRelated(id uint64) ([]MovieSummary, error)
 	GetComments(id uint64) ([]Comment, error)
+	GetReviewRating(movieId, userId uint64) (string, string, error)
 	PostRating(movieId uint64, userId uint64, rating int) (float64, error)
 	PostComment(movieId uint64, userId uint64, content string, commenttype int) (Comment, error)
 }

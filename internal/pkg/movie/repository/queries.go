@@ -45,6 +45,11 @@ const (
 	WHERE movies.id = $1 AND users.id = $2;
 	`
 
+	queryGetCommentsCount = `
+	SELECT COUNT(*)
+	FROM comments
+	WHERE movie_id = $1 AND user_id = $2;
+	`
 
 	queryGetRatingCount = `
 	SELECT COUNT(*)

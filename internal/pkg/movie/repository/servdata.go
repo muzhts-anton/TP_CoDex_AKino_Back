@@ -5,8 +5,8 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/cast"
 	"codex/internal/pkg/utils/log"
-	"fmt"
-
+	
+	_ "fmt"
 	"math"
 	"time"
 )
@@ -143,6 +143,66 @@ func (mr *dbMovieRepository) GetComments(id uint64) ([]domain.Comment, error) {
 	return out, nil
 }
 
+func (mr *dbMovieRepository) GetReviewRating(movieId, userId uint64) (string, string, error) {
+	// checking ids
+	resp, err := mr.dbm.Query(queryUserExist, userId)
+	if err != nil {
+		log.Warn("{PostComment} in query: " + queryUserExist)
+		log.Error(err)
+		return "", "", domain.Err.ErrObj.InternalServer
+	}
+	if cast.ToUint64(resp[0][0]) == 0 {
+		log.Warn("{PostComment}")
+		log.Error(domain.Err.ErrObj.InvalidId)
+		return "", "", domain.Err.ErrObj.InvalidId
+	}
+
+	resp, err = mr.dbm.Query(queryMovieExist, movieId)
+	if err != nil {
+		log.Warn("{PostComment} in query: " + queryMovieExist)
+		log.Error(err)
+		return "", "", domain.Err.ErrObj.InternalServer
+	}
+	if cast.ToUint64(resp[0][0]) == 0 {
+		log.Warn("{PostComment}")
+		log.Error(domain.Err.ErrObj.InvalidId)
+		return "", "", domain.Err.ErrObj.InvalidId
+	}
+
+	// get commEx
+	resp, err = mr.dbm.Query(queryGetCommentsCount, movieId)
+	if err != nil {
+		log.Warn("{PostComment} in query: " + queryGetCommentsCount)
+		log.Error(err)
+		return "", "", domain.Err.ErrObj.InternalServer
+	}
+	if cast.ToUint64(resp[0][0]) == 0 {
+		log.Warn("{PostComment}")
+		log.Error(domain.Err.ErrObj.InvalidId)
+		return "", "", domain.Err.ErrObj.InvalidId
+	}
+
+	reviewExist := cast.IntToStr(cast.ToUint64(resp[0][0]))
+
+	// get userRating
+	tmp, err := mr.dbm.Query(queryGetRatingCount, userId)
+	if err != nil {
+		log.Warn("{GetComment} in query: " + queryGetRatingCount)
+		log.Error(err)
+		return "", "", domain.Err.ErrObj.InternalServer
+	}
+
+	var userRating string
+
+	if cast.ToUint64(tmp[0][0]) == 1 {
+		userRating = cast.IntToStr(cast.ToUint64(resp[0][6]))
+	} else {
+		userRating = ""
+	}
+
+	return reviewExist, userRating, nil
+}
+
 func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating int) (float64, error) {
 	// checking ids
 	resp, err := mr.dbm.Query(queryUserExist, userId)
@@ -222,7 +282,7 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 		newRating = oldRating - ((float64(cast.ToUint64(resp[0][0]) - uint64(rating))) / float64(oldVotesnum))
 	} else {
 		newRating = (oldRating*float64(oldVotesnum) + float64(rating)) / float64(oldVotesnum+1)
-		fmt.Println("oldR: %v\noldV: %v\n, rating: %v", oldRating, oldVotesnum, rating)
+		//fmt.Println("oldR: %v\noldV: %v\n, rating: %v", oldRating, oldVotesnum, rating)
 	}
 
 	newRating = math.Round(newRating*100) / 100
@@ -297,6 +357,7 @@ func (mr *dbMovieRepository) PostComment(movieId uint64, userId uint64, content 
 		return domain.Comment{}, domain.Err.ErrObj.InternalServer
 	}
 
+	// get comment posted recently
 	comm, err := mr.GetComment(userId, movieId)
 	if err != nil {
 		log.Warn("{PostComment} unable to get comment which I posted 2sec ago o_0")
@@ -330,6 +391,7 @@ func (mr *dbMovieRepository) GetComment(userId, movieId uint64) (domain.Comment,
 		Rating:   "",
 	}
 
+	// check if this user has `rating`
 	tmp, err := mr.dbm.Query(queryGetRatingCount, out.UserId)
 	if err != nil {
 		log.Warn("{GetComment} in query: " + queryGetRatingCount)

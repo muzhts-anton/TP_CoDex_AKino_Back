@@ -41,6 +41,15 @@ func (mu movieUsecase) GetComments(id uint64) ([]domain.Comment, error) {
 	return comments, err
 }
 
+func (mu movieUsecase) GetReviewRating(movieId, userId uint64) (string, string, error) {
+	reviewExist, userRating, err := mu.movieRepo.GetReviewRating(movieId, userId)
+	if err != nil {
+		return "", "", err
+	}
+
+	return reviewExist, userRating, nil
+}
+
 func (mu movieUsecase) PostRating(movieId uint64, userId uint64, rating int) (float64, error) {
 	if rating < 1 || rating > 10 {
 		return 0.0, domain.Err.ErrObj.InvalidRating
