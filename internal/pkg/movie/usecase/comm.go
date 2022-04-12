@@ -54,7 +54,7 @@ func (mu movieUsecase) PostRating(movieId uint64, userId uint64, rating int) (fl
 	return newRating, nil
 }
 
-func (mu movieUsecase) PostComment(movieId uint64, userId uint64, content string, commenttype int) (error) {
+func (mu movieUsecase) PostComment(movieId uint64, userId uint64, content string, commenttype int) (domain.Comment, error) {
 	var comtype string
 	if commenttype == 1 {
 		comtype = "good"
@@ -63,7 +63,7 @@ func (mu movieUsecase) PostComment(movieId uint64, userId uint64, content string
 	} else if commenttype == 3 {
 		comtype = "bad"
 	} else {
-		return domain.Err.ErrObj.InvalidCommentType
+		return domain.Comment{}, domain.Err.ErrObj.InvalidCommentType
 	}
 
 	return mu.movieRepo.PostComment(movieId, userId, content, comtype)

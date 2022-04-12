@@ -139,24 +139,18 @@ func (handler *MovieHandler) PostComment(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	err = handler.MovieUsecase.PostComment(movieId, userId, commentreq.Content, commenttype)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	comms, err := handler.MovieUsecase.GetComments(movieId)
+	comm, err := handler.MovieUsecase.PostComment(movieId, userId, commentreq.Content, commenttype)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	type commentsResp struct {
-		Comments []domain.Comment `json:"reviews"`
+		Comment domain.Comment `json:"review"`
 	}
 
 	out, err := json.Marshal(commentsResp{
-		Comments: comms,
+		Comment: comm,
 	})
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)

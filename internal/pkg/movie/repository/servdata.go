@@ -263,30 +263,30 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 	return newRating, nil
 }
 
-func (mr *dbMovieRepository) PostComment(movieId uint64, userId uint64, content string, comtype string) error {
+func (mr *dbMovieRepository) PostComment(movieId uint64, userId uint64, content string, comtype string) (domain.Comment, error) {
 	// checking ids
 	resp, err := mr.dbm.Query(queryUserExist, userId)
 	if err != nil {
 		log.Warn("{PostComment} in query: " + queryUserExist)
 		log.Error(err)
-		return domain.Err.ErrObj.InternalServer
+		return domain.Comment{}, domain.Err.ErrObj.InternalServer
 	}
 	if cast.ToUint64(resp[0][0]) == 0 {
 		log.Warn("{PostComment}")
 		log.Error(domain.Err.ErrObj.InvalidId)
-		return domain.Err.ErrObj.InvalidId
+		return domain.Comment{}, domain.Err.ErrObj.InvalidId
 	}
 
 	resp, err = mr.dbm.Query(queryMovieExist, movieId)
 	if err != nil {
 		log.Warn("{PostComment} in query: " + queryMovieExist)
 		log.Error(err)
-		return domain.Err.ErrObj.InternalServer
+		return domain.Comment{}, domain.Err.ErrObj.InternalServer
 	}
 	if cast.ToUint64(resp[0][0]) == 0 {
 		log.Warn("{PostComment}")
 		log.Error(domain.Err.ErrObj.InvalidId)
-		return domain.Err.ErrObj.InvalidId
+		return domain.Comment{}, domain.Err.ErrObj.InvalidId
 	}
 
 	// post comment
@@ -294,8 +294,52 @@ func (mr *dbMovieRepository) PostComment(movieId uint64, userId uint64, content 
 	if err != nil {
 		log.Warn("{PostComment} in query: " + queryPostComment)
 		log.Error(err)
-		return domain.Err.ErrObj.InternalServer
+		return domain.Comment{}, domain.Err.ErrObj.InternalServer
 	}
 
-	return nil
+	comm, err := mr.GetComment(userId, movieId)
+	if err != nil {
+		log.Warn("{PostComment} unable to get comment which I posted 2sec ago o_0")
+		log.Error(err)
+		return domain.Comment{}, domain.Err.ErrObj.InternalServer
+	}
+
+	return comm, nil
+}
+
+func (mr *dbMovieRepository) GetComment(userId, movieId uint64) (domain.Comment, error) {
+	resp, err := mr.dbm.Query(queryGetUserComment, movieId, userId)
+	if err != nil {
+		log.Warn("{GetComment} in query: " + queryGetUserComment)
+		log.Error(err)
+		return domain.Comment{}, domain.Err.ErrObj.InternalServer
+	}
+	if len(resp) != 1 {
+		log.Warn("{GetComment} in query: " + queryGetUserComment)
+		log.Error(domain.Err.ErrObj.BadInput)
+		return domain.Comment{}, domain.Err.ErrObj.BadInput
+	}
+
+	out := domain.Comment{
+		Imgsrc:   cast.ToString(resp[0][0]),
+		Username: cast.ToString(resp[0][1]),
+		UserId:   cast.IntToStr(cast.ToUint64(resp[0][2])),
+		Date:     cast.ToString(resp[0][3]),
+		Content:  cast.ToString(resp[0][4]),
+		Type:     cast.ToString(resp[0][5]),
+		Rating:   "",
+	}
+
+	tmp, err := mr.dbm.Query(queryGetRatingCount, out.UserId)
+	if err != nil {
+		log.Warn("{GetComment} in query: " + queryGetRatingCount)
+		log.Error(err)
+		return domain.Comment{}, domain.Err.ErrObj.InternalServer
+	}
+
+	if cast.ToUint64(tmp[0][0]) == 1 {
+		out.Rating = cast.IntToStr(cast.ToUint64(resp[0][6]))
+	}
+
+	return out, nil
 }
