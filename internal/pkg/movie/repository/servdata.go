@@ -161,7 +161,7 @@ func (mr *dbMovieRepository) GetReviewRating(movieId, userId uint64) (string, st
 	}
 
 	var userRating string
-	if len(resp[0][0]) == 1 {
+	if len(resp) == 1 {
 		userRating = cast.IntToStr(cast.ToUint64(resp[0][0]))
 	} else {
 		userRating = ""
