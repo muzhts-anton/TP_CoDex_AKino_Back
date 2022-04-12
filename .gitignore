@@ -20,6 +20,9 @@ go.work
 # Env
 .vscode/
 
+# Tests
+cover
+
 # Local
 logs.txt
 oldbd.txt
