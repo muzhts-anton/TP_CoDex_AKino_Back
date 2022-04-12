@@ -151,7 +151,12 @@ func (mr *dbMovieRepository) GetReviewRating(movieId, userId uint64) (string, st
 		return "", "", domain.Err.ErrObj.InternalServer
 	}
 
-	reviewExist := cast.IntToStr(cast.ToUint64(resp[0][0]))
+	var reviewExist string
+	if cast.ToUint64(resp[0][0]) == 0 {
+		reviewExist = ""
+	} else {
+		reviewExist = cast.IntToStr(cast.ToUint64(resp[0][0]))
+	}
 
 	resp, err = mr.dbm.Query(queryGetUserRating, userId, movieId)
 	if err != nil {
