@@ -57,6 +57,12 @@ const (
 	WHERE user_id = $1;
 	`
 
+	queryGetUserRating = `
+	SELECT rating
+	FROM ratings
+	WHERE user_id = $1 AND movie_id = $2;
+	`
+
 	queryPostRating = `
 	INSERT INTO ratings (user_id, movie_id, rating)
 	VALUES ($1, $2, $3);
