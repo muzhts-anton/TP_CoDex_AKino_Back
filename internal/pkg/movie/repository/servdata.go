@@ -176,11 +176,6 @@ func (mr *dbMovieRepository) GetReviewRating(movieId, userId uint64) (string, st
 		log.Error(err)
 		return "", "", domain.Err.ErrObj.InternalServer
 	}
-	if cast.ToUint64(resp[0][0]) == 0 {
-		log.Warn("{PostComment}")
-		log.Error(domain.Err.ErrObj.InvalidId)
-		return "", "", domain.Err.ErrObj.InvalidId
-	}
 
 	reviewExist := cast.IntToStr(cast.ToUint64(resp[0][0]))
 

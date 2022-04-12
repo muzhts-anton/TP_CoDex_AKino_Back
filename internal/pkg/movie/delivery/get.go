@@ -45,12 +45,12 @@ func (handler *MovieHandler) GetMovie(w http.ResponseWriter, r *http.Request) {
 		rexiewExist = ""
 		userRating = ""
 	} else if err != nil {
-		http.Error(w, err.Error() + "Все плохо", http.StatusInternalServerError)
+		http.Error(w, err.Error() + " Все плохо", http.StatusInternalServerError)
 		return
 	} else {
 		rexiewExist, userRating, err = handler.MovieUsecase.GetReviewRating(movId, userId)
 		if err != nil {
-			http.Error(w, err.Error() + "Все не так плохо", http.StatusBadRequest)
+			http.Error(w, err.Error() + " Все не так плохо", http.StatusBadRequest)
 			return
 		}
 	}
