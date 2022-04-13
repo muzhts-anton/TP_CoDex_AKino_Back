@@ -133,11 +133,12 @@ func (ur *dbUserRepository) UpdateUser(id uint64, upd domain.UpdUser) (domain.Us
 func (ur *dbUserRepository) UpdateAvatar(clientID uint64, url string) (domain.User, error) {
 	_, err := ur.dbm.Query(queryUpdAvatarByUsID, clientID, url)
 	if err != nil {
-		return domain.Profile{}, err
+		return domain.User{}, err
 	}
-	updated, err := ur.GetProfileById(clientID, clientID)
+	updated, err := ur.GetById(clientID)
+	// updated, err := ur.GetProfileById(clientID, clientID)
 	if err != nil {
-		return domain.Profile{}, err
+		return domain.User{}, err
 	}
 	return updated, err
 }

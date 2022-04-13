@@ -109,7 +109,7 @@ func (uc userUsecase) UpdateUser(id uint64, upd domain.UpdUser) (domain.User, er
 func (uc userUsecase) UpdateAvatar(clientID uint64, url string) (domain.User, error) {
 	us, err := uc.userRepo.UpdateAvatar(clientID, url)
 	if err != nil {
-		return domain.Profile{}, err
+		return domain.User{}, err
 	}
 	return us, nil
 }
