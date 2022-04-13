@@ -4,7 +4,7 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/log"
 	"codex/internal/pkg/utils/filesaver"
-
+	
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"fmt"
@@ -15,7 +15,7 @@ import (
 
 const (
 	root = "."
-	path = "/static/img/users/"
+	path = "/static/media/img/users/"
 )
 
 func (handler *UserHandler) UploadAvatar(w http.ResponseWriter, r *http.Request) {
