@@ -250,8 +250,12 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 			log.Error(err)
 			return 0.0, domain.Err.ErrObj.InternalServer
 		}
-
-		newRating = oldRating - ((float64(cast.ToUint64(resp[0][0]) - uint64(rating))) / float64(oldVotesnum))
+		userOldRating := cast.ToUint64(resp[0][0])
+		if userOldRating > uint64(rating){
+			newRating = oldRating - ((float64(userOldRating - uint64(rating))) / float64(oldVotesnum))
+		} else {		
+			newRating = oldRating + ((float64(uint64(rating) - userOldRating)) / float64(oldVotesnum))
+		}
 	} else {
 		newRating = (oldRating*float64(oldVotesnum) + float64(rating)) / float64(oldVotesnum+1)
 		//fmt.Println("oldR: %v\noldV: %v\n, rating: %v", oldRating, oldVotesnum, rating)
