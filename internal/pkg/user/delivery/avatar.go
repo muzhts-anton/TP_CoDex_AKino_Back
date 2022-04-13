@@ -2,13 +2,15 @@ package usrdelivery
 
 import (
 	"codex/internal/pkg/domain"
-	"codex/internal/pkg/sessions"
 	"codex/internal/pkg/utils/log"
 	"codex/internal/pkg/utils/filesaver"
+	
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"fmt"
 	"net/http"
 	"path/filepath"
+	"strconv"
 )
 
 const (
@@ -17,10 +19,10 @@ const (
 )
 
 func (handler *UserHandler) UploadAvatar(w http.ResponseWriter, r *http.Request) {
-	clientID, err := sessions.CheckSession(r)
-	if err != nil || err == domain.Err.ErrObj.UserNotLoggedIn {
-		log.Warn(fmt.Sprintf("User not logged in error: %s", err))
-		http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
+	params := mux.Vars(r)
+	clientID, err := strconv.ParseUint(params["id"], 10, 64)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
 		return
 	}
 
