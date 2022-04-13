@@ -32,6 +32,8 @@ func RunServer() {
 	api := router.PathPrefix("/api/v1").Subrouter()
 
 	api.Use(middlewares.Cors)
+	api.Use(middlewares.Logger)
+	api.Use(middlewares.PanicRecovery)
 
 	db := database.InitDatabase()
 	db.Connect()
