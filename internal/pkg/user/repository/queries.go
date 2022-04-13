@@ -20,4 +20,10 @@ const (
 		($1, $2, $3)
 	RETURNING id;
 	`
+
+	queryUpdateUser = `
+	UPDATE users
+	SET username = $1
+	WHERE id = $2;
+	`
 )

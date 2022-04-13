@@ -34,7 +34,7 @@ func (ur *dbUserRepository) GetByEmail(email string) (domain.User, error) {
 		log.Error(err)
 		return domain.User{}, domain.Err.ErrObj.InternalServer
 	}
-	
+
 	row := resp[0]
 	out := domain.User{
 		Id:             cast.ToUint64(row[0]),
@@ -90,4 +90,42 @@ func (ur *dbUserRepository) AddUser(us domain.User) (uint64, error) {
 	}
 
 	return binary.BigEndian.Uint64(resp[0][0]), nil
+}
+
+func (ur *dbUserRepository) GetBookmarks(id uint64) ([]domain.Bookmark, error) {
+	var alabd = []domain.Bookmark{
+		{
+			Id:          "1",
+			Description: "love these",
+			Imgsrc:      "/idk.webp",
+		},
+		{
+			Id:          "2",
+			Description: "When Im sad",
+			Imgsrc:      "/idk.webp",
+		},
+		{
+			Id:          "3",
+			Description: "trash",
+			Imgsrc:      "/idk.webp",
+		},
+	}
+
+	return alabd, nil
+}
+
+func (ur *dbUserRepository) UpdateUser(id uint64, upd domain.UpdUser) (domain.User, error) {	
+	_, err := ur.dbm.Query(queryUpdateUser, upd.Username, id)
+	if err != nil {
+		log.Warn("{UpdateUser} in query: " + queryUpdateUser)
+		log.Error(err)
+		return domain.User{}, domain.Err.ErrObj.InternalServer
+	}
+	
+	usr, err := ur.GetById(id)
+	if err != nil {
+		return domain.User{}, err
+	}
+	
+	return usr, nil
 }

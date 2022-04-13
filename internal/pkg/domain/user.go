@@ -11,26 +11,34 @@ type User struct {
 	RepeatPassword string `json:"repeatpassword,omitempty"`
 }
 
+func (us *User) ClearPasswords() User {
+	us.Password = ""
+	us.RepeatPassword = ""
+	return *us
+}
+
 type UserBasic struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
+}
+
+type UpdUser struct {
+	Username string `json:"name"`
 }
 
 type UserRepository interface {
 	GetById(id uint64) (User, error)
 	GetByEmail(email string) (User, error)
 	AddUser(user User) (uint64, error)
+	GetBookmarks(id uint64) ([]Bookmark, error)
+	UpdateUser(id uint64, upd UpdUser) (User, error)
 }
 
 type UserUsecase interface {
-	GetBasicInfo(id uint64) (User, error)
 	Register(us User) (User, error)
 	Login(ub UserBasic) (User, error)
 	CheckAuth(id uint64) (User, error)
-}
-
-func (us *User) ClearPasswords() User {
-	us.Password = ""
-	us.RepeatPassword = ""
-	return *us
+	GetBasicInfo(id uint64) (User, error)
+	GetBookmarks(id uint64) ([]Bookmark, error)
+	UpdateUser(id uint64, upd UpdUser) (User, error)
 }

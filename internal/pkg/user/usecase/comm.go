@@ -25,6 +25,15 @@ func (uc userUsecase) GetBasicInfo(id uint64) (domain.User, error) {
 	return us.ClearPasswords(), nil
 }
 
+func (uc userUsecase) GetBookmarks(id uint64) ([]domain.Bookmark, error) {
+	bookmarks, err := uc.userRepo.GetBookmarks(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return bookmarks, nil
+}
+
 func (uc userUsecase) Register(us domain.User) (domain.User, error) {
 	trimCredentials(&us.Email, &us.Username, &us.Password, &us.RepeatPassword)
 
@@ -82,4 +91,17 @@ func (uc userUsecase) Login(ub domain.UserBasic) (domain.User, error) {
 func (uc userUsecase) CheckAuth(id uint64) (domain.User, error) {
 	us := domain.User{Id: id}
 	return us, nil
+}
+
+func (uc userUsecase) UpdateUser(id uint64, upd domain.UpdUser) (domain.User, error) {
+	if validateUsername(upd.Username) != nil {
+		return domain.User{}, domain.Err.ErrObj.InvalidUsername
+	}
+
+	usr, err := uc.userRepo.UpdateUser(id, upd)
+	if err != nil {
+		return domain.User{}, err
+	}
+
+	return usr, nil
 }
