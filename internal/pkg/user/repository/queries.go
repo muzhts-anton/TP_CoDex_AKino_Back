@@ -42,7 +42,7 @@ const (
 	
 	queryUpdAvatarByUsID = `
 	UPDATE users 
-	SET picture_url = $2
+	SET imgsrc = $2
 	WHERE user_id = $1
 	`
 )
