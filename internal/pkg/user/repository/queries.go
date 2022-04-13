@@ -26,4 +26,10 @@ const (
 	SET username = $1
 	WHERE id = $2;
 	`
+
+	queryUpdAvatarByUsID = `
+	UPDATE users 
+	SET picture_url = $2
+	WHERE user_id = $1
+	`
 )
