@@ -4,6 +4,7 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/sessions"
 	"codex/internal/pkg/utils/cast"
+	"codex/internal/pkg/utils/sanitizer"
 
 	"encoding/json"
 	"net/http"
@@ -141,6 +142,8 @@ func (handler *MovieHandler) PostComment(w http.ResponseWriter, r *http.Request)
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
 		return
 	}
+
+	sanitizer.SanitizeComment(&commentreq.Content)
 
 	movieId, err := strconv.ParseUint(commentreq.MovieId, 10, 64)
 	if err != nil {

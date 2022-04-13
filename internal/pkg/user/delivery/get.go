@@ -2,11 +2,13 @@ package usrdelivery
 
 import (
 	"codex/internal/pkg/domain"
+	"codex/internal/pkg/utils/sanitizer"
 
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 func (handler *UserHandler) GetBasicInfo(w http.ResponseWriter, r *http.Request) {
@@ -68,6 +70,8 @@ func (handler *UserHandler) UpdateInfo(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
 		return
 	}
+	
+	sanitizer.SanitizeUpdUser(newUsrInfo)
 
 	params := mux.Vars(r)
 	userId, err := strconv.ParseUint(params["id"], 10, 64)

@@ -3,6 +3,7 @@ package usrdelivery
 import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/sessions"
+	"codex/internal/pkg/utils/sanitizer"
 
 	"encoding/json"
 	"net/http"
@@ -17,6 +18,8 @@ func (handler *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
 		return
 	}
+
+	sanitizer.SanitizeUser(userForm)
 
 	us, err := handler.UserUsecase.Register(*userForm)
 	if err != nil {
@@ -48,6 +51,8 @@ func (handler *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
 		return
 	}
+
+	sanitizer.SanitizeUserBasic(userForm)
 
 	us, err := handler.UserUsecase.Login(*userForm)
 	if err != nil {
