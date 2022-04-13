@@ -43,6 +43,6 @@ const (
 	queryUpdAvatarByUsID = `
 	UPDATE users 
 	SET imgsrc = $2
-	WHERE user_id = $1
+	WHERE id = $1;
 	`
 )
