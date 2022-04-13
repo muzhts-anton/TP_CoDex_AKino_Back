@@ -24,6 +24,7 @@ type UserBasic struct {
 
 type UpdUser struct {
 	Username string `json:"name"`
+	Imgsrc   string `json:"imgsrc"`
 }
 
 type UserRepository interface {
@@ -33,6 +34,7 @@ type UserRepository interface {
 	GetBookmarks(id uint64) ([]Bookmark, error)
 	UpdateUser(id uint64, upd UpdUser) (User, error)
 	GetUserReviews(id uint64) ([]UserReview, error)
+	UpdateAvatar(id uint64, url string) (User, error)
 }
 
 type UserUsecase interface {
@@ -43,4 +45,5 @@ type UserUsecase interface {
 	GetBookmarks(id uint64) ([]Bookmark, error)
 	UpdateUser(id uint64, upd UpdUser) (User, error)
 	GetUserReviews(id uint64) ([]UserReview, error)
+	UpdateAvatar(id uint64, url string) (User, error)
 }

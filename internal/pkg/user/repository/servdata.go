@@ -189,3 +189,15 @@ func (ur *dbUserRepository) GetUserReviews(id uint64) ([]domain.UserReview, erro
 
 	return out, nil
 }
+func (ur *dbUserRepository) UpdateAvatar(clientID uint64, url string) (domain.User, error) {
+	_, err := ur.dbm.Query(queryUpdAvatarByUsID, clientID, url)
+	if err != nil {
+		return domain.User{}, err
+	}
+	updated, err := ur.GetById(clientID)
+	// updated, err := ur.GetProfileById(clientID, clientID)
+	if err != nil {
+		return domain.User{}, err
+	}
+	return updated, err
+}

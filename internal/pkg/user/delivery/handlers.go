@@ -21,4 +21,5 @@ func SetUsrHandlers(router *mux.Router, uc domain.UserUsecase) {
 	router.HandleFunc("/user/bookmarks/{id:[0-9]+}", handler.GetBookmarks).Methods("GET", "OPTIONS")
 	router.HandleFunc("/user/update/{id:[0-9]+}", handler.UpdateInfo).Methods("POST", "OPTIONS")
 	router.HandleFunc("/user/reviews/{id:[0-9]+}", handler.GetUserReviews).Methods("GET", "OPTIONS")
+	router.HandleFunc("/user/update/avatar", handler.UploadAvatar).Methods("POST", "OPTIONS")
 }

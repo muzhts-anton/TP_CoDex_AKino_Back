@@ -114,3 +114,10 @@ func (uc userUsecase) GetUserReviews(id uint64) ([]domain.UserReview, error) {
 
 	return reviews, nil
 }
+func (uc userUsecase) UpdateAvatar(clientID uint64, url string) (domain.User, error) {
+	us, err := uc.userRepo.UpdateAvatar(clientID, url)
+	if err != nil {
+		return domain.User{}, err
+	}
+	return us, nil
+}

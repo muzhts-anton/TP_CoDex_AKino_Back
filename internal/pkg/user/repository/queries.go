@@ -37,6 +37,12 @@ const (
 	SELECT movies.id, comments.commentdate, comments.commenttype, movies.title
 	FROM comments
 	JOIN movies ON comments.movie_id = movies.id
-	WHERE comments.user_id = $1;
+	WHERE comments.user_id = $1;`
+
+	
+	queryUpdAvatarByUsID = `
+	UPDATE users 
+	SET picture_url = $2
+	WHERE user_id = $1
 	`
 )
