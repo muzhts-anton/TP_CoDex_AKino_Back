@@ -32,6 +32,7 @@ type UserRepository interface {
 	AddUser(user User) (uint64, error)
 	GetBookmarks(id uint64) ([]Bookmark, error)
 	UpdateUser(id uint64, upd UpdUser) (User, error)
+	GetUserReviews(id uint64) ([]UserReview, error)
 }
 
 type UserUsecase interface {
@@ -41,4 +42,5 @@ type UserUsecase interface {
 	GetBasicInfo(id uint64) (User, error)
 	GetBookmarks(id uint64) ([]Bookmark, error)
 	UpdateUser(id uint64, upd UpdUser) (User, error)
+	GetUserReviews(id uint64) ([]UserReview, error)
 }

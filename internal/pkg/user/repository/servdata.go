@@ -97,35 +97,95 @@ func (ur *dbUserRepository) GetBookmarks(id uint64) ([]domain.Bookmark, error) {
 		{
 			Id:          "1",
 			Description: "love these",
-			Imgsrc:      "/idk.webp",
+			Imgsrc:      "/bookmark.webp",
 		},
 		{
 			Id:          "2",
 			Description: "When Im sad",
-			Imgsrc:      "/idk.webp",
+			Imgsrc:      "/bookmark.webp",
 		},
 		{
 			Id:          "3",
 			Description: "trash",
-			Imgsrc:      "/idk.webp",
+			Imgsrc:      "/bookmark.webp",
 		},
 	}
 
 	return alabd, nil
 }
 
-func (ur *dbUserRepository) UpdateUser(id uint64, upd domain.UpdUser) (domain.User, error) {	
+func (ur *dbUserRepository) UpdateUser(id uint64, upd domain.UpdUser) (domain.User, error) {
 	_, err := ur.dbm.Query(queryUpdateUser, upd.Username, id)
 	if err != nil {
 		log.Warn("{UpdateUser} in query: " + queryUpdateUser)
 		log.Error(err)
 		return domain.User{}, domain.Err.ErrObj.InternalServer
 	}
-	
+
 	usr, err := ur.GetById(id)
 	if err != nil {
 		return domain.User{}, err
 	}
-	
+
 	return usr, nil
+}
+
+func (ur *dbUserRepository) GetUserReviews(id uint64) ([]domain.UserReview, error) {
+	// get rating
+	resp, err := ur.dbm.Query(queryGetUserRatings, id)
+	if err != nil {
+		log.Warn("{GetUserReviews} in query: " + queryGetUserRatings)
+		log.Error(err)
+		return []domain.UserReview{}, domain.Err.ErrObj.InternalServer
+	}
+	out := make([]domain.UserReview, 0)
+	if len(resp) != 0 {
+		for i := range resp {
+			out = append(out, domain.UserReview{
+				MovieId: cast.IntToStr(cast.ToUint64(resp[i][0])),
+				Type:    "1",
+
+				Rating: cast.IntToStr(cast.ToUint64(resp[i][1])),
+
+				Date:         "",
+				FeedbackType: "",
+				MovieTitle:   "",
+			})
+		}
+	}
+
+	// get comments
+	resp, err = ur.dbm.Query(queryGetUserComments, id)
+	if err != nil {
+		log.Warn("{GetUserReviews} in query: " + queryGetUserComments)
+		log.Error(err)
+		return []domain.UserReview{}, domain.Err.ErrObj.InternalServer
+	}
+	if len(resp) != 0 {
+		for i := range resp {
+			tmp := domain.UserReview{
+				MovieId: cast.IntToStr(cast.ToUint64(resp[i][0])),
+				Type:    "2",
+
+				Rating: "",
+
+				Date:         cast.ToString(resp[i][1]),
+				FeedbackType: "",
+				MovieTitle:   cast.ToString(resp[i][3]),
+			}
+
+			ft := cast.ToString(resp[i][2])
+			if ft == "good" {
+				tmp.FeedbackType = "1"
+			} else if ft == "bad" {
+				tmp.FeedbackType = "3"
+			} else {
+				tmp.FeedbackType = "2"
+			}
+
+			out = append(out, tmp)
+		}
+	}
+
+	return out, nil
 }

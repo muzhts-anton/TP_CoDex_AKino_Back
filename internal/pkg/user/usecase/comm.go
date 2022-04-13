@@ -105,3 +105,12 @@ func (uc userUsecase) UpdateUser(id uint64, upd domain.UpdUser) (domain.User, er
 
 	return usr, nil
 }
+
+func (uc userUsecase) GetUserReviews(id uint64) ([]domain.UserReview, error) {
+	reviews, err := uc.userRepo.GetUserReviews(id)
+	if err != nil {
+		return []domain.UserReview{}, err
+	}
+
+	return reviews, nil
+}

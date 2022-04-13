@@ -43,7 +43,7 @@ func (handler *UserHandler) GetBookmarks(w http.ResponseWriter, r *http.Request)
 
 	bookmarks, err := handler.UserUsecase.GetBookmarks(userId)
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusNotFound)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
@@ -78,11 +78,38 @@ func (handler *UserHandler) UpdateInfo(w http.ResponseWriter, r *http.Request) {
 
 	usr, err := handler.UserUsecase.UpdateUser(userId, *newUsrInfo)
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	out, err := json.Marshal(usr)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(out)
+}
+
+func (handler *UserHandler) GetUserReviews(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	userId, err := strconv.ParseUint(params["id"], 10, 64)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		return
+	}
+
+	usrRev, err := handler.UserUsecase.GetUserReviews(userId)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	out, err := json.Marshal(domain.UserReviewResp{
+		Id:      userId,
+		Reviews: usrRev,
+	})
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
