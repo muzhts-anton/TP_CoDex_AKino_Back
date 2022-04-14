@@ -34,72 +34,72 @@ VALUES
 INSERT INTO
     feed (id, description, poster, PAGE, num)
 VALUES
-    (1, 'Топ 256', 'top.webp', 'collections', '1'),
-    (
-        2,
-        'Приключения',
-        'adventures.webp',
-        'collections',
-        2
-    ),
-    (
-        3,
-        'Для детей',
-        'childish.webp',
-        'collections',
-        3
-    ),
-    (
-        4,
-        'По комиксам',
-        'comics.webp',
-        'collections',
-        4
-    ),
-    (5, 'Драмы', 'drama.webp', 'collections', '5'),
-    (
-        6,
-        'Для всей семьи',
-        'family.webp',
-        'collections',
-        6
-    ),
-    (
-        7,
-        'Рекоммендации редакции',
-        'ourTop.webp',
-        'collections',
-        7
-    ),
-    (
-        8,
-        'Романтические',
-        'romantic.webp',
-        'collections',
-        8
-    ),
-    (
-        9,
-        'Спасение мира',
-        'saveTheWorld.webp',
-        'collections',
-        9
-    ),
-    (
-        10,
-        'Советские',
-        'soviet.webp',
-        'collections',
-        10
-    ),
-    (
-        11,
-        'Про шпионов',
-        'spy.webp',
-        'collections',
-        11
-    ),
-    (12, 'Сказки', 'tales.webp', 'collections', 12);
+    (1, 'Топ 256', 'top.webp', 'collections', '1');
+    -- (
+    --     2,
+    --     'Приключения',
+    --     'adventures.webp',
+    --     'collections',
+    --     2
+    -- ),
+    -- (
+    --     3,
+    --     'Для детей',
+    --     'childish.webp',
+    --     'collections',
+    --     3
+    -- ),
+    -- (
+    --     4,
+    --     'По комиксам',
+    --     'comics.webp',
+    --     'collections',
+    --     4
+    -- ),
+    -- (5, 'Драмы', 'drama.webp', 'collections', '5'),
+    -- (
+    --     6,
+    --     'Для всей семьи',
+    --     'family.webp',
+    --     'collections',
+    --     6
+    -- ),
+    -- (
+    --     7,
+    --     'Рекоммендации редакции',
+    --     'ourTop.webp',
+    --     'collections',
+    --     7
+    -- ),
+    -- (
+    --     8,
+    --     'Романтические',
+    --     'romantic.webp',
+    --     'collections',
+    --     8
+    -- ),
+    -- (
+    --     9,
+    --     'Спасение мира',
+    --     'saveTheWorld.webp',
+    --     'collections',
+    --     9
+    -- ),
+    -- (
+    --     10,
+    --     'Советские',
+    --     'soviet.webp',
+    --     'collections',
+    --     10
+    -- ),
+    -- (
+    --     11,
+    --     'Про шпионов',
+    --     'spy.webp',
+    --     'collections',
+    --     11
+    -- ),
+    -- (12, 'Сказки', 'tales.webp', 'collections', 12);
 
 INSERT INTO
     collections (id, title, description)
