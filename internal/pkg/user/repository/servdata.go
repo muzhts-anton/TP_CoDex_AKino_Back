@@ -195,7 +195,6 @@ func (ur *dbUserRepository) UpdateAvatar(clientID uint64, url string) (domain.Us
 		return domain.User{}, err
 	}
 	updated, err := ur.GetById(clientID)
-	// updated, err := ur.GetProfileById(clientID, clientID)
 	if err != nil {
 		return domain.User{}, err
 	}
