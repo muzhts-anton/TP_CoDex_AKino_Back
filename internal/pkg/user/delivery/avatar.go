@@ -15,7 +15,7 @@ import (
 
 const (
 	root = "."
-	path = "/static/avatars"
+	path = "/static/avatars/"
 )
 
 func (handler *UserHandler) UploadAvatar(w http.ResponseWriter, r *http.Request) {
