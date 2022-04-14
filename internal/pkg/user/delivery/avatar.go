@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	root = ""
+	root = "."
 	path = "/static/avatars/"
 )
 
