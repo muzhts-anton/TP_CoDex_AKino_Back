@@ -40,7 +40,7 @@ func (handler *CollectionsHandler) GetFeed(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	out, err := json.Marshal(feed)
+	out, err := json.Marshal(feed.CollectionList[0])
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
