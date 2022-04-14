@@ -35,6 +35,7 @@ INSERT INTO
     feed (id, description, poster, PAGE, num)
 VALUES
     (1, 'Топ 256', 'top.webp', 'collections', '1');
+    
     -- (
     --     2,
     --     'Приключения',
