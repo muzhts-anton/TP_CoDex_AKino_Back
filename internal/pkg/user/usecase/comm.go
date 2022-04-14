@@ -66,9 +66,9 @@ func (uc userUsecase) Register(us domain.User) (domain.User, error) {
 		return domain.User{}, err
 	}
 
-	us.Id = idupd
+	out, _ := uc.userRepo.GetById(idupd)
 
-	return us.ClearPasswords(), nil
+	return out.ClearPasswords(), nil
 }
 
 func (uc userUsecase) Login(ub domain.UserBasic) (domain.User, error) {
