@@ -77,8 +77,8 @@ func (cr *dbCollectionsRepository) GetFeed() (domain.FeedResponse, error) {
 		movies = append(movies, domain.Feed{
 			Description: cast.ToString(resp[i][0]),
 			ImgSrc:      cast.ToString(resp[i][1]),
-			Page:        cast.ToString(resp[i][2]),
-			Num:         cast.IntToStr(cast.ToUint64(resp[i][3])),
+			Page:        "collections",
+			Num:         cast.IntToStr(cast.ToUint64(resp[i][2])),
 		})
 	}
 
