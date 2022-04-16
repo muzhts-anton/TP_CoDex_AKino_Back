@@ -44,10 +44,10 @@ VALUES
     (12, 'Сказки', 'tales.webp');
 
 INSERT INTO
-    collections (id, title, description)
+    collections (id, description)
 VALUES
-    (1, 'Топ 256', 'must see'),
-    (2, 'Приключения', 'Захватывающий мир путешествий');
+    (1, 'must see'),
+    (2, 'Захватывающий мир путешествий');
 
 INSERT INTO
     movies (
