@@ -1,15 +1,14 @@
 package database
 
 import (
+	"codex/internal/pkg/utils/config"
 	"codex/internal/pkg/utils/log"
-	
+
 	"context"
+
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
-
-const connString = "user=gccsyecdepvbbu password=c9a92883f4c0e5bd6ceff6daafc98acd617e4053eee2bd30c539f89f119bec4d host=ec2-34-242-8-97.eu-west-1.compute.amazonaws.com port=5432 dbname=d44b32nrphiafr"
-// const connString = "user=akino password=1234 host=localhost port=5432 dbname=codex"
 
 type DBbyterow [][]byte
 
@@ -22,11 +21,28 @@ type DBManager struct {
 	Pool ConnectionPool
 }
 
-func InitDatabase() *DBManager{
-	return &DBManager{Pool: nil}
+func InitDatabase() *DBManager {
+	return &DBManager{
+		Pool: nil,
+	}
 }
 
-func (dbm *DBManager)Connect()  {
+func (dbm *DBManager) Connect() {
+	var connString string
+	if config.ProdConfigStore.Database == "heroku" {
+		connString = "user=" + config.DevConfigStore.Database.Heroku.User +
+			" password=" + config.DevConfigStore.Database.Heroku.Password +
+			" host=" + config.DevConfigStore.Database.Heroku.Host +
+			" port=" + config.DevConfigStore.Database.Heroku.Port +
+			" dbname=" + config.DevConfigStore.Database.Heroku.Dbname
+	} else if config.ProdConfigStore.Database == "local" {
+		connString = "user=" + config.DevConfigStore.Database.Local.User +
+			" password=" + config.DevConfigStore.Database.Local.Password +
+			" host=" + config.DevConfigStore.Database.Local.Host +
+			" port=" + config.DevConfigStore.Database.Local.Port +
+			" dbname=" + config.DevConfigStore.Database.Local.Dbname
+	}
+
 	pool, err := pgxpool.Connect(context.Background(), connString)
 	if err != nil {
 		log.Warn("{Connect} Postgres error")
@@ -40,7 +56,7 @@ func (dbm *DBManager)Connect()  {
 		log.Error(err)
 		return
 	}
-	
+
 	log.Info("Successful connection to postgres")
 	dbm.Pool = pool
 }
@@ -58,7 +74,7 @@ func (dbm *DBManager) Query(queryString string, params ...interface{}) ([]DBbyte
 		log.Error(err)
 		return nil, err
 	}
-	
+
 	defer tx.Rollback(transactionContext)
 
 	rows, err := tx.Query(transactionContext, queryString, params...)

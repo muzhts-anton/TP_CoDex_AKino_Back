@@ -1,30 +1,32 @@
 package app
 
 import (
-	"codex/internal/pkg/middlewares"
-	"codex/internal/pkg/utils/log"
 	"codex/internal/pkg/database"
+	"codex/internal/pkg/middlewares"
+	"codex/internal/pkg/utils/config"
+	"codex/internal/pkg/utils/log"
 
+	"codex/internal/pkg/user/delivery"
 	"codex/internal/pkg/user/repository"
 	"codex/internal/pkg/user/usecase"
-	"codex/internal/pkg/user/delivery"
 
+	"codex/internal/pkg/collections/delivery"
 	"codex/internal/pkg/collections/repository"
 	"codex/internal/pkg/collections/usecase"
-	"codex/internal/pkg/collections/delivery"
 
+	"codex/internal/pkg/movie/delivery"
 	"codex/internal/pkg/movie/repository"
 	"codex/internal/pkg/movie/usecase"
-	"codex/internal/pkg/movie/delivery"
 
+	"codex/internal/pkg/actor/delivery"
 	"codex/internal/pkg/actor/repository"
 	"codex/internal/pkg/actor/usecase"
-	"codex/internal/pkg/actor/delivery"
 
 	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
 	"os"
+
+	"github.com/gorilla/mux"
 )
 
 func RunServer() {
@@ -56,7 +58,7 @@ func RunServer() {
 
 	port := os.Getenv("PORT") // to get port from Heroku
 	if port == "" {
-		port = "3000"
+		port = config.DevConfigStore.LocalPort
 	}
 
 	server := http.Server{

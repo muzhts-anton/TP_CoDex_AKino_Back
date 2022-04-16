@@ -1,25 +1,26 @@
 package log
 
 import (
+	"codex/internal/pkg/utils/config"
+
 	"fmt"
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 	"io"
 	"os"
 	"path/filepath"
 	"runtime"
 	"time"
+
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
-const writeToStdout = false
-const logsFileName = "logs.txt"
 
 func init() {
 	zerolog.SetGlobalLevel(zerolog.DebugLevel)
-	if writeToStdout {
+	if config.DevConfigStore.Logs.OutputStdout {
 		SetOutput(os.Stdout)
 	} else {
-		outputFile, err := os.Create(logsFileName)
+		outputFile, err := os.Create(config.DevConfigStore.Logs.Filename)
 		if err != nil {
 			fmt.Println("Switched logging to Stdout because of log file open error")
 			SetOutput(os.Stdout)
