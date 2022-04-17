@@ -36,6 +36,7 @@ func RunServer() {
 	api.Use(middlewares.Cors)
 	api.Use(middlewares.Logger)
 	api.Use(middlewares.PanicRecovery)
+	api.Use(middlewares.CsrfMdlw)
 
 	db := database.InitDatabase()
 	db.Connect()
