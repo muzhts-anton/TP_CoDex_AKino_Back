@@ -14,8 +14,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-
 func init() {
+	config.DevConfigStore.FromJson() // this code runs before main.go. So here i have to parse config 2nd time :(
 	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	if config.DevConfigStore.Logs.OutputStdout {
 		SetOutput(os.Stdout)
@@ -24,6 +24,7 @@ func init() {
 		if err != nil {
 			fmt.Println("Switched logging to Stdout because of log file open error")
 			SetOutput(os.Stdout)
+			return
 		}
 		SetOutput(outputFile)
 	}

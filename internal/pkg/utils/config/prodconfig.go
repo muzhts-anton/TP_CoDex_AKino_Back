@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+	
 	"github.com/spf13/viper"
 )
 
@@ -23,11 +25,13 @@ func (cfg *ProdConfig) FromJson() error {
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println("error in config reading")
 		cfg.clear()
 		return err
 	}
 
 	if err := viper.Unmarshal(&ProdConfigStore); err != nil {
+		fmt.Println("error in config reading")
 		cfg.clear()
 		return err
 	}
