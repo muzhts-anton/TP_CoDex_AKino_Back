@@ -2,12 +2,13 @@ package config
 
 import (
 	"fmt"
-	
+
 	"github.com/spf13/viper"
 )
 
 type ProdConfig struct {
 	Database string `mapstructure:"database"`
+	Feed     uint64 `mapstructure:"feed"`
 }
 
 var ProdConfigStore ProdConfig
@@ -41,4 +42,5 @@ func (cfg *ProdConfig) FromJson() error {
 
 func (cfg *ProdConfig) clear() {
 	cfg.Database = ""
+	cfg.Feed = 12
 }

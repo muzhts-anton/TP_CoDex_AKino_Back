@@ -1,3 +1,4 @@
 {
-    "database": "heroku"
+    "database": "heroku",
+    "feed": 12
 }

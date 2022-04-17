@@ -4,6 +4,7 @@ import (
 	"codex/internal/pkg/database"
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/cast"
+	"codex/internal/pkg/utils/config"
 	"codex/internal/pkg/utils/log"
 )
 
@@ -60,7 +61,7 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 }
 
 func (cr *dbCollectionsRepository) GetFeed() (domain.FeedResponse, error) {
-	resp, err := cr.dbm.Query(queryGetFeed)
+	resp, err := cr.dbm.Query(queryGetFeed, config.ProdConfigStore.Feed)
 	if err != nil {
 		log.Warn("{GetFeed} in query: " + queryGetFeed)
 		log.Error(err)

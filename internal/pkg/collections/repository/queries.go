@@ -20,6 +20,7 @@ const (
 	queryGetFeed = `
 	SELECT title, poster, id
 	FROM playlists
+	WHERE id <= $1
 	ORDER BY id;
 	`
 )
