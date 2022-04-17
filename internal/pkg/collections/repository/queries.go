@@ -13,7 +13,7 @@ const (
 	FROM collections
 	JOIN collections_movies ON collections.id = collections_movies.collection_id
 	JOIN movies on collections_movies.movie_id = movies.id
-	JOIN playlists ON collections.	id = playlists.id
+	JOIN playlists ON collections.id = playlists.id
 	WHERE collections.id = $1;
 	`
 
