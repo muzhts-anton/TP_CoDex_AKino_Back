@@ -31,7 +31,7 @@ import (
 
 func RunServer() {
 	router := mux.NewRouter()
-	api := router.PathPrefix("/api/v1").Subrouter()
+	api := router.PathPrefix("").Subrouter()
 
 	api.Use(middlewares.Cors)
 	api.Use(middlewares.Logger)
