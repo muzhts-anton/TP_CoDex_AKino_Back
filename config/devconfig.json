@@ -17,7 +17,10 @@
         }
     },
     "logs": {
-        "output_stdout": false,
+        "output to stdout": false,
         "filename": "logs.txt"
+    },
+    "sessions": {
+        "session name": "akino-session"
     }
 }

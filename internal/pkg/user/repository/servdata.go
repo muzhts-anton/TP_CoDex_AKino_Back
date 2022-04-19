@@ -4,10 +4,7 @@ import (
 	"codex/internal/pkg/database"
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/cast"
-	_ "codex/internal/pkg/utils/cast"
 	"codex/internal/pkg/utils/log"
-
-	"encoding/binary"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -63,11 +60,11 @@ func (ur *dbUserRepository) GetById(id uint64) (domain.User, error) {
 
 	row := resp[0]
 	out := domain.User{
-		Id:             binary.BigEndian.Uint64(row[0]),
-		Username:       string(row[1]),
+		Id:             cast.ToUint64(row[0]),
+		Username:       cast.ToString(row[1]),
 		Password:       "",
-		Email:          string(row[2]),
-		Imgsrc:         string(row[3]),
+		Email:          cast.ToString(row[2]),
+		Imgsrc:         cast.ToString(row[3]),
 		RepeatPassword: "",
 	}
 
@@ -89,7 +86,7 @@ func (ur *dbUserRepository) AddUser(us domain.User) (uint64, error) {
 		return 0, err
 	}
 
-	return binary.BigEndian.Uint64(resp[0][0]), nil
+	return cast.ToUint64(resp[0][0]), nil
 }
 
 func (ur *dbUserRepository) GetBookmarks(id uint64) ([]domain.Bookmark, error) {
@@ -189,14 +186,17 @@ func (ur *dbUserRepository) GetUserReviews(id uint64) ([]domain.UserReview, erro
 
 	return out, nil
 }
-func (ur *dbUserRepository) UpdateAvatar(clientID uint64, url string) (domain.User, error) {
-	_, err := ur.dbm.Query(queryUpdAvatarByUsID, clientID, url)
+
+func (ur *dbUserRepository) UpdateAvatar(clientId uint64, url string) (domain.User, error) {
+	_, err := ur.dbm.Query(queryUpdAvatarByUsID, clientId, url)
 	if err != nil {
 		return domain.User{}, err
 	}
-	updated, err := ur.GetById(clientID)
+
+	updated, err := ur.GetById(clientId)
 	if err != nil {
 		return domain.User{}, err
 	}
+
 	return updated, err
 }

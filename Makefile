@@ -5,7 +5,10 @@ start: go-run
 test: go-test go-tool
 	cat cover | grep -v "mock" | grep -v  "easyjson" | grep -v "proto" > cover.out
 
-.PHONY: start test
+clean:
+	rm -f /tmp/session_*
+
+.PHONY: start test clean
 
 go-run: ${SRC}
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go run ${SRC}

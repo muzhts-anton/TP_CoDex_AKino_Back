@@ -2,18 +2,19 @@ package sessions
 
 import (
 	"codex/internal/pkg/domain"
+	"codex/internal/pkg/utils/config"
+
+	"net/http"
+	"os"
 
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
-	"net/http"
 )
 
-const sessionName = "session-name"
-
-var store = sessions.NewCookieStore(securecookie.GenerateRandomKey(32))
+var store = sessions.NewFilesystemStore(os.TempDir(), securecookie.GenerateRandomKey(32))
 
 func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
-	session, _ := store.Get(r, sessionName)
+	session, _ := store.Get(r, config.DevConfigStore.Sessions.Name)
 	session.Values["id"] = id
 	session.Options = &sessions.Options{
 		MaxAge:   100000,
@@ -31,7 +32,7 @@ func StartSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 }
 
 func FinishSession(w http.ResponseWriter, r *http.Request, id uint64) error {
-	session, err := store.Get(r, sessionName)
+	session, err := store.Get(r, config.DevConfigStore.Sessions.Name)
 	if err != nil {
 		return err
 	}
@@ -54,7 +55,7 @@ func FinishSession(w http.ResponseWriter, r *http.Request, id uint64) error {
 }
 
 func CheckSession(r *http.Request) (uint64, error) {
-	session, err := store.Get(r, sessionName)
+	session, err := store.Get(r, config.DevConfigStore.Sessions.Name)
 	if err != nil {
 		return 0, err
 	}

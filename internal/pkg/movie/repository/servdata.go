@@ -5,8 +5,7 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/cast"
 	"codex/internal/pkg/utils/log"
-	
-	_ "fmt"
+
 	"math"
 	"time"
 )
@@ -231,9 +230,9 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 	}
 
 	// check if rating is new for user
-	resp, err = mr.dbm.Query(queryGetCheckRatingUser, userId, movieId)
+	resp, err = mr.dbm.Query(queryGetRatingUserCount, userId, movieId)
 	if err != nil {
-		log.Warn("{PostRating} in query: " + queryGetCheckRatingUser)
+		log.Warn("{PostRating} in query: " + queryGetRatingUserCount)
 		log.Error(err)
 		return 0.0, domain.Err.ErrObj.InternalServer
 	}
@@ -251,9 +250,9 @@ func (mr *dbMovieRepository) PostRating(movieId uint64, userId uint64, rating in
 			return 0.0, domain.Err.ErrObj.InternalServer
 		}
 		userOldRating := cast.ToUint64(resp[0][0])
-		if userOldRating > uint64(rating){
+		if userOldRating > uint64(rating) {
 			newRating = oldRating - ((float64(userOldRating - uint64(rating))) / float64(oldVotesnum))
-		} else {		
+		} else {
 			newRating = oldRating + ((float64(uint64(rating) - userOldRating)) / float64(oldVotesnum))
 		}
 	} else {

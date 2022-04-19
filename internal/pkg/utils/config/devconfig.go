@@ -25,9 +25,12 @@ type DevConfig struct {
 		} `mapstructure:"local"`
 	} `mapstructure:"database"`
 	Logs struct {
-		OutputStdout bool   `mapstructure:"output_stdout"`
+		OutputStdout bool   `mapstructure:"output to stdout"`
 		Filename     string `mapstructure:"filename"`
 	} `mapstructure:"logs"`
+	Sessions struct {
+		Name string `mapstructure:"session name"`
+	} `mapstructure:"sessions"`
 }
 
 var DevConfigStore DevConfig

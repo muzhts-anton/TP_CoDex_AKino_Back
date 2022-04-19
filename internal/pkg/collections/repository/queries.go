@@ -18,9 +18,10 @@ const (
 	`
 
 	queryGetFeed = `
-	SELECT title, poster, id
+	SELECT playlists.title, playlists.poster, playlists.id
 	FROM playlists
-	WHERE id <= $1
-	ORDER BY id;
+	JOIN feed ON feed.playlist_id = playlists.id
+	ORDER BY feed.id
+	LIMIT $1;
 	`
 )
