@@ -15,6 +15,6 @@ func SetColHandlers(router *mux.Router, uc domain.CollectionsUsecase) {
 		CollectionsUsecase: uc,
 	}
 
-	router.HandleFunc("/collections/feed", handler.GetFeed).Methods("GET", "OPTIONS")
-	router.HandleFunc("/collections/{id:[0-9]+}", handler.GetCollection).Methods("GET", "OPTIONS")
+	router.HandleFunc(getFeedUrl, handler.GetFeed).Methods("GET", "OPTIONS")
+	router.HandleFunc(getCollectionUrl, handler.GetCollection).Methods("GET", "OPTIONS")
 }

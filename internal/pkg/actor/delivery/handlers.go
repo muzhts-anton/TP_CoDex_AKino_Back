@@ -15,5 +15,5 @@ func SetActHandlers(router *mux.Router, uc domain.ActorUsecase) {
 		ActorUsecase: uc,
 	}
 
-	router.HandleFunc("/actors/{id:[0-9]+}", handler.GetActor).Methods("GET", "OPTIONS")
+	router.HandleFunc(getActorUrl, handler.GetActor).Methods("GET", "OPTIONS")
 }

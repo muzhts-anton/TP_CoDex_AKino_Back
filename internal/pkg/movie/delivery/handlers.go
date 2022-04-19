@@ -15,7 +15,7 @@ func SetMovHandlers(router *mux.Router, uc domain.MovieUsecase) {
 		MovieUsecase: uc,
 	}
 
-	router.HandleFunc("/movies/postrating", handler.PostRating).Methods("POST", "OPTIONS")
-	router.HandleFunc("/movies/postcomment", handler.PostComment).Methods("POST", "OPTIONS")
-	router.HandleFunc("/movies/{id:[0-9]+}", handler.GetMovie).Methods("GET", "OPTIONS")
+	router.HandleFunc(postRatingUrl, handler.PostRating).Methods("POST", "OPTIONS")
+	router.HandleFunc(postCommentUrl, handler.PostComment).Methods("POST", "OPTIONS")
+	router.HandleFunc(getMovieUrl, handler.GetMovie).Methods("GET", "OPTIONS")
 }
