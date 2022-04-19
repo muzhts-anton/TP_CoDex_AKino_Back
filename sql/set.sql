@@ -33,7 +33,7 @@ CREATE TABLE playlists (
 
 CREATE TABLE feed (
     id                                  BIGSERIAL NOT NULL PRIMARY KEY,
-    CONSTRAINT playlist_id              BIGINT REFERENCES playlists (id)
+    playlist_id                         BIGINT REFERENCES playlists (id)
 );
 
 CREATE TABLE collections (
@@ -137,7 +137,7 @@ CREATE TABLE announced (
     releasedate                         TIMESTAMP,
     country                             VARCHAR(50),
     genre                               VARCHAR(50),
-    director                            VARCHAR(50),
+    director                            VARCHAR(50)
 );
 
 CREATE TABLE genres (

@@ -58,6 +58,7 @@ func (dbm *DBManager) Connect() {
 	}
 
 	log.Info("Successful connection to postgres")
+	log.Info("Connection params: " + connString)
 	dbm.Pool = pool
 }
 

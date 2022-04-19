@@ -1,4 +1,4 @@
 {
-    "database": "heroku",
+    "database": "local",
     "feed": 12
 }
