@@ -35,8 +35,9 @@ const (
 	JOIN movies ON comments.movie_id = movies.id
 	JOIN users on comments.user_id = users.id
 	LEFT JOIN ratings ON comments.user_id = ratings.user_id
-	WHERE movies.id = $1;
-	`  // TODO(Tony): check out how to work with dates in psql <-> go and add ORDER BY commentdate (type -> TIMESTAMP or smth)
+	WHERE movies.id = $1
+	ORDER BY comments.commentdate DESC;
+	`
 
 	queryGetUserComment = `
 	SELECT

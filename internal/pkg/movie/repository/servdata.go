@@ -29,8 +29,8 @@ func (mr *dbMovieRepository) GetMovie(id uint64) (domain.Movie, error) {
 	}
 	if len(resp) == 0 {
 		log.Warn("{GetMovie}")
-		log.Error(domain.Err.ErrObj.SmallBd)
-		return domain.Movie{}, domain.Err.ErrObj.SmallBd
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return domain.Movie{}, domain.Err.ErrObj.SmallDb
 	}
 
 	row := resp[0]
@@ -62,8 +62,8 @@ func (mr *dbMovieRepository) GetMovie(id uint64) (domain.Movie, error) {
 	}
 	if len(resp) == 0 {
 		log.Warn("{GetMovie} no cast o_0")
-		log.Error(domain.Err.ErrObj.SmallBd)
-		return domain.Movie{}, domain.Err.ErrObj.SmallBd
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return domain.Movie{}, domain.Err.ErrObj.SmallDb
 	}
 
 	actors := make([]domain.Cast, 0)

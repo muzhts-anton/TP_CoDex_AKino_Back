@@ -3,9 +3,10 @@ package cast
 import (
 	"encoding/binary"
 	"fmt"
-	"github.com/jackc/pgx/pgtype"
 	"math"
 	"time"
+	
+	"github.com/jackc/pgx/pgtype"
 )
 
 func ToString(src []byte) string {

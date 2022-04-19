@@ -30,7 +30,7 @@ type errObj struct {
 	EmailExists error
 
 	ParseId error
-	SmallBd error
+	SmallDb error
 
 	InvalidRating      error
 	InvalidId          error
@@ -64,11 +64,11 @@ var Err = err{
 
 		BadInput: errors.New("Bad input"),
 
-		AlreadyIn: errors.New("User is already logged in"),
+		AlreadyIn:   errors.New("User is already logged in"),
 		EmailExists: errors.New("Email not unique"),
 
 		ParseId: errors.New("Parse Id error"),
-		SmallBd: errors.New("Sorry, our database is too small yet"),
+		SmallDb: errors.New("Sorry, our database is too small yet"),
 
 		InvalidRating:      errors.New("Invalid value of `rating`"),
 		InvalidId:          errors.New("Invalid id in database request"),

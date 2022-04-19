@@ -90,25 +90,38 @@ func (ur *dbUserRepository) AddUser(us domain.User) (uint64, error) {
 }
 
 func (ur *dbUserRepository) GetBookmarks(id uint64) ([]domain.Bookmark, error) {
-	var alabd = []domain.Bookmark{
-		{
-			Id:          "1",
-			Description: "love these",
-			Imgsrc:      "/bookmark.webp",
-		},
-		{
-			Id:          "2",
-			Description: "When Im sad",
-			Imgsrc:      "/bookmark.webp",
-		},
-		{
-			Id:          "3",
-			Description: "trash",
-			Imgsrc:      "/bookmark.webp",
-		},
+	resp, err := ur.dbm.Query(queryUserExist, id)
+	if err != nil {
+		log.Warn("{GetBookmarks} in query: " + queryUserExist)
+		log.Error(err)
+		return []domain.Bookmark{}, domain.Err.ErrObj.InternalServer
+	}
+	if cast.ToUint64(resp[0][0]) == 0 {
+		log.Warn("{GetBookmarks}")
+		log.Error(domain.Err.ErrObj.InvalidId)
+		return []domain.Bookmark{}, domain.Err.ErrObj.InvalidId
 	}
 
-	return alabd, nil
+	resp, err = ur.dbm.Query(queryGetUserBookmarks, id)
+	if err != nil {
+		log.Warn("{GetBookmarks} in query: " + queryGetUserBookmarks)
+		log.Error(err)
+		return []domain.Bookmark{}, domain.Err.ErrObj.InternalServer
+	}
+	if len(resp) == 0 {
+		return []domain.Bookmark{}, nil
+	}
+
+	out := make([]domain.Bookmark, 0)
+	for i := range resp {
+		out = append(out, domain.Bookmark{
+			Id:          cast.IntToStr(cast.ToUint64(resp[i][0])),
+			Description: cast.ToString(resp[i][1]),
+			Imgsrc:      cast.ToString(resp[i][2]),
+		})
+	}
+
+	return out, nil
 }
 
 func (ur *dbUserRepository) UpdateUser(id uint64, upd domain.UpdUser) (domain.User, error) {

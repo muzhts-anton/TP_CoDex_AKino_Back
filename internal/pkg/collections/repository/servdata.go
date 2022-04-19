@@ -19,24 +19,16 @@ func InitColRep(manager *database.DBManager) domain.CollectionsRepository {
 }
 
 func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, error) {
-	resp, err := cr.dbm.Query(queryCountCollections)
-	if err != nil {
-		log.Warn("{GetCollection} in query: " + queryCountCollections)
-		log.Error(err)
-		return domain.Collection{}, domain.Err.ErrObj.InternalServer
-	}
-
-	if id > cast.ToUint64(resp[0][0]) {
-		log.Warn("{GetCollection}")
-		log.Error(domain.Err.ErrObj.SmallBd)
-		return domain.Collection{}, domain.Err.ErrObj.SmallBd
-	}
-
-	resp, err = cr.dbm.Query(queryGetCollections, id)
+	resp, err := cr.dbm.Query(queryGetCollections, id)
 	if err != nil {
 		log.Warn("{GetCollection} in query: " + queryGetCollections)
 		log.Error(err)
 		return domain.Collection{}, domain.Err.ErrObj.InternalServer
+	}
+	if len(resp) == 0 {
+		log.Warn("{GetCollection}")
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return domain.Collection{}, domain.Err.ErrObj.SmallDb
 	}
 
 	movies := make([]domain.MovieBasic, 0)
@@ -69,8 +61,8 @@ func (cr *dbCollectionsRepository) GetFeed() (domain.FeedResponse, error) {
 	}
 	if len(resp) == 0 {
 		log.Warn("{GetMovies}")
-		log.Error(domain.Err.ErrObj.SmallBd)
-		return domain.FeedResponse{}, domain.Err.ErrObj.SmallBd
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return domain.FeedResponse{}, domain.Err.ErrObj.SmallDb
 	}
 
 	movies := make([]domain.Feed, 0)

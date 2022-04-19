@@ -26,8 +26,8 @@ func (ar *dbActorRepository) GetActor(id uint64) (domain.Actor, error) {
 	}
 	if len(resp) == 0 {
 		log.Warn("{GetActor}")
-		log.Error(domain.Err.ErrObj.SmallBd)
-		return domain.Actor{}, domain.Err.ErrObj.SmallBd
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return domain.Actor{}, domain.Err.ErrObj.SmallDb
 	}
 
 	actor := domain.Actor{
@@ -55,8 +55,8 @@ func (ar *dbActorRepository) GetMovies(id uint64) ([]domain.MovieBasic, error) {
 	}
 	if len(resp) == 0 {
 		log.Warn("{GetMovies}")
-		log.Error(domain.Err.ErrObj.SmallBd)
-		return nil, domain.Err.ErrObj.SmallBd // ? all actors should have at least 1 movie in career (in our db inc.)
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return nil, domain.Err.ErrObj.SmallDb // ? all actors should have at least 1 movie in career (in our db inc.)
 	}
 
 	movies := make([]domain.MovieBasic, 0)

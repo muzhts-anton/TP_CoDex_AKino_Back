@@ -27,27 +27,29 @@ VALUES
         'tmp4@vk.ru'
     );
 
+/* static 'feed' */
 INSERT INTO
-    playlists (id, title, poster)
+    playlists (id, title, description, poster)
 VALUES
-    (1, 'Топ 256', 'top.webp'),
-    (2, 'Приключения', 'adventures.webp'),
-    (3, 'Для детей', 'childish.webp'),
-    (4, 'По комиксам', 'comics.webp'),
-    (5, 'Драмы', 'drama.webp'),
-    (6, 'Для всей семьи', 'family.webp'),
-    (7, 'Рекоммендации редакции', 'ourTop.webp'),
-    (8, 'Романтические', 'romantic.webp'),
-    (9, 'Спасение мира', 'saveTheWorld.webp'),
-    (10, 'Советские', 'soviet.webp'),
-    (11, 'Про шпионов', 'spy.webp'),
-    (12, 'Сказки', 'tales.webp');
+    (1, 'Топ 256', 'must see', 'top.webp'),
+    (2, 'Приключения', 'Захватывающий мир путешествий', 'adventures.webp'),
+    (3, 'Для детей', 'Самые маленькие оценят', 'childish.webp'),
+    (4, 'По комиксам', 'Экранизация культовых комиксов', 'comics.webp'),
+    (5, 'Драмы', 'Если захотелось поплакать', 'drama.webp'),
+    (6, 'Для всей семьи', 'В кургу самых близких', 'family.webp'),
+    (7, 'Рекоммендации редакции', 'С душой от AKino', 'ourTop.webp'),
+    (8, 'Романтические', 'Помечтаем?', 'romantic.webp'),
+    (9, 'Спасение мира', 'Мир в опасности!', 'saveTheWorld.webp'),
+    (10, 'Советские', 'Для старичков за 30', 'soviet.webp'),
+    (11, 'Про шпионов', 'Кажется, у нас завелась крыса', 'spy.webp'),
+    (12, 'Сказки', 'В тридевятом царстве, в тридесятом государстве...', 'tales.webp');
 
+/* users playlists for tests and examples */
 INSERT INTO
-    collections (id, description)
+    playlists (id, title)
 VALUES
-    (1, 'must see'),
-    (2, 'Захватывающий мир путешествий');
+    (13, 'Ma boiz'),
+    (14, 'kinda trash');
 
 INSERT INTO
     movies (
@@ -166,13 +168,19 @@ VALUES
     (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12);
 
 INSERT INTO
-    collections_movies (collection_id, movie_id)
+    playlists_movies (playlist_id, movie_id)
 VALUES
     (1, 1),
     (1, 2),
     (2, 3),
     (2, 4),
     (2, 5);
+
+INSERT INTO
+    users_playlists (user_id, playlist_id)
+VALUES
+    (1, 13),
+    (1, 14);
 
 INSERT INTO
     actors (
@@ -311,9 +319,58 @@ INSERT INTO
     movies_actors (movie_id, actor_id)
 VALUES
     (1, 1),
+    (1, 4),
     (2, 2),
     (3, 3),
-    (1, 4),
     (4, 5),
     (5, 6),
     (5, 7);
+
+INSERT INTO
+    genres (id, genre)
+VALUES
+    (1, ''),
+    (2, ''),
+    (3, ''),
+    (4, ''),
+    (5, ''),
+    (6, ''),
+    (7, ''),
+    (8, ''),
+    (9, '');
+
+INSERT INTO
+    genres_movies (movie_id, genre_id)
+VALUES
+    (1, 1),
+    (1, 2),
+    (1, 7),
+    (2, 1),
+    (2, 4),
+    (2, 6),
+    (2, 9),
+    (3, 3),
+    (4, 2),
+    (4, 8),
+    (4, 9),
+    (5, 1),
+    (5, 5),
+    (5, 6);
+
+INSERT INTO
+    genres_actors (actor_id, genre_id)
+VALUES
+    (1, 1),
+    (1, 2),
+    (1, 7),
+    (2, 1),
+    (2, 4),
+    (2, 6),
+    (3, 3),
+    (4, 2),
+    (4, 8),
+    (4, 9),
+    (5, 1),
+    (5, 5),
+    (6, 9),
+    (7, 6);

@@ -1,6 +1,6 @@
 SRC = cmd/main.go
 
-start: go-run
+server: go-run
 
 test: go-test go-tool
 	cat cover | grep -v "mock" | grep -v  "easyjson" | grep -v "proto" > cover.out
@@ -8,7 +8,7 @@ test: go-test go-tool
 clean:
 	rm -f /tmp/session_*
 
-.PHONY: start test clean
+.PHONY: server test clean
 
 go-run: ${SRC}
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go run ${SRC}
