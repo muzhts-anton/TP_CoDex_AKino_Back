@@ -327,50 +327,50 @@ VALUES
     (5, 7);
 
 INSERT INTO
-    genres (id, genre)
+    genres (genre)
 VALUES
-    (1, ''),
-    (2, ''),
-    (3, ''),
-    (4, ''),
-    (5, ''),
-    (6, ''),
-    (7, ''),
-    (8, ''),
-    (9, '');
+    ('tmp1'),
+    ('tmp2'),
+    ('tmp3'),
+    ('tmp4'),
+    ('tmp5'),
+    ('tmp6'),
+    ('tmp7'),
+    ('tmp8'),
+    ('tmp9');
 
 INSERT INTO
-    genres_movies (movie_id, genre_id)
+    movies_genres (movie_id, genre)
 VALUES
-    (1, 1),
-    (1, 2),
-    (1, 7),
-    (2, 1),
-    (2, 4),
-    (2, 6),
-    (2, 9),
-    (3, 3),
-    (4, 2),
-    (4, 8),
-    (4, 9),
-    (5, 1),
-    (5, 5),
-    (5, 6);
+    (1, 'tmp1'),
+    (1, 'tmp2'),
+    (1, 'tmp7'),
+    (2, 'tmp1'),
+    (2, 'tmp4'),
+    (2, 'tmp6'),
+    (2, 'tmp9'),
+    (3, 'tmp3'),
+    (4, 'tmp2'),
+    (4, 'tmp8'),
+    (4, 'tmp9'),
+    (5, 'tmp1'),
+    (5, 'tmp5'),
+    (5, 'tmp6');
 
 INSERT INTO
-    genres_actors (actor_id, genre_id)
+    actors_genres (actor_id, genre)
 VALUES
-    (1, 1),
-    (1, 2),
-    (1, 7),
-    (2, 1),
-    (2, 4),
-    (2, 6),
-    (3, 3),
-    (4, 2),
-    (4, 8),
-    (4, 9),
-    (5, 1),
-    (5, 5),
-    (6, 9),
-    (7, 6);
+    (1, 'tmp1'),
+    (1, 'tmp2'),
+    (1, 'tmp7'),
+    (2, 'tmp1'),
+    (2, 'tmp2'),
+    (2, 'tmp6'),
+    (3, 'tmp3'),
+    (4, 'tmp2'),
+    (4, 'tmp8'),
+    (4, 'tmp9'),
+    (5, 'tmp1'),
+    (5, 'tmp5'),
+    (6, 'tmp6'),
+    (7, 'tmp5');

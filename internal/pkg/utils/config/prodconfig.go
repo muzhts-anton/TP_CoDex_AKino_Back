@@ -8,7 +8,8 @@ import (
 
 type ProdConfig struct {
 	Database string `mapstructure:"database"`
-	Feed     uint64 `mapstructure:"feed"`
+	Feed     uint64 `mapstructure:"feed limit"`
+	Genres   uint64 `mapstructure:"genres limit"`
 }
 
 var ProdConfigStore ProdConfig
@@ -43,4 +44,5 @@ func (cfg *ProdConfig) FromJson() error {
 func (cfg *ProdConfig) clear() {
 	cfg.Database = ""
 	cfg.Feed = 12
+	cfg.Genres = 10
 }

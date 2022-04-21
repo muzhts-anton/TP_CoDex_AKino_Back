@@ -9,13 +9,14 @@ DROP TABLE IF EXISTS genres             CASCADE;
 DROP TABLE IF EXISTS feed               CASCADE;
 
 DROP TABLE IF EXISTS movies_movies      CASCADE;
+DROP TABLE IF EXISTS movies_actors      CASCADE;
 DROP TABLE IF EXISTS actors_actors      CASCADE;
 DROP TABLE IF EXISTS users_playlists    CASCADE;
 DROP TABLE IF EXISTS playlists_movies   CASCADE;
-DROP TABLE IF EXISTS genres_movies      CASCADE;
-DROP TABLE IF EXISTS genres_actors      CASCADE;
-DROP TABLE IF EXISTS genres_announced   CASCADE;
-DROP TABLE IF EXISTS movies_actors      CASCADE;
+DROP TABLE IF EXISTS movies_genres      CASCADE;
+DROP TABLE IF EXISTS actors_genres      CASCADE;
+DROP TABLE IF EXISTS announced_genres   CASCADE;
+DROP TABLE IF EXISTS actors_movies      CASCADE;
 
 CREATE TABLE users (
     id                                  BIGSERIAL NOT NULL PRIMARY KEY,
@@ -29,7 +30,8 @@ CREATE TABLE playlists (
     id                                  BIGSERIAL NOT NULL PRIMARY KEY,
     title                               VARCHAR(50) NOT NULL,
     description                         VARCHAR(200),
-    poster                              VARCHAR(50) DEFAULT '/bookmark.webp'
+    poster                              VARCHAR(50) DEFAULT '/bookmark.webp',
+    public                              BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE feed (
@@ -67,7 +69,7 @@ CREATE TABLE announced (
     trailer                             VARCHAR(100) NOT NULL,
     releasedate                         TIMESTAMP NOT NULL,
     country                             VARCHAR(50) NOT NULL,
-    genre                               VARCHAR(50) NOT NULL,
+    genre                               VARCHAR(50) NOT NULL, -- TODO: delete
     director                            VARCHAR(50) NOT NULL
 );
 
@@ -101,8 +103,7 @@ CREATE TABLE ratings (
 );
 
 CREATE TABLE genres (
-    id                                  BIGSERIAL NOT NULL PRIMARY KEY,
-    genre                               VARCHAR(50) NOT NULL
+    genre                               VARCHAR(50) PRIMARY KEY
 );
 
 
@@ -136,20 +137,20 @@ CREATE TABLE playlists_movies (
     CONSTRAINT playlists_movies_id      PRIMARY KEY (playlist_id, movie_id)
 );
 
-CREATE TABLE genres_movies (
-    genre_id                            BIGINT REFERENCES genres (id),
+CREATE TABLE movies_genres (
     movie_id                            BIGINT REFERENCES movies (id),
-    CONSTRAINT genres_movies_id         PRIMARY KEY (genre_id, movie_id)
+    genre                               VARCHAR(50) REFERENCES genres (genre),
+    CONSTRAINT movies_genres_id         PRIMARY KEY (movie_id, genre)
 );
 
-CREATE TABLE genres_actors (
-    genre_id                            BIGINT REFERENCES genres (id),
+CREATE TABLE actors_genres (
     actor_id                            BIGINT REFERENCES actors (id),
-    CONSTRAINT genres_actors_id         PRIMARY KEY (genre_id, actor_id)
+    genre                               VARCHAR(50) REFERENCES genres (genre),
+    CONSTRAINT actors_genres_id         PRIMARY KEY (actor_id, genre)
 );
 
-CREATE TABLE genres_announced (
-    genre_id                            BIGINT REFERENCES genres (id),
+CREATE TABLE announced_genres (
     announced_id                        BIGINT REFERENCES announced (id),
-    CONSTRAINT genres_announced_id      PRIMARY KEY (genre_id, announced_id)
+    genre                               VARCHAR(50) REFERENCES genres (genre),
+    CONSTRAINT announced_genres_id      PRIMARY KEY (announced_id, genre)
 );

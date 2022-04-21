@@ -22,6 +22,10 @@ import (
 	"codex/internal/pkg/actor/repository"
 	"codex/internal/pkg/actor/usecase"
 
+	"codex/internal/pkg/genres/delivery"
+	"codex/internal/pkg/genres/usecase"
+	"codex/internal/pkg/genres/repository"
+
 	"fmt"
 	"net/http"
 	"os"
@@ -31,7 +35,7 @@ import (
 
 func RunServer() {
 	router := mux.NewRouter()
-	api := router.PathPrefix("").Subrouter()
+	api := router.PathPrefix("api/v1").Subrouter()
 
 	api.Use(middlewares.Cors)
 	api.Use(middlewares.Logger)
@@ -46,16 +50,19 @@ func RunServer() {
 	movRep := movrepository.InitMovRep(db)
 	usrRep := usrrepository.InitUsrRep(db)
 	colRep := colrepository.InitColRep(db)
+	genRep := genrepository.InitColRep(db)
 
 	actUsc := actusecase.InitActUsc(actRep)
 	movUsc := movusecase.InitMovUsc(movRep)
 	usrUsc := usrusecase.InitUsrUsc(usrRep)
 	colUsc := colusecase.InitColUsc(colRep)
+	genUsc := genusecase.InitColUsc(genRep)
 
 	actdelivery.SetActHandlers(api, actUsc)
 	movdelivery.SetMovHandlers(api, movUsc)
 	usrdelivery.SetUsrHandlers(api, usrUsc)
 	coldelivery.SetColHandlers(api, colUsc)
+	gendelivery.SetGenHandlers(api, genUsc)
 
 	port := os.Getenv("PORT") // to get port from Heroku
 	if port == "" {

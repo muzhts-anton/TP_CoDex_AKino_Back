@@ -35,6 +35,8 @@ type errObj struct {
 	InvalidRating      error
 	InvalidId          error
 	InvalidCommentType error
+
+	BadGenre error
 }
 
 type err struct {
@@ -73,5 +75,7 @@ var Err = err{
 		InvalidRating:      errors.New("Invalid value of `rating`"),
 		InvalidId:          errors.New("Invalid id in database request"),
 		InvalidCommentType: errors.New("Invalid comment type (expected {1, 2, 3} default:2)"),
+
+		BadGenre: errors.New("Genre request gives empty response from db"),
 	},
 }
