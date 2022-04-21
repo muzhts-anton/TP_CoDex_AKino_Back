@@ -23,7 +23,7 @@ type UserBasic struct {
 }
 
 type UpdUser struct {
-	Username string `json:"name"`
+	Username string `json:"username"`
 	Imgsrc   string `json:"imgsrc"`
 }
 
