@@ -26,6 +26,10 @@ import (
 	"codex/internal/pkg/genres/usecase"
 	"codex/internal/pkg/genres/repository"
 
+	"codex/internal/pkg/announced/delivery"
+	"codex/internal/pkg/announced/usecase"
+	"codex/internal/pkg/announced/repository"
+
 	"fmt"
 	"net/http"
 	"os"
@@ -35,7 +39,7 @@ import (
 
 func RunServer() {
 	router := mux.NewRouter()
-	api := router.PathPrefix("api/v1").Subrouter()
+	api := router.PathPrefix("/api/v1").Subrouter()
 
 	api.Use(middlewares.Cors)
 	api.Use(middlewares.Logger)
@@ -50,19 +54,22 @@ func RunServer() {
 	movRep := movrepository.InitMovRep(db)
 	usrRep := usrrepository.InitUsrRep(db)
 	colRep := colrepository.InitColRep(db)
-	genRep := genrepository.InitColRep(db)
+	genRep := genrepository.InitGenRep(db)
+	annRep := annrepository.InitAnnRep(db)
 
 	actUsc := actusecase.InitActUsc(actRep)
 	movUsc := movusecase.InitMovUsc(movRep)
 	usrUsc := usrusecase.InitUsrUsc(usrRep)
 	colUsc := colusecase.InitColUsc(colRep)
-	genUsc := genusecase.InitColUsc(genRep)
+	genUsc := genusecase.InitGenUsc(genRep)
+	annUsc := annusecase.InitAnnUsc(annRep)
 
 	actdelivery.SetActHandlers(api, actUsc)
 	movdelivery.SetMovHandlers(api, movUsc)
 	usrdelivery.SetUsrHandlers(api, usrUsc)
 	coldelivery.SetColHandlers(api, colUsc)
 	gendelivery.SetGenHandlers(api, genUsc)
+	anndelivery.SetAnnHandlers(api, annUsc)
 
 	port := os.Getenv("PORT") // to get port from Heroku
 	if port == "" {

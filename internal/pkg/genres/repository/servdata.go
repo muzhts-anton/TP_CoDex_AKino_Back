@@ -12,7 +12,7 @@ type dbGenresRepository struct {
 	dbm *database.DBManager
 }
 
-func InitColRep(manager *database.DBManager) domain.GenresRepository {
+func InitGenRep(manager *database.DBManager) domain.GenresRepository {
 	return &dbGenresRepository{
 		dbm: manager,
 	}

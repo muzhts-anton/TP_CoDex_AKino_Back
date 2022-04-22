@@ -21,8 +21,11 @@ func FlToStr(src float64) string {
 	return fmt.Sprintf("%.1f", src)
 }
 
-func DateToStr(src time.Time) string {
-	return src.String()
+func TimeToStr(src time.Time, withTime bool) string {
+	if withTime {
+		return src.Format("2006-01-02 15:04:05")
+	}
+	return src.Format("2006-01-02")
 }
 
 func ToUint64(src []byte) uint64 {

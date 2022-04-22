@@ -10,7 +10,7 @@ type genresUsecase struct {
 	genresRepo domain.GenresRepository
 }
 
-func InitColUsc(gr domain.GenresRepository) domain.GenresUsecase {
+func InitGenUsc(gr domain.GenresRepository) domain.GenresUsecase {
 	return &genresUsecase{
 		genresRepo: gr,
 	}

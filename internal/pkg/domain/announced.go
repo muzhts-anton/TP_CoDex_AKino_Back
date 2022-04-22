@@ -1,5 +1,6 @@
 package domain
 
+// TODO: define json names
 type Announced struct {
 	Id            string `json:""`
 	Poster        string `json:""`
@@ -11,4 +12,23 @@ type Announced struct {
 	Releasedate   string `json:""`
 	Country       string `json:""`
 	Director      string `json:""`
+}
+
+type AnnouncedBasic struct {
+	Id          string `json:"ID"`
+	Poster      string `json:"poster"`
+	Title       string `json:"title"`
+	Releasedate string `json:"releasedate"`
+	Info        string `json:"info"`
+	Description string `json:"description"`
+}
+
+type AnnouncedUsecase interface {
+	GetMovies() ([]AnnouncedBasic, error)
+	// GetMovie(id uint64) (Announced, error)
+}
+
+type AnnouncedRepository interface {
+	GetMovies() ([]AnnouncedBasic, error)
+	// GetMovie(id uint64) (Announced, error)
 }
