@@ -5,30 +5,7 @@ import (
 	"codex/internal/pkg/middlewares"
 	"codex/internal/pkg/utils/config"
 	"codex/internal/pkg/utils/log"
-
-	"codex/internal/pkg/user/delivery"
-	"codex/internal/pkg/user/repository"
-	"codex/internal/pkg/user/usecase"
-
-	"codex/internal/pkg/collections/delivery"
-	"codex/internal/pkg/collections/repository"
-	"codex/internal/pkg/collections/usecase"
-
-	"codex/internal/pkg/movie/delivery"
-	"codex/internal/pkg/movie/repository"
-	"codex/internal/pkg/movie/usecase"
-
-	"codex/internal/pkg/actor/delivery"
-	"codex/internal/pkg/actor/repository"
-	"codex/internal/pkg/actor/usecase"
-
-	"codex/internal/pkg/genres/delivery"
-	"codex/internal/pkg/genres/usecase"
-	"codex/internal/pkg/genres/repository"
-
-	"codex/internal/pkg/announced/delivery"
-	"codex/internal/pkg/announced/usecase"
-	"codex/internal/pkg/announced/repository"
+	"codex/internal/pkg/utils/setter"
 
 	"fmt"
 	"net/http"
@@ -50,26 +27,16 @@ func RunServer() {
 	db.Connect()
 	defer db.Disconnect()
 
-	actRep := actrepository.InitActRep(db)
-	movRep := movrepository.InitMovRep(db)
-	usrRep := usrrepository.InitUsrRep(db)
-	colRep := colrepository.InitColRep(db)
-	genRep := genrepository.InitGenRep(db)
-	annRep := annrepository.InitAnnRep(db)
-
-	actUsc := actusecase.InitActUsc(actRep)
-	movUsc := movusecase.InitMovUsc(movRep)
-	usrUsc := usrusecase.InitUsrUsc(usrRep)
-	colUsc := colusecase.InitColUsc(colRep)
-	genUsc := genusecase.InitGenUsc(genRep)
-	annUsc := annusecase.InitAnnUsc(annRep)
-
-	actdelivery.SetActHandlers(api, actUsc)
-	movdelivery.SetMovHandlers(api, movUsc)
-	usrdelivery.SetUsrHandlers(api, usrUsc)
-	coldelivery.SetColHandlers(api, colUsc)
-	gendelivery.SetGenHandlers(api, genUsc)
-	anndelivery.SetAnnHandlers(api, annUsc)
+	setter.SetHandlers(setter.Services{
+		Act: setter.Data{Db: db, Api: api},
+		Mov: setter.Data{Db: db, Api: api},
+		Usr: setter.Data{Db: db, Api: api},
+		Col: setter.Data{Db: db, Api: api},
+		Gen: setter.Data{Db: db, Api: api},
+		Ann: setter.Data{Db: db, Api: api},
+		Com: setter.Data{},
+		Rat: setter.Data{},
+	})
 
 	port := os.Getenv("PORT") // to get port from Heroku
 	if port == "" {
@@ -81,7 +48,7 @@ func RunServer() {
 		Handler: router,
 	}
 
-	log.Info("connecting to port " + port)
+	log.Info("Connecting to port " + port)
 
 	if err := server.ListenAndServe(); err != nil {
 		log.Error(err)
