@@ -22,6 +22,7 @@ type CollectionsRepository interface {
 	GetFeed() (FeedResponse, error)
 }
 
+// mockgen -destination=../collections/usecase/mock/usecase_mock.go  -package=mock codex/internal/pkg/domain CollectionsUsecase
 type CollectionsUsecase interface {
 	GetCollection(id uint64) (Collection, error)
 	GetFeed() (FeedResponse, error)

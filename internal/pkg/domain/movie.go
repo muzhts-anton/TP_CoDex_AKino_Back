@@ -58,6 +58,7 @@ type MovieRepository interface {
 	PostComment(movieId uint64, userId uint64, content string, comtype string) (Comment, error)
 }
 
+//mockgen -destination=../movie/usecase/mock/usecase_mock.go  -package=mock codex/internal/pkg/domain MovieUsecase
 type MovieUsecase interface {
 	GetMovie(id uint64) (Movie, error)
 	GetRelated(id uint64) ([]MovieSummary, error)

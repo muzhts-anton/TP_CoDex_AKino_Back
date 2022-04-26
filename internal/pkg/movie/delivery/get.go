@@ -26,7 +26,6 @@ func (handler *MovieHandler) GetMovie(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
 	related, err := handler.MovieUsecase.GetRelated(movId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -83,7 +82,7 @@ func (handler *MovieHandler) PostRating(w http.ResponseWriter, r *http.Request) 
 	ratingreq := new(ratingReq)
 	err := json.NewDecoder(r.Body).Decode(&ratingreq)
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		http.Error(w, domain.Err.ErrObj.BadInput.Error() + "Error with decoding request body", http.StatusBadRequest)
 		return
 	}
 

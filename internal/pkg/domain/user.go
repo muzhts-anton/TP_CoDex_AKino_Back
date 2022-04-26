@@ -37,6 +37,7 @@ type UserRepository interface {
 	UpdateAvatar(id uint64, url string) (User, error)
 }
 
+//mockgen -destination=../user/usecase/mock/usecase_mock.go  -package=mock codex/internal/pkg/domain UserUsecase
 type UserUsecase interface {
 	Register(us User) (User, error)
 	Login(ub UserBasic) (User, error)
