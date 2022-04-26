@@ -51,7 +51,6 @@ CREATE TABLE movies (
     trailer                             VARCHAR(100) NOT NULL,
     releaseyear                         VARCHAR(50) NOT NULL,
     country                             VARCHAR(50) NOT NULL,
-    genre                               VARCHAR(50) NOT NULL, -- TODO: delete
     motto                               VARCHAR(200) NOT NULL,
     director                            VARCHAR(50) NOT NULL,
     budget                              VARCHAR(50) NOT NULL,
@@ -69,7 +68,6 @@ CREATE TABLE announced (
     trailer                             VARCHAR(100) NOT NULL,
     releasedate                         TIMESTAMP NOT NULL,
     country                             VARCHAR(50) NOT NULL,
-    genre                               VARCHAR(50) NOT NULL, -- TODO: delete
     director                            VARCHAR(50) NOT NULL
 );
 
@@ -82,7 +80,6 @@ CREATE TABLE actors (
     height                              VARCHAR(50) NOT NULL,
     birthday                            VARCHAR(50) NOT NULL,
     birthplace                          VARCHAR(100) NOT NULL,
-    genres                              VARCHAR(100), -- TODO: delete
     total                               BIGINT NOT NULL
 );
 

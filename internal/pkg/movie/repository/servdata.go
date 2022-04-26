@@ -42,12 +42,11 @@ func (mr *dbMovieRepository) GetMovie(id uint64) (domain.Movie, error) {
 		Trailer:       cast.ToString(row[7]),
 		ReleaseYear:   cast.ToString(row[8]),
 		Country:       cast.ToString(row[9]),
-		Genre:         cast.ToString(row[10]),
-		Motto:         cast.ToString(row[11]),
-		Director:      cast.ToString(row[12]),
-		Budget:        cast.ToString(row[13]),
-		Gross:         cast.ToString(row[14]),
-		Duration:      cast.ToString(row[15]),
+		Motto:         cast.ToString(row[10]),
+		Director:      cast.ToString(row[11]),
+		Budget:        cast.ToString(row[12]),
+		Gross:         cast.ToString(row[13]),
+		Duration:      cast.ToString(row[14]),
 		Actors:        []domain.Cast{},
 	}
 

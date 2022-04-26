@@ -4,9 +4,10 @@ const (
 	queryGetActor = `
 	SELECT
 		id, imgsrc, name, nameoriginal, career, height,
-		birthday, birthplace, genres, total
-	FROM actors
-	WHERE id = $1;
+		birthday, birthplace,  string_agg(ag.genre, ', '), total
+	FROM actors a JOIN actors_genres ag on a.id = ag.actor_id
+	WHERE id = $1
+	GROUP BY a.id;
 	`
 
 	queryGetMovies = `

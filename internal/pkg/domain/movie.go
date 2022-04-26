@@ -12,7 +12,6 @@ type Movie struct {
 	Trailer       string `json:"trailerHref"`
 	ReleaseYear   string `json:"year"`
 	Country       string `json:"country"`
-	Genre         string `json:"genre"`
 	Motto         string `json:"motto"`
 	Director      string `json:"director"`
 	Budget        string `json:"budget"`
