@@ -1,4 +1,4 @@
-package usrusecase
+package autusecase
 
 import (
 	"codex/internal/pkg/domain"

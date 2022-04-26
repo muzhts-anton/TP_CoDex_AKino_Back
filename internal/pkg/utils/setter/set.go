@@ -27,6 +27,18 @@ import (
 	"codex/internal/pkg/announced/repository"
 	"codex/internal/pkg/announced/usecase"
 
+	"codex/internal/pkg/comment/delivery"
+	"codex/internal/pkg/comment/repository"
+	"codex/internal/pkg/comment/usecase"
+
+	"codex/internal/pkg/rating/delivery"
+	"codex/internal/pkg/rating/repository"
+	"codex/internal/pkg/rating/usecase"
+
+	"codex/internal/pkg/authorization/delivery"
+	"codex/internal/pkg/authorization/repository"
+	"codex/internal/pkg/authorization/usecase"
+
 	"github.com/gorilla/mux"
 )
 
@@ -44,6 +56,7 @@ type Services struct {
 	Ann Data
 	Com Data
 	Rat Data
+	Aut Data
 }
 
 func SetHandlers(svs Services) {
@@ -53,6 +66,9 @@ func SetHandlers(svs Services) {
 	colRep := colrepository.InitColRep(svs.Col.Db)
 	genRep := genrepository.InitGenRep(svs.Gen.Db)
 	annRep := annrepository.InitAnnRep(svs.Ann.Db)
+	comRep := comrepository.InitComRep(svs.Com.Db)
+	ratRep := ratrepository.InitRatRep(svs.Rat.Db)
+	autRep := autrepository.InitAutRep(svs.Aut.Db)
 
 	actUsc := actusecase.InitActUsc(actRep)
 	movUsc := movusecase.InitMovUsc(movRep)
@@ -60,6 +76,9 @@ func SetHandlers(svs Services) {
 	colUsc := colusecase.InitColUsc(colRep)
 	genUsc := genusecase.InitGenUsc(genRep)
 	annUsc := annusecase.InitAnnUsc(annRep)
+	comUsc := comusecase.InitComUsc(comRep)
+	ratUsc := ratusecase.InitRatUsc(ratRep)
+	autUsc := autusecase.InitAutUsc(autRep)
 
 	actdelivery.SetActHandlers(svs.Act.Api, actUsc)
 	movdelivery.SetMovHandlers(svs.Mov.Api, movUsc)
@@ -67,4 +86,7 @@ func SetHandlers(svs Services) {
 	coldelivery.SetColHandlers(svs.Col.Api, colUsc)
 	gendelivery.SetGenHandlers(svs.Gen.Api, genUsc)
 	anndelivery.SetAnnHandlers(svs.Ann.Api, annUsc)
+	comdelivery.SetComHandlers(svs.Ann.Api, comUsc)
+	ratdelivery.SetRatHandlers(svs.Ann.Api, ratUsc)
+	autdelivery.SetAutHandlers(svs.Aut.Api, autUsc)
 }

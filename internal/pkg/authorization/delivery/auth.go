@@ -1,4 +1,4 @@
-package usrdelivery
+package autdelivery
 
 import (
 	"codex/internal/pkg/domain"
@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-func (handler *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
+func (handler *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	userForm := new(domain.User)
 	err := json.NewDecoder(r.Body).Decode(&userForm)
@@ -21,7 +21,7 @@ func (handler *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 
 	sanitizer.SanitizeUser(userForm)
 
-	us, err := handler.UserUsecase.Register(*userForm)
+	us, err := handler.AuthUsecase.Register(*userForm)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -43,7 +43,7 @@ func (handler *UserHandler) Register(w http.ResponseWriter, r *http.Request) {
 	w.Write(out)
 }
 
-func (handler *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
+func (handler *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	userForm := new(domain.UserBasic)
 	err := json.NewDecoder(r.Body).Decode(&userForm)
@@ -54,7 +54,7 @@ func (handler *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	sanitizer.SanitizeUserBasic(userForm)
 
-	us, err := handler.UserUsecase.Login(*userForm)
+	us, err := handler.AuthUsecase.Login(*userForm)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -81,7 +81,7 @@ func (handler *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	w.Write(out)
 }
 
-func (handler *UserHandler) Logout(w http.ResponseWriter, r *http.Request) {
+func (handler *AuthHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	id, err := sessions.CheckSession(r)
 	if err == domain.Err.ErrObj.UserNotLoggedIn {
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusForbidden)
@@ -96,7 +96,7 @@ func (handler *UserHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func (handler *UserHandler) CheckAuth(w http.ResponseWriter, r *http.Request) {
+func (handler *AuthHandler) CheckAuth(w http.ResponseWriter, r *http.Request) {
 	type authResp struct {
 		Status string `json:"status"`
 		Id     string `json:"ID,omitempty"`
@@ -119,13 +119,10 @@ func (handler *UserHandler) CheckAuth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	us, err := handler.UserUsecase.CheckAuth(userId)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	out, err := json.Marshal(authResp{Status: strconv.Itoa(http.StatusOK), Id: strconv.FormatUint(us.Id, 10)})
+	out, err := json.Marshal(authResp{
+		Status: strconv.Itoa(http.StatusOK),
+		Id: strconv.FormatUint(userId, 10),
+	})
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return

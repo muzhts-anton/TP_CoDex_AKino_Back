@@ -28,9 +28,6 @@ type UpdUser struct {
 }
 
 type UserRepository interface {
-	GetById(id uint64) (User, error)
-	GetByEmail(email string) (User, error)
-	AddUser(user User) (uint64, error)
 	GetBookmarks(id uint64) ([]Bookmark, error)
 	UpdateUser(id uint64, upd UpdUser) (User, error)
 	GetUserReviews(id uint64) ([]UserReview, error)
@@ -38,9 +35,6 @@ type UserRepository interface {
 }
 
 type UserUsecase interface {
-	Register(us User) (User, error)
-	Login(ub UserBasic) (User, error)
-	CheckAuth(id uint64) (User, error)
 	GetBasicInfo(id uint64) (User, error)
 	GetBookmarks(id uint64) ([]Bookmark, error)
 	UpdateUser(id uint64, upd UpdUser) (User, error)
