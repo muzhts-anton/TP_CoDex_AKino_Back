@@ -1,16 +1,16 @@
 package autdelivery
 
 import (
-	"codex/internal/pkg/domain"
+	"codex/internal/pkg/authorization/delivery/grpc"
 
 	"github.com/gorilla/mux"
 )
 
 type AuthHandler struct {
-	AuthUsecase domain.AuthUsecase
+	AuthClient grpc.AutherClient
 }
 
-func SetAutHandlers(router *mux.Router, uc domain.AuthUsecase) {
+func SetAutHandlers(router *mux.Router, uc grpc.AutherClient) {
 	handler := &AuthHandler{
 		uc,
 	}

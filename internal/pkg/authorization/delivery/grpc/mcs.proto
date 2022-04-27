@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package Auth;
+
+option go_package = "./internal/pkg/authorization/delivery/grpc/";
+
+service Auther {
+  rpc Register(User) returns (User);
+  rpc Login(UserBasic) returns (User);
+}
+
+message User {
+  uint64 Id = 1;
+  string Username = 2;
+  string Email = 3;
+  string Password = 4;
+  string Imgsrc = 5;
+  string RepeatPassword = 6;
+}
+
+message UserBasic {
+  string Email = 1;
+  string Password = 2;
+}

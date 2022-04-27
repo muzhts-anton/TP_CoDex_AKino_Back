@@ -2,70 +2,98 @@ package autusecase
 
 import (
 	"codex/internal/pkg/domain"
+	"codex/internal/pkg/authorization/delivery/grpc"
+
+	"context"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
 type authUsecase struct {
+	grpc.UnimplementedAutherServer
 	authRepo domain.AuthRepository
 }
 
-func InitAutUsc(ar domain.AuthRepository) domain.AuthUsecase {
+func InitAutUsc(ar domain.AuthRepository) grpc.AutherServer {
 	return &authUsecase{
 		authRepo: ar,
 	}
 }
 
-func (au authUsecase) Register(us domain.User) (domain.User, error) {
+func (au authUsecase) Register(ctx context.Context, us *grpc.User) (*grpc.User, error) {
 	trimCredentials(&us.Email, &us.Username, &us.Password, &us.RepeatPassword)
 
 	if us.Email == "" || us.Username == "" || us.Password == "" || us.RepeatPassword == "" {
-		return domain.User{}, domain.Err.ErrObj.EmptyField
+		return nil, domain.Err.ErrObj.EmptyField
 	}
 
 	if err := validateEmail(us.Email); err != nil {
-		return domain.User{}, err
+		return nil, err
 	}
 
 	if err := validateUsername(us.Username); err != nil {
-		return domain.User{}, err
+		return nil, err
 	}
 
 	if err := validatePassword(us.Password); err != nil {
-		return domain.User{}, err
+		return nil, err
 	}
 
 	if us.Password != us.RepeatPassword {
-		return domain.User{}, domain.Err.ErrObj.UnmatchedPasswords
+		return nil, domain.Err.ErrObj.UnmatchedPasswords
 	}
 
 	if _, err := au.authRepo.GetByEmail(us.Email); err == nil {
-		return domain.User{}, domain.Err.ErrObj.EmailExists
+		return nil, domain.Err.ErrObj.EmailExists
 	}
 
-	idupd, err := au.authRepo.AddUser(us)
+	idupd, err := au.authRepo.AddUser(domain.User{
+		Id:             us.GetId(),
+		Username:       us.GetUsername(),
+		Password:       us.GetPassword(),
+		Email:          us.GetEmail(),
+		Imgsrc:         us.GetImgsrc(),
+		RepeatPassword: us.GetRepeatPassword(),
+	})
 	if err != nil {
-		return domain.User{}, err
+		return nil, err
 	}
 
 	out, _ := au.authRepo.GetById(idupd)
+	out = out.ClearPasswords()
 
-	return out.ClearPasswords(), nil
+	return &grpc.User{
+		Id:             out.Id,
+		Username:       out.Username,
+		Password:       out.Password,
+		Email:          out.Email,
+		Imgsrc:         out.Imgsrc,
+		RepeatPassword: out.RepeatPassword,
+	}, nil
 }
 
-func (au authUsecase) Login(ub domain.UserBasic) (domain.User, error) {
+func (au authUsecase) Login(ctx context.Context, ub *grpc.UserBasic) (*grpc.User, error) {
 	if ub.Email == "" || ub.Password == "" {
-		return domain.User{}, domain.Err.ErrObj.EmptyField
+		return nil, domain.Err.ErrObj.EmptyField
 	}
 
 	usr, err := au.authRepo.GetByEmail(ub.Email)
 	if err != nil {
-		return domain.User{}, err
+		return nil, err
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(usr.Password), []byte(ub.Password)); err != nil {
-		return domain.User{}, domain.Err.ErrObj.BadPassword
+		return nil, domain.Err.ErrObj.BadPassword
 	}
 
-	return usr.ClearPasswords(), nil
+	usr = usr.ClearPasswords()
+
+	return &grpc.User{
+		Id:             usr.Id,
+		Username:       usr.Username,
+		Password:       usr.Password,
+		Email:          usr.Email,
+		Imgsrc:         usr.Imgsrc,
+		RepeatPassword: usr.RepeatPassword,
+	}, nil
 }

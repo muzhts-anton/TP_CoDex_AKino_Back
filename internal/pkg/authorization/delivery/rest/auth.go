@@ -1,10 +1,12 @@
 package autdelivery
 
 import (
+	"codex/internal/pkg/authorization/delivery/grpc"
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/sessions"
 	"codex/internal/pkg/utils/sanitizer"
 
+	"context"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -21,7 +23,14 @@ func (handler *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 
 	sanitizer.SanitizeUser(userForm)
 
-	us, err := handler.AuthUsecase.Register(*userForm)
+	us, err := handler.AuthClient.Register(context.Background(), &grpc.User{
+		Id:             userForm.Id,
+		Username:       userForm.Username,
+		Password:       userForm.Password,
+		Email:          userForm.Email,
+		Imgsrc:         userForm.Imgsrc,
+		RepeatPassword: userForm.RepeatPassword,
+	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -38,7 +47,7 @@ func (handler *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
 	}
-	
+
 	w.WriteHeader(http.StatusCreated)
 	w.Write(out)
 }
@@ -54,7 +63,10 @@ func (handler *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	sanitizer.SanitizeUserBasic(userForm)
 
-	us, err := handler.AuthUsecase.Login(*userForm)
+	us, err := handler.AuthClient.Login(context.Background(), &grpc.UserBasic{
+		Email:    userForm.Email,
+		Password: userForm.Password,
+	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -121,7 +133,7 @@ func (handler *AuthHandler) CheckAuth(w http.ResponseWriter, r *http.Request) {
 
 	out, err := json.Marshal(authResp{
 		Status: strconv.Itoa(http.StatusOK),
-		Id: strconv.FormatUint(userId, 10),
+		Id:     strconv.FormatUint(userId, 10),
 	})
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)

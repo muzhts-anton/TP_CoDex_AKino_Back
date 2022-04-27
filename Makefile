@@ -1,6 +1,8 @@
 SRC = cmd/main.go
+SRC_AUTMCS = cmd/authorization/auth.go
 
 server: go-run
+autmcs: go-run-autmcs
 
 test: go-test go-tool
 	cat cover | grep -v "mock" | grep -v  "easyjson" | grep -v "proto" > cover.out
@@ -12,6 +14,9 @@ clean:
 
 go-run: ${SRC}
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go run ${SRC}
+
+go-run-autmcs: ${SRC_AUTMCS}
+	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go run ${SRC_AUTMCS}
 
 go-test: 
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go test -coverpkg=./... -coverprofile=cover ./...

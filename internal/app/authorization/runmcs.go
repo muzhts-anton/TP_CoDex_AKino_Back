@@ -3,29 +3,26 @@ package mcsauth
 import (
 	"codex/internal/pkg/database"
 	"codex/internal/pkg/utils/log"
-	_ "codex/internal/pkg/authorization/repository"
-	
-	proto "codex/proto"
+	proto "codex/internal/pkg/authorization/delivery/grpc"
+	"codex/internal/pkg/authorization/repository"
+	"codex/internal/pkg/authorization/usecase"
 
 	"net"
-	_ "context"
 
 	"google.golang.org/grpc"
 )
-
-type GRPCServer struct{
-	proto.UnimplementedGetUserServer
-}
 
 func RunServer() {
 	db := database.InitDatabase()
 	db.Connect()
 	defer db.Disconnect()
 
-	s := grpc.NewServer()
-	srv := &GRPCServer{}
+	autRep := autrepository.InitAutRep(db)
+	autUsc := autusecase.InitAutUsc(autRep)
 
-	proto.RegisterGetUserServer(s, srv)
+	s := grpc.NewServer()
+
+	proto.RegisterAutherServer(s, autUsc)
 
 	l, err := net.Listen("tcp", ":8080")
 	if err != nil {
