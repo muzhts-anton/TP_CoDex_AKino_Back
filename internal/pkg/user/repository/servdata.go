@@ -17,6 +17,32 @@ func InitUsrRep(manager *database.DBManager) domain.UserRepository {
 	}
 }
 
+func (ur *dbUserRepository) GetById(id uint64) (domain.User, error) {
+	resp, err := ur.dbm.Query(queryGetById, id)
+	if len(resp) == 0 {
+		log.Warn("{GetById}")
+		log.Error(domain.Err.ErrObj.NoUser)
+		return domain.User{}, domain.Err.ErrObj.NoUser
+	}
+	if err != nil {
+		log.Warn("{GetById} in query: " + queryGetById)
+		log.Error(err)
+		return domain.User{}, domain.Err.ErrObj.InternalServer
+	}
+
+	row := resp[0]
+	out := domain.User{
+		Id:             cast.ToUint64(row[0]),
+		Username:       cast.ToString(row[1]),
+		Password:       "",
+		Email:          cast.ToString(row[2]),
+		Imgsrc:         cast.ToString(row[3]),
+		RepeatPassword: "",
+	}
+
+	return out, nil
+}
+
 func (ur *dbUserRepository) GetBookmarks(id uint64) ([]domain.Bookmark, error) {
 	resp, err := ur.dbm.Query(queryUserExist, id)
 	if err != nil {

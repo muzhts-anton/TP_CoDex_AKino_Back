@@ -2,8 +2,6 @@ package usrusecase
 
 import (
 	"codex/internal/pkg/domain"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 type userUsecase struct {

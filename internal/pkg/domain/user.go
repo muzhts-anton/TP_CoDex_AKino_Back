@@ -28,6 +28,7 @@ type UpdUser struct {
 }
 
 type UserRepository interface {
+	GetById(id uint64) (User, error)
 	GetBookmarks(id uint64) ([]Bookmark, error)
 	UpdateUser(id uint64, upd UpdUser) (User, error)
 	GetUserReviews(id uint64) ([]UserReview, error)
