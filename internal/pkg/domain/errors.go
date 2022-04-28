@@ -37,6 +37,9 @@ type errObj struct {
 	InvalidCommentType error
 
 	BadGenre error
+
+	InvalidTitle error
+	PlaylistExist error
 }
 
 type err struct {
@@ -77,5 +80,8 @@ var Err = err{
 		InvalidCommentType: errors.New("Invalid comment type (expected {1, 2, 3} default:2)"),
 
 		BadGenre: errors.New("Genre request gives empty response from db"),
+
+		InvalidTitle: errors.New("Invalid title"),
+		PlaylistExist: errors.New("Playlist with this title already exist"),
 	},
 }

@@ -28,3 +28,8 @@ func SanitizeUserBasic(login *domain.UserBasic) {
 	sanitizer := bluemonday.UGCPolicy()
 	login.Email = sanitizer.Sanitize(login.Email)
 }
+
+func SanitizePlaylistCreating(playlist *domain.PlaylistRequest) {
+	sanitizer := bluemonday.UGCPolicy()
+	playlist.Title = sanitizer.Sanitize(playlist.Title)
+}

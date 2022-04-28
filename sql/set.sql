@@ -129,9 +129,9 @@ CREATE TABLE users_playlists (
 );
 
 CREATE TABLE playlists_movies (
-    playlist_id                         BIGINT REFERENCES playlists (id),
+    playlist_id                         BIGINT REFERENCES playlists (id) ON DELETE CASCADE,
     movie_id                            BIGINT REFERENCES movies (id),
-    CONSTRAINT playlists_movies_id      PRIMARY KEY (playlist_id, movie_id)
+    CONSTRAINT playlists_movies_id      PRIMARY KEY (playlist_id, movie_id) 
 );
 
 CREATE TABLE movies_genres (
