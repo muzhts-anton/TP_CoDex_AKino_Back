@@ -10,9 +10,9 @@ type AuthHandler struct {
 	AuthClient grpc.AutherClient
 }
 
-func SetAutHandlers(router *mux.Router, uc grpc.AutherClient) {
+func SetAutHandlers(router *mux.Router, ac grpc.AutherClient) {
 	handler := &AuthHandler{
-		uc,
+		ac,
 	}
 
 	router.HandleFunc(signupUrl, handler.Register).Methods("POST", "OPTIONS")

@@ -1,11 +1,12 @@
 package mcsauth
 
 import (
-	"codex/internal/pkg/database"
-	"codex/internal/pkg/utils/log"
 	proto "codex/internal/pkg/authorization/delivery/grpc"
 	"codex/internal/pkg/authorization/repository"
 	"codex/internal/pkg/authorization/usecase"
+	"codex/internal/pkg/database"
+	"codex/internal/pkg/utils/config"
+	"codex/internal/pkg/utils/log"
 
 	"net"
 
@@ -24,7 +25,7 @@ func RunServer() {
 
 	proto.RegisterAutherServer(s, autUsc)
 
-	l, err := net.Listen("tcp", ":8080")
+	l, err := net.Listen(config.DevConfigStore.Mcs.Auth.ConnType, ":"+config.DevConfigStore.Mcs.Auth.Port)
 	if err != nil {
 		log.Warn("{RunServer} mcs auth")
 		log.Error(err)

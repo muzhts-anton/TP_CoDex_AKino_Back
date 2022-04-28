@@ -2,6 +2,7 @@ package setter
 
 import (
 	"codex/internal/pkg/database"
+	"codex/internal/pkg/utils/config"
 	"codex/internal/pkg/utils/log"
 
 	"codex/internal/pkg/user/delivery/rest"
@@ -28,16 +29,15 @@ import (
 	"codex/internal/pkg/announced/repository"
 	"codex/internal/pkg/announced/usecase"
 
-	"codex/internal/pkg/comment/delivery/rest"
-	"codex/internal/pkg/comment/repository"
-	"codex/internal/pkg/comment/usecase"
-
 	"codex/internal/pkg/rating/delivery/rest"
 	"codex/internal/pkg/rating/repository"
 	"codex/internal/pkg/rating/usecase"
 
 	autmcs "codex/internal/pkg/authorization/delivery/grpc"
 	"codex/internal/pkg/authorization/delivery/rest"
+
+	commcs "codex/internal/pkg/comment/delivery/grpc"
+	"codex/internal/pkg/comment/delivery/rest"
 
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"
@@ -55,18 +55,27 @@ type Services struct {
 	Col Data
 	Gen Data
 	Ann Data
-	Com Data
 	Rat Data
 	Aut Data
+	Com Data
 }
 
 func setAutMcs() autmcs.AutherClient {
-	autconn, err := grpc.Dial(":8080", grpc.WithInsecure())
+	autconn, err := grpc.Dial(":"+config.DevConfigStore.Mcs.Auth.Port, grpc.WithInsecure())
 	if err != nil {
 		log.Warn("{setAutMcs} mcs Dial")
 	}
 
 	return autmcs.NewAutherClient(autconn)
+}
+
+func setComMcs() commcs.PosterClient {
+	autconn, err := grpc.Dial(":"+config.DevConfigStore.Mcs.Comment.Port, grpc.WithInsecure())
+	if err != nil {
+		log.Warn("{setAutMcs} mcs Dial")
+	}
+
+	return commcs.NewPosterClient(autconn)
 }
 
 func SetHandlers(svs Services) {
@@ -76,7 +85,6 @@ func SetHandlers(svs Services) {
 	colRep := colrepository.InitColRep(svs.Col.Db)
 	genRep := genrepository.InitGenRep(svs.Gen.Db)
 	annRep := annrepository.InitAnnRep(svs.Ann.Db)
-	comRep := comrepository.InitComRep(svs.Com.Db)
 	ratRep := ratrepository.InitRatRep(svs.Rat.Db)
 
 	actUsc := actusecase.InitActUsc(actRep)
@@ -85,7 +93,6 @@ func SetHandlers(svs Services) {
 	colUsc := colusecase.InitColUsc(colRep)
 	genUsc := genusecase.InitGenUsc(genRep)
 	annUsc := annusecase.InitAnnUsc(annRep)
-	comUsc := comusecase.InitComUsc(comRep)
 	ratUsc := ratusecase.InitRatUsc(ratRep)
 
 	actdelivery.SetActHandlers(svs.Act.Api, actUsc)
@@ -94,8 +101,8 @@ func SetHandlers(svs Services) {
 	coldelivery.SetColHandlers(svs.Col.Api, colUsc)
 	gendelivery.SetGenHandlers(svs.Gen.Api, genUsc)
 	anndelivery.SetAnnHandlers(svs.Ann.Api, annUsc)
-	comdelivery.SetComHandlers(svs.Com.Api, comUsc)
 	ratdelivery.SetRatHandlers(svs.Rat.Api, ratUsc)
 
 	autdelivery.SetAutHandlers(svs.Aut.Api, setAutMcs())
+	comdelivery.SetComHandlers(svs.Com.Api, setComMcs())
 }

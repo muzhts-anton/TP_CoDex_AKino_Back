@@ -1,18 +1,18 @@
 package comdelivery
 
 import (
-	"codex/internal/pkg/domain"
+	"codex/internal/pkg/comment/delivery/grpc"
 
 	"github.com/gorilla/mux"
 )
 
 type CommentHandler struct {
-	CommentUsecase domain.CommentUsecase
+	CommentUsecase grpc.PosterClient
 }
 
-func SetComHandlers(router *mux.Router, cu domain.CommentUsecase) {
+func SetComHandlers(router *mux.Router, pc grpc.PosterClient) {
 	handler := &CommentHandler{
-		CommentUsecase: cu,
+		CommentUsecase: pc,
 	}
 
 	router.HandleFunc(postCommentUrl, handler.PostComment).Methods("POST", "OPTIONS")
