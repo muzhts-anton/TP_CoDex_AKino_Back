@@ -7,7 +7,7 @@ import (
 	"codex/internal/pkg/utils/log"
 	"codex/internal/pkg/utils/setter"
 
-	//"codex/internal/pkg/csrf"
+	"codex/internal/pkg/csrf"
 
 	"fmt"
 	"net/http"
@@ -23,7 +23,7 @@ func RunServer() {
 	api.Use(middlewares.Cors)
 	api.Use(middlewares.Logger)
 	api.Use(middlewares.PanicRecovery)
-	//api.Use(middlewares.CsrfMdlw)
+	api.Use(middlewares.CsrfMdlw)
 
 	db := database.InitDatabase()
 	db.Connect()
@@ -36,13 +36,13 @@ func RunServer() {
 		Col: setter.Data{Db: db, Api: api},
 		Gen: setter.Data{Db: db, Api: api},
 		Ann: setter.Data{Db: db, Api: api},
-		Com: setter.Data{Db: db, Api: api},
-		Rat: setter.Data{Db: db, Api: api},
-		
+
+		Com: setter.Data{Db: nil, Api: api},
+		Rat: setter.Data{Db: nil, Api: api},
 		Aut: setter.Data{Db: nil, Api: api},
 	})
 
-	//csrfsecurity.SetCsrf(api)
+	csrfsecurity.SetCsrf(api)
 
 	port := os.Getenv("PORT") // to get port from Heroku
 	if port == "" {
