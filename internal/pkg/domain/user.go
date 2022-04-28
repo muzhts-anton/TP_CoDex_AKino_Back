@@ -22,6 +22,12 @@ type UserBasic struct {
 	Password string `json:"password"`
 }
 
+type UserPublicInfo struct {
+	Id       uint64 `json:"ID"`
+	Username string `json:"name"`
+	Imgsrc   string `json:"imgsrc"`
+}
+
 type UpdUser struct {
 	Username string `json:"name"`
 	Imgsrc   string `json:"imgsrc"`
