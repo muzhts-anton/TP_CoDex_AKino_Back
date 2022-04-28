@@ -2,8 +2,10 @@ package ratdelivery
 
 import (
 	"codex/internal/pkg/domain"
+	"codex/internal/pkg/rating/delivery/grpc"
 	"codex/internal/pkg/utils/cast"
 
+	"context"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -42,7 +44,11 @@ func (handler *RatingHandler) PostRating(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	movieRating, err := handler.RatingUsecase.PostRating(movieId, userId, rating)
+	movieRating, err := handler.RatingUsecase.PostRating(context.Background(), &grpc.Data{
+		MovieId: movieId,
+		UserId:  userId,
+		Rating:  int32(rating),
+	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -53,7 +59,7 @@ func (handler *RatingHandler) PostRating(w http.ResponseWriter, r *http.Request)
 	}
 
 	out, err := json.Marshal(ratingResp{
-		NewMovieRating: cast.FlToStr(movieRating),
+		NewMovieRating: cast.FlToStr(float64(movieRating.GetRating())),
 	})
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)

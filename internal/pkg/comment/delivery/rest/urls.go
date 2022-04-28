@@ -1,5 +1,5 @@
 package comdelivery
 
 const (
-	postCommentUrl = "/comments/append"
+	postCommentUrl = "/comments/set"
 )

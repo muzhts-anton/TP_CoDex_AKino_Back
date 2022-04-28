@@ -29,9 +29,8 @@ import (
 	"codex/internal/pkg/announced/repository"
 	"codex/internal/pkg/announced/usecase"
 
+	ratmcs "codex/internal/pkg/rating/delivery/grpc"
 	"codex/internal/pkg/rating/delivery/rest"
-	"codex/internal/pkg/rating/repository"
-	"codex/internal/pkg/rating/usecase"
 
 	autmcs "codex/internal/pkg/authorization/delivery/grpc"
 	"codex/internal/pkg/authorization/delivery/rest"
@@ -55,6 +54,7 @@ type Services struct {
 	Col Data
 	Gen Data
 	Ann Data
+
 	Rat Data
 	Aut Data
 	Com Data
@@ -72,10 +72,19 @@ func setAutMcs() autmcs.AutherClient {
 func setComMcs() commcs.PosterClient {
 	autconn, err := grpc.Dial(":"+config.DevConfigStore.Mcs.Comment.Port, grpc.WithInsecure())
 	if err != nil {
-		log.Warn("{setAutMcs} mcs Dial")
+		log.Warn("{setComMcs} mcs Dial")
 	}
 
 	return commcs.NewPosterClient(autconn)
+}
+
+func setRatMcs() ratmcs.PosterClient {
+	autconn, err := grpc.Dial(":"+config.DevConfigStore.Mcs.Rating.Port, grpc.WithInsecure())
+	if err != nil {
+		log.Warn("{setRatMcs} mcs Dial")
+	}
+
+	return ratmcs.NewPosterClient(autconn)
 }
 
 func SetHandlers(svs Services) {
@@ -85,7 +94,6 @@ func SetHandlers(svs Services) {
 	colRep := colrepository.InitColRep(svs.Col.Db)
 	genRep := genrepository.InitGenRep(svs.Gen.Db)
 	annRep := annrepository.InitAnnRep(svs.Ann.Db)
-	ratRep := ratrepository.InitRatRep(svs.Rat.Db)
 
 	actUsc := actusecase.InitActUsc(actRep)
 	movUsc := movusecase.InitMovUsc(movRep)
@@ -93,7 +101,6 @@ func SetHandlers(svs Services) {
 	colUsc := colusecase.InitColUsc(colRep)
 	genUsc := genusecase.InitGenUsc(genRep)
 	annUsc := annusecase.InitAnnUsc(annRep)
-	ratUsc := ratusecase.InitRatUsc(ratRep)
 
 	actdelivery.SetActHandlers(svs.Act.Api, actUsc)
 	movdelivery.SetMovHandlers(svs.Mov.Api, movUsc)
@@ -101,8 +108,8 @@ func SetHandlers(svs Services) {
 	coldelivery.SetColHandlers(svs.Col.Api, colUsc)
 	gendelivery.SetGenHandlers(svs.Gen.Api, genUsc)
 	anndelivery.SetAnnHandlers(svs.Ann.Api, annUsc)
-	ratdelivery.SetRatHandlers(svs.Rat.Api, ratUsc)
 
+	ratdelivery.SetRatHandlers(svs.Act.Api, setRatMcs())
 	autdelivery.SetAutHandlers(svs.Aut.Api, setAutMcs())
 	comdelivery.SetComHandlers(svs.Com.Api, setComMcs())
 }

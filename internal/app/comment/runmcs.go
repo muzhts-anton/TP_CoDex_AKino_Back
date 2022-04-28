@@ -27,7 +27,7 @@ func RunServer() {
 
 	l, err := net.Listen(config.DevConfigStore.Mcs.Comment.ConnType, ":"+config.DevConfigStore.Mcs.Comment.Port)
 	if err != nil {
-		log.Warn("{RunServer} mcs auth")
+		log.Warn("{RunServer} mcs comt")
 		log.Error(err)
 	}
 
