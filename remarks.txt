@@ -1,0 +1,35 @@
+__________PSQL__________
+sudo -i -u postgres
+
+commands:
+    \i /home/anton/Documents/CoDex_2sem_TP/back/sql/init.sql
+    \i /home/anton/Documents/CoDex_2sem_TP/back/sql/set.sql
+
+login:
+    psql -U akino -d codex -h 127.0.0.1 -W
+    1234
+
+    psql -U gccsyecdepvbbu -d d44b32nrphiafr -h ec2-34-242-8-97.eu-west-1.compute.amazonaws.com -W
+    c9a92883f4c0e5bd6ceff6daafc98acd617e4053eee2bd30c539f89f119bec4d
+
+
+__________CURL__________
+curl -X 'POST' -H 'Content-Type: application/json' --data '{"movieId":"1", "userId":"1", "rating":"4"}' localhost:3000/api/v1/ratings/set
+
+
+__________PRTB__________
+install:
+    go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+    go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+    export PATH=$PATH:$GOPATH/bin
+    export PATH="$PATH:$(go env GOPATH)/bin"
+
+protoc -I <...> --go_out=... --go-grpc_out=... <...>.proto
+protoc -I internal/pkg/?/delivery/grpc/ --go_out=. --go-grpc_out=. internal/pkg/?/delivery/grpc/*.proto
+
+
+__________MOCK__________
+install:
+    export GOPATH=$HOME/go
+    export PATH=$PATH:$GOROOT/bin:$GOPATH/bin

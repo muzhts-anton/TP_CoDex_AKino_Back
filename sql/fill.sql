@@ -29,7 +29,7 @@ VALUES
 
 /* static 'feed' */
 INSERT INTO
-    playlists (id, title, description, poster)
+    playlists (title, description, poster)
 VALUES
     ('Топ 256', 'must see', 'top.webp'),
     ('Приключения', 'Захватывающий мир путешествий', 'adventures.webp'),
@@ -46,10 +46,10 @@ VALUES
 
 /* users playlists for tests and examples */
 INSERT INTO
-    playlists (id, title)
+    playlists (title)
 VALUES
-    (13, 'Ma boiz'),
-    (14, 'kinda trash');
+    ('Ma boiz'),
+    ('kinda trash');
 
 INSERT INTO
     movies (
