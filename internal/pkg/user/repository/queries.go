@@ -51,4 +51,13 @@ const (
 	FROM users
 	WHERE id = $1;
 	`
+	
+	queryGetUserBookmarks = `
+	SELECT playlists.id, playlists.title, playlists.poster
+	FROM users_playlists
+	JOIN users ON users_playlists.user_id = users.id
+	JOIN playlists ON users_playlists.playlist_id = playlists.id
+	WHERE users_playlists.user_id = $1
+	ORDER BY playlists.id;
+	`
 )

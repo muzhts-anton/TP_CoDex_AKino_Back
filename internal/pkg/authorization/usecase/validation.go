@@ -2,7 +2,7 @@ package autusecase
 
 import (
 	"codex/internal/pkg/domain"
-	
+
 	"net/mail"
 	"strings"
 	"unicode"
@@ -17,7 +17,7 @@ func validateEmail(address string) error {
 	return nil
 }
 
-func validateUsername(username string) error {
+func ValidateUsername(username string) error {
 	for _, char := range username {
 		if !(unicode.IsLetter(char) || unicode.Is(unicode.Cyrillic, char)) {
 			return domain.Err.ErrObj.InvalidUsername

@@ -27,7 +27,7 @@ func (au authUsecase) Register(us domain.User) (domain.User, error) {
 		return domain.User{}, err
 	}
 
-	if err := validateUsername(us.Username); err != nil {
+	if err := ValidateUsername(us.Username); err != nil {
 		return domain.User{}, err
 	}
 

@@ -1,9 +1,8 @@
 package usrusecase
 
 import (
+	autusecase "codex/internal/pkg/authorization/usecase"
 	"codex/internal/pkg/domain"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 type userUsecase struct {
@@ -35,7 +34,7 @@ func (uc userUsecase) GetBookmarks(id uint64) ([]domain.Bookmark, error) {
 }
 
 func (uc userUsecase) UpdateUser(id uint64, upd domain.UpdUser) (domain.User, error) {
-	if validateUsername(upd.Username) != nil {
+	if autusecase.ValidateUsername(upd.Username) != nil {
 		return domain.User{}, domain.Err.ErrObj.InvalidUsername
 	}
 
