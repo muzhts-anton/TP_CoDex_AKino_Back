@@ -1,14 +1,6 @@
 package plarepository
 
 const (
-	queryGetFeed = `
-	SELECT playlists.title, playlists.poster, playlists.id
-	FROM playlists
-	JOIN feed ON feed.playlist_id = playlists.id
-	ORDER BY feed.id
-	LIMIT $1;
-	`
-
 	queryCreatePlaylist = `
 	INSERT INTO
 		playlists (title, public)
