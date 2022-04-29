@@ -43,3 +43,22 @@ func (cr *dbGenresRepository) GetMovies(genre string) ([]domain.MovieBasic, erro
 
 	return movies, nil
 }
+
+func (cr *dbGenresRepository) GetGenres() ([]domain.Genre, error) {
+	resp, err := cr.dbm.Query(queryGetGenres)
+	if err != nil {
+		log.Warn("{GetGenres} in query: " + queryGetGenres)
+		log.Error(err)
+		return []domain.Genre{}, domain.Err.ErrObj.InternalServer
+	}
+
+	genres := make([]domain.Genre, 0)
+	for i := range resp {
+		genres = append(genres, domain.Genre{
+			Href:          cast.ToString(resp[i][0]),
+			Imgsrc:        cast.ToString(resp[i][1]),
+		})
+	}
+
+	return genres, nil
+}

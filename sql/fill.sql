@@ -313,50 +313,50 @@ VALUES
     (5, 7);
 
 INSERT INTO
-    genres (genre)
+    genres (genre, imgsrc)
 VALUES
-    ('tmp1'),
-    ('tmp2'),
-    ('tmp3'),
-    ('tmp4'),
-    ('tmp5'),
-    ('tmp6'),
-    ('tmp7'),
-    ('tmp8'),
-    ('tmp9');
+    ('Anime', 'anime.webp'),
+    ('Action', 'action.webp'),
+    ('Comedy', 'comedy.webp'),
+    ('Drama', 'drama.webp'),
+    ('Fantasy', 'fantasy.webp'),
+    ('Horror', 'horror.webp'),
+    ('Mystery', 'mystery.webp'),
+    ('Romance', 'romance.webp'),
+    ('Thriller', 'thriller.webp');
 
 INSERT INTO
     movies_genres (movie_id, genre)
 VALUES
-    (1, 'tmp1'),
-    (1, 'tmp2'),
-    (1, 'tmp7'),
-    (2, 'tmp1'),
-    (2, 'tmp4'),
-    (2, 'tmp6'),
-    (2, 'tmp9'),
-    (3, 'tmp3'),
-    (4, 'tmp2'),
-    (4, 'tmp8'),
-    (4, 'tmp9'),
-    (5, 'tmp1'),
-    (5, 'tmp5'),
-    (5, 'tmp6');
+    (1, 'Anime'),
+    (1, 'Action'),
+    (1, 'Mystery'),
+    (2, 'Anime'),
+    (2, 'Drama'),
+    (2, 'Horror'),
+    (2, 'Thriller'),
+    (3, 'Comedy'),
+    (4, 'Action'),
+    (4, 'Romance'),
+    (4, 'Thriller'),
+    (5, 'Anime'),
+    (5, 'Fantasy'),
+    (5, 'Horror');
 
 INSERT INTO
     actors_genres (actor_id, genre)
 VALUES
-    (1, 'tmp1'),
-    (1, 'tmp2'),
-    (1, 'tmp7'),
-    (2, 'tmp1'),
-    (2, 'tmp2'),
-    (2, 'tmp6'),
-    (3, 'tmp3'),
-    (4, 'tmp2'),
-    (4, 'tmp8'),
-    (4, 'tmp9'),
-    (5, 'tmp1'),
-    (5, 'tmp5'),
-    (6, 'tmp6'),
-    (7, 'tmp5');
+    (1, 'Anime'),
+    (1, 'Action'),
+    (1, 'Mystery'),
+    (2, 'Anime'),
+    (2, 'Action'),
+    (2, 'Horror'),
+    (3, 'Comedy'),
+    (4, 'Action'),
+    (4, 'Romance'),
+    (4, 'Thriller'),
+    (5, 'Anime'),
+    (5, 'Fantasy'),
+    (6, 'Horror'),
+    (7, 'Fantasy');

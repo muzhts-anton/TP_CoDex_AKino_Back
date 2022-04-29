@@ -11,4 +11,11 @@ const (
 	ORDER BY movies.rating
 	LIMIT $2;
 	`
+
+	queryGetGenres = `
+	SELECT
+		genre, imgsrc
+	FROM genres
+	ORDER BY genre;
+	`
 )

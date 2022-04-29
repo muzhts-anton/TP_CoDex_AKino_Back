@@ -16,4 +16,5 @@ func SetGenHandlers(router *mux.Router, gu domain.GenresUsecase) {
 	}
 
 	router.HandleFunc(getMoviesUrl, handler.GetMovies).Methods("GET", "OPTIONS")
+	router.HandleFunc(getGenresUrl, handler.GetGenres).Methods("GET", "OPTIONS")
 }

@@ -31,3 +31,21 @@ func (handler *GenresHandler) GetMovies(w http.ResponseWriter, r *http.Request) 
 	w.WriteHeader(http.StatusOK)
 	w.Write(out)
 }
+
+func (handler *GenresHandler) GetGenres(w http.ResponseWriter, r *http.Request) {
+
+	genres, err := handler.GenresUsecase.GetGenres()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	out, err := json.Marshal(genres)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(out)
+}

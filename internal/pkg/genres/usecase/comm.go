@@ -28,3 +28,12 @@ func (gu genresUsecase) GetMovies(genre string) ([]domain.MovieBasic, error) {
 
 	return movs, err
 }
+
+func (gu genresUsecase) GetGenres() ([]domain.Genre, error) {
+	genres, err := gu.genresRepo.GetGenres()
+	if err != nil {
+		return []domain.Genre{}, err
+	}
+
+	return genres, err
+}
