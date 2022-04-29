@@ -14,7 +14,7 @@ const (
 		playlists (title, public)
 	VALUES
 		($1, $2)
-	RETURNING id;
+	RETURNING id, title;
 	`
 
 	queryCreatePlaylistUser = `

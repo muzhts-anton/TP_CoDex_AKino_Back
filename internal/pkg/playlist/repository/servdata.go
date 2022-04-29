@@ -24,8 +24,6 @@ func (pr *dbplarepository) CreatePlaylist(playlist domain.PlaylistRequest) (doma
 		log.Error(err)
 		return domain.PlaylistResponse{}, err
 	}
-	var playlistResponse domain.PlaylistResponse
-	playlistResponse.ID = cast.ToString(resp[0][0])
 
 	_, err = pr.dbm.Query(queryCreatePlaylistUser, playlist.UserId, cast.ToUint64(resp[0][0]))
 	if err != nil {
@@ -34,7 +32,10 @@ func (pr *dbplarepository) CreatePlaylist(playlist domain.PlaylistRequest) (doma
 		return domain.PlaylistResponse{}, err
 	}
 
-	return domain.PlaylistResponse{}, nil
+	return domain.PlaylistResponse{
+		ID:    cast.IntToStr(cast.ToUint64(resp[0][0])),
+		Title: cast.ToString(resp[0][1]),
+	}, nil
 }
 
 func (pr *dbplarepository) PlaylistAlreadyExist(playlist domain.PlaylistRequest) (bool, error) {
