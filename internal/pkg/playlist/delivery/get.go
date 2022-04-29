@@ -1,14 +1,13 @@
-package playlistdelivery
+package pladelivery
 
 import (
 	"codex/internal/pkg/domain"
 	// "codex/internal/pkg/sessions"
 
+	"codex/internal/pkg/utils/sanitizer"
 	"encoding/json"
 	"net/http"
-	"codex/internal/pkg/utils/sanitizer"
 	// "strconv"
-
 	// "github.com/gorilla/mux"
 )
 
@@ -34,7 +33,7 @@ func (handler *PlaylistHandler) CreatePlaylist(w http.ResponseWriter, r *http.Re
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
 	}
-	
+
 	w.WriteHeader(http.StatusCreated)
 	w.Write(out)
 }
@@ -59,7 +58,7 @@ func (handler *PlaylistHandler) AddMovie(w http.ResponseWriter, r *http.Request)
 	// 	http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 	// 	return
 	// }
-	
+
 	w.WriteHeader(http.StatusCreated)
 	// w.Write(out)
 }
@@ -78,13 +77,13 @@ func (handler *PlaylistHandler) DeleteMovie(w http.ResponseWriter, r *http.Reque
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	
+
 	w.WriteHeader(http.StatusOK)
 }
 
 func (handler *PlaylistHandler) DeletePlaylist(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	deletePlaylistInfo:= new(domain.DeletePlaylistInfo)
+	deletePlaylistInfo := new(domain.DeletePlaylistInfo)
 	err := json.NewDecoder(r.Body).Decode(&deletePlaylistInfo)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
@@ -96,7 +95,6 @@ func (handler *PlaylistHandler) DeletePlaylist(w http.ResponseWriter, r *http.Re
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	
+
 	w.WriteHeader(http.StatusOK)
 }
-

@@ -3,41 +3,45 @@ package setter
 import (
 	"codex/internal/pkg/database"
 
-	"codex/internal/pkg/user/delivery"
-	"codex/internal/pkg/user/repository"
-	"codex/internal/pkg/user/usecase"
+	usrdelivery "codex/internal/pkg/user/delivery"
+	usrrepository "codex/internal/pkg/user/repository"
+	usrusecase "codex/internal/pkg/user/usecase"
 
-	"codex/internal/pkg/collections/delivery"
-	"codex/internal/pkg/collections/repository"
-	"codex/internal/pkg/collections/usecase"
+	coldelivery "codex/internal/pkg/collections/delivery"
+	colrepository "codex/internal/pkg/collections/repository"
+	colusecase "codex/internal/pkg/collections/usecase"
 
-	"codex/internal/pkg/movie/delivery"
-	"codex/internal/pkg/movie/repository"
-	"codex/internal/pkg/movie/usecase"
+	movdelivery "codex/internal/pkg/movie/delivery"
+	movrepository "codex/internal/pkg/movie/repository"
+	movusecase "codex/internal/pkg/movie/usecase"
 
-	"codex/internal/pkg/actor/delivery"
-	"codex/internal/pkg/actor/repository"
-	"codex/internal/pkg/actor/usecase"
+	actdelivery "codex/internal/pkg/actor/delivery"
+	actrepository "codex/internal/pkg/actor/repository"
+	actusecase "codex/internal/pkg/actor/usecase"
 
-	"codex/internal/pkg/genres/delivery"
-	"codex/internal/pkg/genres/repository"
-	"codex/internal/pkg/genres/usecase"
+	gendelivery "codex/internal/pkg/genres/delivery"
+	genrepository "codex/internal/pkg/genres/repository"
+	genusecase "codex/internal/pkg/genres/usecase"
 
-	"codex/internal/pkg/announced/delivery"
-	"codex/internal/pkg/announced/repository"
-	"codex/internal/pkg/announced/usecase"
+	anndelivery "codex/internal/pkg/announced/delivery"
+	annrepository "codex/internal/pkg/announced/repository"
+	annusecase "codex/internal/pkg/announced/usecase"
 
-	"codex/internal/pkg/comment/delivery"
-	"codex/internal/pkg/comment/repository"
-	"codex/internal/pkg/comment/usecase"
+	comdelivery "codex/internal/pkg/comment/delivery"
+	comrepository "codex/internal/pkg/comment/repository"
+	comusecase "codex/internal/pkg/comment/usecase"
 
-	"codex/internal/pkg/rating/delivery"
-	"codex/internal/pkg/rating/repository"
-	"codex/internal/pkg/rating/usecase"
+	ratdelivery "codex/internal/pkg/rating/delivery"
+	ratrepository "codex/internal/pkg/rating/repository"
+	ratusecase "codex/internal/pkg/rating/usecase"
 
-	"codex/internal/pkg/authorization/delivery"
-	"codex/internal/pkg/authorization/repository"
-	"codex/internal/pkg/authorization/usecase"
+	autdelivery "codex/internal/pkg/authorization/delivery"
+	autrepository "codex/internal/pkg/authorization/repository"
+	autusecase "codex/internal/pkg/authorization/usecase"
+
+	pladelivery "codex/internal/pkg/playlist/delivery"
+	plarepository "codex/internal/pkg/playlist/repository"
+	plausecase "codex/internal/pkg/playlist/usecase"
 
 	"github.com/gorilla/mux"
 )
@@ -57,6 +61,7 @@ type Services struct {
 	Com Data
 	Rat Data
 	Aut Data
+	Pla Data
 }
 
 func SetHandlers(svs Services) {
@@ -69,6 +74,7 @@ func SetHandlers(svs Services) {
 	comRep := comrepository.InitComRep(svs.Com.Db)
 	ratRep := ratrepository.InitRatRep(svs.Rat.Db)
 	autRep := autrepository.InitAutRep(svs.Aut.Db)
+	plaRep := plarepository.InitPlaRep(svs.Pla.Db)
 
 	actUsc := actusecase.InitActUsc(actRep)
 	movUsc := movusecase.InitMovUsc(movRep)
@@ -79,6 +85,7 @@ func SetHandlers(svs Services) {
 	comUsc := comusecase.InitComUsc(comRep)
 	ratUsc := ratusecase.InitRatUsc(ratRep)
 	autUsc := autusecase.InitAutUsc(autRep)
+	plaUsc := plausecase.InitPlaUsc(plaRep)
 
 	actdelivery.SetActHandlers(svs.Act.Api, actUsc)
 	movdelivery.SetMovHandlers(svs.Mov.Api, movUsc)
@@ -89,4 +96,5 @@ func SetHandlers(svs Services) {
 	comdelivery.SetComHandlers(svs.Ann.Api, comUsc)
 	ratdelivery.SetRatHandlers(svs.Ann.Api, ratUsc)
 	autdelivery.SetAutHandlers(svs.Aut.Api, autUsc)
+	pladelivery.SetPlaHandlers(svs.Pla.Api, plaUsc)
 }

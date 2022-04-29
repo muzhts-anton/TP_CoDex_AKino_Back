@@ -1,7 +1,8 @@
-package playlistdelivery
+package pladelivery
 
 import (
 	"codex/internal/pkg/domain"
+
 	"github.com/gorilla/mux"
 )
 
@@ -9,7 +10,7 @@ type PlaylistHandler struct {
 	PlaylistUsecase domain.PlaylistUsecase
 }
 
-func SetPlaylistHandlers(router *mux.Router, pu domain.PlaylistUsecase) {
+func SetPlaHandlers(router *mux.Router, pu domain.PlaylistUsecase) {
 	handler := &PlaylistHandler{
 		PlaylistUsecase: pu,
 	}

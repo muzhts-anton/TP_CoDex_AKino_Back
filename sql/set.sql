@@ -124,7 +124,7 @@ CREATE TABLE actors_actors (
 
 CREATE TABLE users_playlists (
     user_id                             BIGINT REFERENCES users (id),
-    playlist_id                         BIGINT REFERENCES playlists (id),
+    playlist_id                         BIGINT REFERENCES playlists (id) ON DELETE CASCADE,
     CONSTRAINT users_playlists_id       PRIMARY KEY (user_id, playlist_id)
 );
 

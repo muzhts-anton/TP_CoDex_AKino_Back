@@ -1,7 +1,6 @@
-package playlistrepository
+package plarepository
 
 const (
-
 	queryGetFeed = `
 	SELECT playlists.title, playlists.poster, playlists.id
 	FROM playlists
@@ -41,11 +40,11 @@ const (
 
 	queryDeleteMovie = `
 	DELETE FROM playlists_movies
-	WHERE playlists_id = $1 and movie_id = $2;
+	WHERE playlist_id = $1 and movie_id = $2;
 	`
 
 	queryDeletePlaylist = `
 	DELETE FROM playlists
-	WHERE playlists_id = $1;
+	WHERE id = $1;
 	`
 )
