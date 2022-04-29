@@ -1,9 +1,11 @@
 package comdelivery
 
 import (
+	"codex/internal/pkg/comment/delivery/grpc"
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/sanitizer"
 
+	"context"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -14,7 +16,7 @@ func (handler *CommentHandler) PostComment(w http.ResponseWriter, r *http.Reques
 		MovieId string `json:"movieId"`
 		UserId  string `json:"userId"`
 		Content string `json:"reviewText"`
-		Type    string `json:"reviewType"` //int {1 2 3} {defaul: 2}
+		Type    string `json:"reviewType"` //int {1 2 3} {default: 2}
 	}
 
 	defer r.Body.Close()
@@ -45,7 +47,12 @@ func (handler *CommentHandler) PostComment(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	comm, err := handler.CommentUsecase.PostComment(movieId, userId, commentreq.Content, commenttype)
+	comm, err := handler.CommentUsecase.PostComment(context.Background(), &grpc.Data{
+		MovieId:     movieId,
+		UserId:      userId,
+		Content:     commentreq.Content,
+		CommentType: int32(commenttype),
+	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -56,7 +63,15 @@ func (handler *CommentHandler) PostComment(w http.ResponseWriter, r *http.Reques
 	}
 
 	out, err := json.Marshal(commentsResp{
-		Comment: comm,
+		Comment: domain.Comment{
+			Imgsrc:   comm.Imgsrc,
+			Username: comm.Username,
+			UserId:   comm.UserId,
+			Rating:   comm.Rating,
+			Date:     comm.Date,
+			Content:  comm.Content,
+			Type:     comm.Type,
+		},
 	})
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)

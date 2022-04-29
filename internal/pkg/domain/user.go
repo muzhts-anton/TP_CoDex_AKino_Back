@@ -22,13 +22,19 @@ type UserBasic struct {
 	Password string `json:"password"`
 }
 
+type UserPublicInfo struct {
+	Id       uint64 `json:"ID"`
+	Username string `json:"name"`
+	Imgsrc   string `json:"imgsrc"`
+}
+
 type UpdUser struct {
 	Username string `json:"name"`
 	Imgsrc   string `json:"imgsrc"`
 }
 
 type UserRepository interface {
-	GetById(id uint64) (User, error) 
+	GetById(id uint64) (User, error)
 	GetBookmarks(id uint64) ([]Bookmark, error)
 	UpdateUser(id uint64, upd UpdUser) (User, error)
 	GetUserReviews(id uint64) ([]UserReview, error)

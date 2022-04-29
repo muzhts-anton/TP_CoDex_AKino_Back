@@ -31,6 +31,20 @@ type DevConfig struct {
 	Sessions struct {
 		Name string `mapstructure:"session name"`
 	} `mapstructure:"sessions"`
+	Mcs struct {
+		Auth struct {
+			ConnType string `mapstructure:"connection type"`
+			Port     string `mapstructure:"port"`
+		} `mapstructure:"auth"`
+		Comment struct {
+			ConnType string `mapstructure:"connection type"`
+			Port     string `mapstructure:"port"`
+		} `mapstructure:"comment"`
+		Rating struct {
+			ConnType string `mapstructure:"connection type"`
+			Port     string `mapstructure:"port"`
+		} `mapstructure:"rating"`
+	} `mapstructure:"mcs"`
 }
 
 var DevConfigStore DevConfig
@@ -81,4 +95,11 @@ func (cfg *DevConfig) clear() {
 
 	cfg.Logs.OutputStdout = false
 	cfg.Logs.Filename = ""
+
+	cfg.Mcs.Auth.ConnType = ""
+	cfg.Mcs.Auth.Port = ""
+	cfg.Mcs.Comment.ConnType = ""
+	cfg.Mcs.Comment.Port = ""
+	cfg.Mcs.Rating.ConnType = ""
+	cfg.Mcs.Rating.Port = ""
 }

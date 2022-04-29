@@ -26,7 +26,6 @@ cover
 # Local
 logs.txt
 oldbd.txt
-bdsetplan.txt
+remarks.txt
 old/
 trash.txt
-TODO.txt

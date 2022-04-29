@@ -23,7 +23,7 @@ func RunServer() {
 	api.Use(middlewares.Cors)
 	api.Use(middlewares.Logger)
 	api.Use(middlewares.PanicRecovery)
-	// api.Use(middlewares.CsrfMdlw)
+	api.Use(middlewares.CsrfMdlw)
 
 	db := database.InitDatabase()
 	db.Connect()
@@ -36,10 +36,12 @@ func RunServer() {
 		Col: setter.Data{Db: db, Api: api},
 		Gen: setter.Data{Db: db, Api: api},
 		Ann: setter.Data{Db: db, Api: api},
-		Com: setter.Data{Db: db, Api: api},
-		Rat: setter.Data{Db: db, Api: api},
-		Aut: setter.Data{Db: db, Api: api},
+		Ser: setter.Data{Db: db, Api: api},
 		Pla: setter.Data{Db: db, Api: api},
+
+		Com: setter.Data{Db: nil, Api: api},
+		Rat: setter.Data{Db: nil, Api: api},
+		Aut: setter.Data{Db: nil, Api: api},
 	})
 
 	csrfsecurity.SetCsrf(api)

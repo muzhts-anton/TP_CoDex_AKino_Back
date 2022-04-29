@@ -81,7 +81,7 @@ func (mr *dbCommentRepository) GetComment(userId, movieId uint64) (domain.Commen
 		Imgsrc:   cast.ToString(resp[0][0]),
 		Username: cast.ToString(resp[0][1]),
 		UserId:   cast.IntToStr(cast.ToUint64(resp[0][2])),
-		Date:     cast.ToString(resp[0][3]),
+		Date:     cast.TimeToStr(cast.ToTime(resp[0][3]), true),
 		Content:  cast.ToString(resp[0][4]),
 		Type:     cast.ToString(resp[0][5]),
 		Rating:   "",
