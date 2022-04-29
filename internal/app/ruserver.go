@@ -36,6 +36,7 @@ func RunServer() {
 		Col: setter.Data{Db: db, Api: api},
 		Gen: setter.Data{Db: db, Api: api},
 		Ann: setter.Data{Db: db, Api: api},
+		Ser: setter.Data{Db: db, Api: api},
 
 		Com: setter.Data{Db: nil, Api: api},
 		Rat: setter.Data{Db: nil, Api: api},

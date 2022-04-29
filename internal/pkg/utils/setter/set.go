@@ -29,6 +29,10 @@ import (
 	"codex/internal/pkg/announced/repository"
 	"codex/internal/pkg/announced/usecase"
 
+	"codex/internal/pkg/search/delivery/rest"
+	"codex/internal/pkg/search/repository"
+	"codex/internal/pkg/search/usecase"
+
 	ratmcs "codex/internal/pkg/rating/delivery/grpc"
 	"codex/internal/pkg/rating/delivery/rest"
 
@@ -54,6 +58,7 @@ type Services struct {
 	Col Data
 	Gen Data
 	Ann Data
+	Ser Data
 
 	Rat Data
 	Aut Data
@@ -94,6 +99,7 @@ func SetHandlers(svs Services) {
 	colRep := colrepository.InitColRep(svs.Col.Db)
 	genRep := genrepository.InitGenRep(svs.Gen.Db)
 	annRep := annrepository.InitAnnRep(svs.Ann.Db)
+serRep := serrepository.InitSerRep(svs.Ann.Db)
 
 	actUsc := actusecase.InitActUsc(actRep)
 	movUsc := movusecase.InitMovUsc(movRep)
@@ -101,6 +107,7 @@ func SetHandlers(svs Services) {
 	colUsc := colusecase.InitColUsc(colRep)
 	genUsc := genusecase.InitGenUsc(genRep)
 	annUsc := annusecase.InitAnnUsc(annRep)
+	serUsc := serusecase.InitSerUsc(serRep)
 
 	actdelivery.SetActHandlers(svs.Act.Api, actUsc)
 	movdelivery.SetMovHandlers(svs.Mov.Api, movUsc)
@@ -108,6 +115,7 @@ func SetHandlers(svs Services) {
 	coldelivery.SetColHandlers(svs.Col.Api, colUsc)
 	gendelivery.SetGenHandlers(svs.Gen.Api, genUsc)
 	anndelivery.SetAnnHandlers(svs.Ann.Api, annUsc)
+	serdelivery.SetSerHandlers(svs.Ann.Api, serUsc)
 
 	ratdelivery.SetRatHandlers(svs.Act.Api, setRatMcs())
 	autdelivery.SetAutHandlers(svs.Aut.Api, setAutMcs())

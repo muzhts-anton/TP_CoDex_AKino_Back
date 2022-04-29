@@ -10,7 +10,7 @@ type SearchHandler struct {
 	SearchUsecase domain.SearchUsecase
 }
 
-func SetAnnHandlers(router *mux.Router, au domain.SearchUsecase) {
+func SetSerHandlers(router *mux.Router, au domain.SearchUsecase) {
 	handler := &SearchHandler{
 		SearchUsecase: au,
 	}

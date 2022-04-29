@@ -10,7 +10,7 @@ import (
 )
 
 func (handler *SearchHandler) Search(w http.ResponseWriter, r *http.Request) {
-	tag := mux.Vars(r)["genre"]
+	tag := mux.Vars(r)["tag"]
 	if tag == "" {
 		http.Error(w, domain.Err.ErrObj.ParseId.Error(), http.StatusBadRequest)
 		return
