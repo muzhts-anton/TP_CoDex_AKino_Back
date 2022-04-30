@@ -101,7 +101,9 @@ CREATE TABLE ratings (
 
 CREATE TABLE genres (
     genre                               VARCHAR(50) PRIMARY KEY,
-    imgsrc                              VARCHAR(50)
+    imgsrc                              VARCHAR(50),
+    description                         VARCHAR(100) NULL,
+    title                               VARCHAR(50) NULL
 );
 
 

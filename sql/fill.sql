@@ -313,32 +313,31 @@ VALUES
     (5, 7);
 
 INSERT INTO
-    genres (genre, imgsrc)
+    genres (genre, imgsrc, description, title)
 VALUES
-    ('action', 'Action.webp'),
-    ('adventure', 'Adventure.webp'),
-    ('anime', 'Anime.webp'),
-    ('authors', 'Authors.webp'),
-    ('biography', 'Biography.webp'),
-    ('cartoons', 'Cartoons.webp'),
-    ('comedy', 'Comedy.webp'),
-    ('criminal', 'Criminal.webp'),
-    ('detective', 'Detective.webp'),
-    ('documental', 'Documental.webp'),
-    ('drama', 'Drama.webp'),
-    ('family', 'Family.webp'),
-    ('fantastic', 'Fantastic.webp'),
-    ('fantasy', 'Fantasy.webp'),
-    ('historical', 'Historical.webp'),
-    ('horror', 'Horror.webp'),
-    ('melodrama', 'Melodrama.webp'),
-    ('musical', 'Musical.webp'),
-    ('mystic', 'Mystic.webp'),
-    ('romantic', 'Romantic.webp'),
-    ('short', 'Short.webp'),
-    ('sport', 'Sport.webp'),
-    ('thriller', 'Thriller.webp'),
-    ('western', 'Western.webp');
+    ('action', 'Action.webp', 'Описание к action', 'Экшен'),
+    ('adventure', 'Adventure.webp', 'Описание к adventure', 'Приключения'),
+    ('anime', 'Anime.webp', 'Описание к anime', 'Аниме'),
+    ('authors', 'Authors.webp', 'Описание к authors', 'Авторской'),
+    ('biography', 'Biography.webp', 'Описание к biography', 'Биография'),
+    ('cartoons', 'Cartoons.webp', 'Описание к cartoons', 'Мультфилмы'),
+    ('comedy', 'Comedy.webp', 'Описание к comedy', 'Комедия'),
+    ('criminal', 'Criminal.webp', 'Описание к criminal', 'Криминал'),
+    ('detective', 'Detective.webp', 'Описание к detective', 'Деткктив'),
+    ('documental', 'Documental.webp', 'Описание к documental', 'Документальное'),
+    ('drama', 'Drama.webp', 'Описание к drama', 'Драма'),
+    ('family', 'Family.webp', 'Описание к family', 'Для всей семьи'),
+    ('fantasy', 'Fantasy.webp', 'Описание к fantasy', 'Фантастика'),
+    ('historical', 'Historical.webp', 'Описание к historical', 'Историческое'),
+    ('horror', 'Horror.webp', 'Описание к horror', 'Хоррор'),
+    ('melodrama', 'Melodrama.webp', 'Описание к melodrama', 'Мелодрама'),
+    ('musical', 'Musical.webp', 'Описание к musical', 'Мюзикл'),
+    ('mystic', 'Mystic.webp', 'Описание к mystic', 'Мистика'),
+    ('romantic', 'Romantic.webp', 'Описание к romantic', 'Романтика'),
+    ('short', 'Short.webp', 'Описание к short', 'Короткометражное кино'),
+    ('sport', 'Sport.webp', 'Описание к sport', 'Кино про спорт'),
+    ('thriller', 'Thriller.webp', 'Описание к thriller', 'Триллер'),
+    ('western', 'Western.webp', 'Описание к western', 'Вестерн');
 
 INSERT INTO
     movies_genres (movie_id, genre)

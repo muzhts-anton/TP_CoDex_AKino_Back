@@ -9,20 +9,20 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func (handler *GenresHandler) GetMovies(w http.ResponseWriter, r *http.Request) {
+func (handler *GenresHandler) GetGenre(w http.ResponseWriter, r *http.Request) {
 	genre := mux.Vars(r)["genre"]
 	if genre == "" {
 		http.Error(w, domain.Err.ErrObj.ParseId.Error(), http.StatusBadRequest)
 		return
 	}
 
-	movs, err := handler.GenresUsecase.GetMovies(genre)
+	genreWithMovies, err := handler.GenresUsecase.GetGenre(genre)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	out, err := json.Marshal(movs)
+	out, err := json.Marshal(genreWithMovies)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return

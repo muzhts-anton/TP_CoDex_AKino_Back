@@ -18,20 +18,22 @@ func InitGenRep(manager *database.DBManager) domain.GenresRepository {
 	}
 }
 
-func (cr *dbGenresRepository) GetMovies(genre string) ([]domain.MovieBasic, error) {
-	resp, err := cr.dbm.Query(queryGetMovies, genre, config.ProdConfigStore.Genres)
+func (cr *dbGenresRepository) GetGenre(genre string) (domain.GenreWithMovies, error) {
+	resp, err := cr.dbm.Query(queryGetGenreWithMovies, genre, config.ProdConfigStore.Genres)
 	if err != nil {
-		log.Warn("{GetMovies} in query: " + queryGetMovies)
+		log.Warn("{GetMovies} in query: " + queryGetGenreWithMovies)
 		log.Error(err)
-		return []domain.MovieBasic{}, domain.Err.ErrObj.InternalServer
+		return domain.GenreWithMovies{}, domain.Err.ErrObj.InternalServer
 	}
 	if len(resp) == 0 {
-		return []domain.MovieBasic{}, domain.Err.ErrObj.BadGenre
+		return domain.GenreWithMovies{}, domain.Err.ErrObj.BadGenre
 	}
 
-	movies := make([]domain.MovieBasic, 0)
+	var genreWithMovies domain.GenreWithMovies
+	genreWithMovies.Description = cast.ToString(resp[0][6]) 
+	genreWithMovies.Title = cast.ToString(resp[0][7]) 
 	for i := range resp {
-		movies = append(movies, domain.MovieBasic{
+		genreWithMovies.MovieList = append(genreWithMovies.MovieList, domain.MovieBasic{
 			Id:          cast.IntToStr(cast.ToUint64(resp[i][0])),
 			Poster:      cast.ToString(resp[i][1]),
 			Title:       cast.ToString(resp[i][2]),
@@ -41,7 +43,7 @@ func (cr *dbGenresRepository) GetMovies(genre string) ([]domain.MovieBasic, erro
 		})
 	}
 
-	return movies, nil
+	return genreWithMovies, nil
 }
 
 func (cr *dbGenresRepository) GetGenres() ([]domain.Genre, error) {

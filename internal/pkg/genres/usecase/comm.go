@@ -16,14 +16,14 @@ func InitGenUsc(gr domain.GenresRepository) domain.GenresUsecase {
 	}
 }
 
-func (gu genresUsecase) GetMovies(genre string) ([]domain.MovieBasic, error) {
+func (gu genresUsecase) GetGenre(genre string) (domain.GenreWithMovies, error) {
 	if len(strings.Trim(genre, " ")) > 50 {
-		return []domain.MovieBasic{}, domain.Err.ErrObj.BadInput // 'cause genre is VARCHAR(50) in db abyway
+		return domain.GenreWithMovies{}, domain.Err.ErrObj.BadInput // 'cause genre is VARCHAR(50) in db abyway
 	}
 
-	movs, err := gu.genresRepo.GetMovies(strings.Trim(genre, " "))
+	movs, err := gu.genresRepo.GetGenre(strings.Trim(genre, " "))
 	if err != nil {
-		return []domain.MovieBasic{}, err
+		return domain.GenreWithMovies{}, err
 	}
 
 	return movs, err
