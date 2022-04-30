@@ -42,6 +42,12 @@ func ToTime(src []byte) time.Time {
 	return tmp.Time
 }
 
+func ToDate(src []byte) time.Time {
+	tmp := pgtype.Timestamp{}
+	tmp.DecodeBinary(nil, src)
+	return tmp.Time
+}
+
 func ToBool(src []byte) bool {
 	tmp := pgtype.Bool{}
 	tmp.DecodeBinary(nil, src)

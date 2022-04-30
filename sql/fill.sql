@@ -360,3 +360,40 @@ VALUES
     (5, 'Fantasy'),
     (6, 'Horror'),
     (7, 'Fantasy');
+
+INSERT INTO
+    announced (poster, title, titleoriginal, info, description, trailer, releasedate, country, director)
+VALUES
+    (
+        'doctorStrange.webp',
+        'Доктор Стрэндж: В мультивселенной безумия',
+        'Doctor Strange in the Multiverse of Madness',
+        'Продолжение магических приключений Доктора Стрэнджа.',
+        'Предстоящий американский супергеройский фильм, основанный на комиксах Marvel о Докторе Стрэндже, созданный Marvel Studios и распространяемый Walt Disney Studios Motion Pictures. Продолжение фильма «Доктор Стрэндж» (2016) и 28-я по счёту картина в медиафраншизе «Кинематографическая вселенная Marvel» (КВM).',
+        'https://www.youtube.com/watch?v=aWzlQ2N6qqg',
+        '2022-05-05',
+        'США',
+        'Сэм Рэйми'
+    ),
+    (
+        'Thor4.webp',
+        'Тор: Любовь и гром',
+        'Thor: Love and Thunder',
+        'Джейн Фостер берет на себя обязанности Бога-громовержца.',
+        'Предстоящий американский супергеройский фильм, основанный на комиксах Marvel о Торе, созданный Marvel Studios и распространяемый Walt Disney Studios Motion Pictures. Прямое продолжение фильма «Тор: Рагнарёк» (2017) и 29-я по счёту картина в кинематографической вселенной Marvel (КВМ).',
+        'https://www.youtube.com/watch?v=tgB1wUcmbbw',
+        '2022-07-08 19:10:25-07',
+        'США',
+        'Тайка Вайтити'
+    ),
+    (
+        'Guardians.webp',
+        'Стражи Галактики. Часть 3',
+        'Guardians of the Galaxy Vol. 3',
+        'Третья часть приключений команды, защищающей галактику',
+        'Предстоящий американский супергеройский фильм, основанный на комиксах Marvel о приключениях команды супергероев Стражей Галактики. Производством занимается Marvel Studios, а распространением — Walt Disney Studios Motion Pictures.',
+        '-',
+        '2023-05-04 19:10:25-07',
+        'США',
+        'Джеймс Ганн'
+    );

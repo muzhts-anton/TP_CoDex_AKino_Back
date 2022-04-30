@@ -18,7 +18,6 @@ type AnnouncedBasic struct {
 	Id          string `json:"ID"`
 	Poster      string `json:"poster"`
 	Title       string `json:"title"`
-	Releasedate string `json:"releasedate"`
 	Info        string `json:"info"`
 	Description string `json:"description"`
 }

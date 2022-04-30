@@ -123,7 +123,7 @@ func (cr *dbSearchRepository) SearchAnnounced(tag string) (domain.SearchAnnounce
 			Id:          cast.IntToStr(cast.ToUint64(resp[i][0])),
 			Poster:      cast.ToString(resp[i][1]),
 			Title:       cast.ToString(resp[i][2]),
-			Releasedate: cast.TimeToStr(cast.ToTime(resp[i][3]), false),
+			// Releasedate: cast.TimeToStr(cast.ToTime(resp[i][3]), false),
 			Info:        cast.ToString(resp[i][4]),
 			Description: cast.ToString(resp[i][5]),
 		})

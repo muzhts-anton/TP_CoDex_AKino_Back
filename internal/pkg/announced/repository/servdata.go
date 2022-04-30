@@ -34,8 +34,8 @@ func (cr *dbAnnouncedRepository) GetMovies() ([]domain.AnnouncedBasic, error) {
 			Id:          cast.IntToStr(cast.ToUint64(resp[i][0])),
 			Poster:      cast.ToString(resp[i][1]),
 			Title:       cast.ToString(resp[i][2]),
-			Releasedate: cast.TimeToStr(cast.ToTime(resp[i][3]), false),
-			Info:        cast.ToString(resp[i][4]),
+			// Releasedate: cast.TimeToStr(cast.ToTime(resp[i][3]), false),
+			Info:        "Дата премьеры: " + cast.TimeToStr(cast.ToTime(resp[i][3]), false) + ". Осталось " +  cast.ToString(resp[i][4]) + " дня.",
 			Description: cast.ToString(resp[i][5]),
 		})
 	}
