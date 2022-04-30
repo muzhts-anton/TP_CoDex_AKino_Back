@@ -315,51 +315,51 @@ VALUES
 INSERT INTO
     genres (genre, imgsrc)
 VALUES
-    ('Anime', 'Anime.webp'),
-    ('Action', 'Action.webp'),
-    ('Comedy', 'Comedy.webp'),
-    ('Drama', 'Drama.webp'),
-    ('Fantasy', 'Fantasy.webp'),
-    ('Horror', 'Horror.webp'),
-    ('Mystery', 'Mystery.webp'),
-    ('Romance', 'Romance.webp'),
-    ('Thriller', 'Thriller.webp');
+    ('anime', 'Anime.webp'),
+    ('action', 'Action.webp'),
+    ('comedy', 'Comedy.webp'),
+    ('drama', 'Drama.webp'),
+    ('fantasy', 'Fantasy.webp'),
+    ('horror', 'Horror.webp'),
+    ('mystery', 'Mystery.webp'),
+    ('romance', 'Romance.webp'),
+    ('thriller', 'Thriller.webp');
 
 INSERT INTO
     movies_genres (movie_id, genre)
 VALUES
-    (1, 'Anime'),
-    (1, 'Action'),
-    (1, 'Mystery'),
-    (2, 'Anime'),
-    (2, 'Drama'),
-    (2, 'Horror'),
-    (2, 'Thriller'),
-    (3, 'Comedy'),
-    (4, 'Action'),
-    (4, 'Romance'),
-    (4, 'Thriller'),
-    (5, 'Anime'),
-    (5, 'Fantasy'),
-    (5, 'Horror');
+    (1, 'anime'),
+    (1, 'action'),
+    (1, 'mystery'),
+    (2, 'anime'),
+    (2, 'drama'),
+    (2, 'horror'),
+    (2, 'thriller'),
+    (3, 'comedy'),
+    (4, 'action'),
+    (4, 'romance'),
+    (4, 'thriller'),
+    (5, 'anime'),
+    (5, 'fantasy'),
+    (5, 'horror');
 
 INSERT INTO
     actors_genres (actor_id, genre)
 VALUES
-    (1, 'Anime'),
-    (1, 'Action'),
-    (1, 'Mystery'),
-    (2, 'Anime'),
-    (2, 'Action'),
-    (2, 'Horror'),
-    (3, 'Comedy'),
-    (4, 'Action'),
-    (4, 'Romance'),
-    (4, 'Thriller'),
-    (5, 'Anime'),
-    (5, 'Fantasy'),
-    (6, 'Horror'),
-    (7, 'Fantasy');
+    (1, 'anime'),
+    (1, 'action'),
+    (1, 'mystery'),
+    (2, 'anime'),
+    (2, 'action'),
+    (2, 'horror'),
+    (3, 'comedy'),
+    (4, 'action'),
+    (4, 'romance'),
+    (4, 'thriller'),
+    (5, 'anime'),
+    (5, 'fantasy'),
+    (6, 'horror'),
+    (7, 'fantasy');
 
 INSERT INTO
     announced (poster, title, titleoriginal, info, description, trailer, releasedate, country, director)
