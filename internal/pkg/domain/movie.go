@@ -18,7 +18,7 @@ type Movie struct {
 	Gross         string  `json:"gross"`
 	Duration      string  `json:"duration"`
 	Actors        []Cast  `json:"cast"`
-	Genres        []Genre `json:"genres"`
+	Genres        []GenreInMovie `json:"genres"`
 }
 
 type Cast struct {

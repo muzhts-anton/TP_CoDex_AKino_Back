@@ -19,7 +19,7 @@ const (
 	`
 
 	queryGetMovieGenres = `
-	SELECT genres.genre, genres.imgsrc
+	SELECT genres.genre, genres.title
 	FROM genres
 	JOIN movies_genres ON genres.genre = movies_genres.genre
 	WHERE movies_genres.movie_id = $1

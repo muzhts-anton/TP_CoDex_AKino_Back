@@ -5,6 +5,11 @@ type Genre struct{
 	Imgsrc      string `json:"imgsrc"`
 }
 
+type GenreInMovie struct{
+	Href        string `json:"href"`
+	Title       string `json:"title"`
+}
+
 type GenreWithMovies struct{
 	Href        string       `json:"href"`
 	Imgsrc      string       `json:"imgsrc"`

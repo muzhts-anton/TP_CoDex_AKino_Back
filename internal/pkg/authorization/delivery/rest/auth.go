@@ -11,6 +11,14 @@ import (
 	"net/http"
 	"strconv"
 )
+type User struct {
+    Id             uint64 `json:"ID"`
+    Username       string `json:"username"`
+    Password       string `json:"password,omitempty"`
+    Email          string `json:"email"`
+    Imgsrc         string `json:"imgsrc"`
+    RepeatPassword string `json:"repeatpassword,omitempty"`
+}
 
 func (handler *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
