@@ -1,23 +1,24 @@
 package domain
 
 type Movie struct {
-	Id            string `json:"ID"`
-	Poster        string `json:"poster"`
-	Title         string `json:"title"`
-	TitleOriginal string `json:"originalTitle"`
-	Rating        string `json:"rating"`
-	VotesNum      uint64 `json:"-"`
-	Info          string `json:"info"`
-	Description   string `json:"description"`
-	Trailer       string `json:"trailerHref"`
-	ReleaseYear   string `json:"year"`
-	Country       string `json:"country"`
-	Motto         string `json:"motto"`
-	Director      string `json:"director"`
-	Budget        string `json:"budget"`
-	Gross         string `json:"gross"`
-	Duration      string `json:"duration"`
-	Actors        []Cast `json:"cast"`
+	Id            string  `json:"ID"`
+	Poster        string  `json:"poster"`
+	Title         string  `json:"title"`
+	TitleOriginal string  `json:"originalTitle"`
+	Rating        string  `json:"rating"`
+	VotesNum      uint64  `json:"-"`
+	Info          string  `json:"info"`
+	Description   string  `json:"description"`
+	Trailer       string  `json:"trailerHref"`
+	ReleaseYear   string  `json:"year"`
+	Country       string  `json:"country"`
+	Motto         string  `json:"motto"`
+	Director      string  `json:"director"`
+	Budget        string  `json:"budget"`
+	Gross         string  `json:"gross"`
+	Duration      string  `json:"duration"`
+	Actors        []Cast  `json:"cast"`
+	Genres        []Genre `json:"genres"`
 }
 
 type Cast struct {

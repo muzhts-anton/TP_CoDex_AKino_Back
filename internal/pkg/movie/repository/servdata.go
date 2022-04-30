@@ -48,6 +48,7 @@ func (mr *dbMovieRepository) GetMovie(id uint64) (domain.Movie, error) {
 		Gross:         cast.ToString(row[13]),
 		Duration:      cast.ToString(row[14]),
 		Actors:        []domain.Cast{},
+		Genres:        []domain.Genre{},
 	}
 
 	resp, err = mr.dbm.Query(queryGetMovieCast, id)
@@ -71,6 +72,30 @@ func (mr *dbMovieRepository) GetMovie(id uint64) (domain.Movie, error) {
 	}
 
 	out.Actors = actors
+
+
+
+	resp, err = mr.dbm.Query(queryGetMovieGenres, id)
+	if err != nil {
+		log.Warn("{GetMovie} in query: " + queryGetMovieGenres)
+		log.Error(err)
+		return domain.Movie{}, domain.Err.ErrObj.InternalServer
+	}
+	if len(resp) == 0 {
+		log.Warn("{GetMovie} no genres")
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return domain.Movie{}, domain.Err.ErrObj.SmallDb
+	}
+
+	genres := make([]domain.Genre, 0)
+	for i := range resp {
+		genres = append(genres, domain.Genre{
+			Href: "/geners/" + cast.ToString(resp[i][0]),
+			Imgsrc: cast.ToString(resp[i][1]),
+		})
+	}
+
+	out.Genres = genres
 
 	return out, nil
 }

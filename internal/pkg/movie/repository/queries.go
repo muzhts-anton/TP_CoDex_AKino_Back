@@ -18,6 +18,14 @@ const (
 	ORDER BY actors.id;
 	`
 
+	queryGetMovieGenres = `
+	SELECT genres.genre, genres.imgsrc
+	FROM genres
+	JOIN movies_genres ON genres.genre = movies_genres.genre
+	WHERE movies_genres.movie_id = $1
+	ORDER BY genres.genre;
+	`
+
 	queryGetRelated = `
 	SELECT movies.id, movies.poster, movies.title
 	FROM movies_movies
