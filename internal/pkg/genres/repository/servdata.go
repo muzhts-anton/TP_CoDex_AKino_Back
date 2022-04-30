@@ -55,8 +55,8 @@ func (cr *dbGenresRepository) GetGenres() ([]domain.Genre, error) {
 	genres := make([]domain.Genre, 0)
 	for i := range resp {
 		genres = append(genres, domain.Genre{
-			Href:          cast.ToString(resp[i][0]),
-			Imgsrc:        cast.ToString(resp[i][1]),
+			Href:          "/genres/" + cast.ToString(resp[i][0]),
+			Imgsrc:        "genres" + cast.ToString(resp[i][1]),
 		})
 	}
 

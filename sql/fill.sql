@@ -315,15 +315,15 @@ VALUES
 INSERT INTO
     genres (genre, imgsrc)
 VALUES
-    ('Anime', 'anime.webp'),
-    ('Action', 'action.webp'),
-    ('Comedy', 'comedy.webp'),
-    ('Drama', 'drama.webp'),
-    ('Fantasy', 'fantasy.webp'),
-    ('Horror', 'horror.webp'),
-    ('Mystery', 'mystery.webp'),
-    ('Romance', 'romance.webp'),
-    ('Thriller', 'thriller.webp');
+    ('Anime', 'Anime.webp'),
+    ('Action', 'Action.webp'),
+    ('Comedy', 'Comedy.webp'),
+    ('Drama', 'Drama.webp'),
+    ('Fantasy', 'Fantasy.webp'),
+    ('Horror', 'Horror.webp'),
+    ('Mystery', 'Mystery.webp'),
+    ('Romance', 'Romance.webp'),
+    ('Thriller', 'Thriller.webp');
 
 INSERT INTO
     movies_genres (movie_id, genre)

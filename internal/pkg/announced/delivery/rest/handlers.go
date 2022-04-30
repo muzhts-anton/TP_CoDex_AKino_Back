@@ -16,4 +16,5 @@ func SetAnnHandlers(router *mux.Router, au domain.AnnouncedUsecase) {
 	}
 
 	router.HandleFunc(getMoviesUrl, handler.GetMovies).Methods("GET", "OPTIONS")
+	// router.HandleFunc(getMovieUrl, handler.GetMovie).Methods("GET", "OPTIONS")
 }
