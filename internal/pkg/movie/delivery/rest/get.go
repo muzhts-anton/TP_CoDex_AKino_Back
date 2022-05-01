@@ -38,12 +38,12 @@ func (handler *MovieHandler) GetMovie(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var rexiewExist, userRating string
-	// var collectionsInfo []domain.CollectionInfo
-	collectionsInfo := []domain.CollectionInfo{}
+	var collectionsInfo []domain.CollectionInfo
 	userId, err := sessions.CheckSession(r)
 	if err == domain.Err.ErrObj.UserNotLoggedIn {
 		rexiewExist = ""
 		userRating = ""
+		collectionsInfo = []domain.CollectionInfo{}
 	} else if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
