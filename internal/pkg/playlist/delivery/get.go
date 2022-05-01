@@ -40,7 +40,7 @@ func (handler *PlaylistHandler) CreatePlaylist(w http.ResponseWriter, r *http.Re
 
 func (handler *PlaylistHandler) AddMovie(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	addPlaylistInfo := new(domain.AddToPlaylist)
+	addPlaylistInfo := new(domain.MovieInPlaylist)
 	err := json.NewDecoder(r.Body).Decode(&addPlaylistInfo)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
@@ -57,14 +57,14 @@ func (handler *PlaylistHandler) AddMovie(w http.ResponseWriter, r *http.Request)
 
 func (handler *PlaylistHandler) DeleteMovie(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	deleteMovieInfo := new(domain.DeleteMovieInfo)
-	err := json.NewDecoder(r.Body).Decode(&deleteMovieInfo)
+	MovieInPlaylist := new(domain.MovieInPlaylist)
+	err := json.NewDecoder(r.Body).Decode(&MovieInPlaylist)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
 		return
 	}
 
-	err = handler.PlaylistUsecase.DeleteMovie(*deleteMovieInfo)
+	err = handler.PlaylistUsecase.DeleteMovie(*MovieInPlaylist)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

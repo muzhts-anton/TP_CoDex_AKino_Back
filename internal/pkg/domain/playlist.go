@@ -24,8 +24,8 @@ type PlaylistResponse struct {
 	Title string `json:"title"`
 }
 
-type AddToPlaylist struct {
-	UserId     uint64 `json:"userId"`
+type MovieInPlaylist struct {
+	// UserId     uint64 `json:"userId"`
 	MovieId    uint64 `json:"movieId"`
 	PlaylistId uint64 `json:"bookmarkId"`
 }
@@ -38,10 +38,10 @@ type Playlist struct {
 	Public      bool   `json:"public"`
 }
 
-type DeleteMovieInfo struct {
-	MovieId    uint64 `json:"movieId"`
-	PlaylistId uint64 `json:"bookmarkId"`
-}
+// type DeleteMovieInfo struct {
+// 	MovieId    uint64 `json:"movieId"`
+// 	PlaylistId uint64 `json:"bookmarkId"`
+// }
 
 type DeletePlaylistInfo struct {
 	PlaylistId uint64 `json:"bookmarkId"`
@@ -49,15 +49,15 @@ type DeletePlaylistInfo struct {
 
 type Plarepository interface {
 	CreatePlaylist(playlist PlaylistRequest) (PlaylistResponse, error)
-	AddMovie(addMovieInfo AddToPlaylist) error
-	DeleteMovie(movieDeleteInfo DeleteMovieInfo) error
+	AddMovie(addMovieInfo MovieInPlaylist) error
+	DeleteMovie(movieDeleteInfo MovieInPlaylist) error
 	DeletePlaylist(deletePlaylistInfo DeletePlaylistInfo) error
 	PlaylistAlreadyExist(playlist PlaylistRequest) (bool, error)
 }
 
 type PlaylistUsecase interface {
 	CreatePlaylist(playlist PlaylistRequest) (PlaylistResponse, error)
-	AddMovie(addMovieInfo AddToPlaylist) error
-	DeleteMovie(deleteMovieInfo DeleteMovieInfo) error
+	AddMovie(addMovieInfo MovieInPlaylist) error
+	DeleteMovie(MovieInPlaylist MovieInPlaylist) error
 	DeletePlaylist(deletePlaylistInfo DeletePlaylistInfo) error
 }

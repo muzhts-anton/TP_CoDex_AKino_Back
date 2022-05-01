@@ -43,7 +43,7 @@ func (pu playlistUsecase) CreatePlaylist(playlistData domain.PlaylistRequest) (d
 	return playlistResponse, nil
 }
 
-func (pu playlistUsecase) AddMovie(addMovieInfo domain.AddToPlaylist) error {
+func (pu playlistUsecase) AddMovie(addMovieInfo domain.MovieInPlaylist) error {
 	err := pu.playlistRepo.AddMovie(addMovieInfo)
 	if err != nil {
 		return err
@@ -51,8 +51,8 @@ func (pu playlistUsecase) AddMovie(addMovieInfo domain.AddToPlaylist) error {
 	return nil
 }
 
-func (pu playlistUsecase) DeleteMovie(deleteMovieInfo domain.DeleteMovieInfo) error {
-	err := pu.playlistRepo.DeleteMovie(deleteMovieInfo)
+func (pu playlistUsecase) DeleteMovie(MovieInPlaylist domain.MovieInPlaylist) error {
+	err := pu.playlistRepo.DeleteMovie(MovieInPlaylist)
 	if err != nil {
 		return err
 	}

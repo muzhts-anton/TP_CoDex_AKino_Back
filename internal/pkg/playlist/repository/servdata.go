@@ -52,7 +52,7 @@ func (pr *dbplarepository) PlaylistAlreadyExist(playlist domain.PlaylistRequest)
 	return false, nil
 }
 
-func (pr *dbplarepository) AddMovie(addMovieInfo domain.AddToPlaylist) error {
+func (pr *dbplarepository) AddMovie(addMovieInfo domain.MovieInPlaylist) error {
 	_, err := pr.dbm.Query(queryAddMovie, addMovieInfo.PlaylistId, addMovieInfo.MovieId)
 	if err != nil {
 		log.Warn("{AddMovie} in query: " + queryAddMovie)
@@ -63,8 +63,8 @@ func (pr *dbplarepository) AddMovie(addMovieInfo domain.AddToPlaylist) error {
 	return nil
 }
 
-func (pr *dbplarepository) DeleteMovie(deleteMovieInfo domain.DeleteMovieInfo) error {
-	_, err := pr.dbm.Query(queryDeleteMovie, deleteMovieInfo.PlaylistId, deleteMovieInfo.MovieId)
+func (pr *dbplarepository) DeleteMovie(MovieInPlaylist domain.MovieInPlaylist) error {
+	_, err := pr.dbm.Query(queryDeleteMovie, MovieInPlaylist.PlaylistId, MovieInPlaylist.MovieId)
 	if err != nil {
 		log.Warn("{DeleteMovie} in query: " + queryDeleteMovie)
 		log.Error(err)
