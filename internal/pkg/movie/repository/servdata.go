@@ -90,7 +90,7 @@ func (mr *dbMovieRepository) GetMovie(id uint64) (domain.Movie, error) {
 	genres := make([]domain.GenreInMovie, 0)
 	for i := range resp {
 		genres = append(genres, domain.GenreInMovie{
-			Href: "/geners/" + cast.ToString(resp[i][0]),
+			Href: "/genres/" + cast.ToString(resp[i][0]),
 			Title: cast.ToString(resp[i][1]),
 		})
 	}
