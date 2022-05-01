@@ -24,6 +24,12 @@ type AnnouncedBasic struct {
 	Description string `json:"description"`
 }
 
+type AnnouncedBasicResponse struct {
+	Title         string           `json:"title"`
+	Description   string           `json:"description"`
+	MovieList     []AnnouncedBasic `json:"movieList"`
+}
+
 type AnnouncedSummary struct {
 	Href   string `json:"href"`
 	Poster string `json:"poster"`
@@ -36,13 +42,13 @@ type AnnouncedResponse struct {
 }
 
 type AnnouncedUsecase interface {
-	GetMovies() ([]AnnouncedBasic, error)
+	GetMovies() (AnnouncedBasicResponse, error)
 	GetMovie(id uint64) (Announced, error)
 	GetRelated(id uint64) ([]AnnouncedSummary, error)
 }
 
 type AnnouncedRepository interface {
-	GetMovies() ([]AnnouncedBasic, error)
+	GetMovies() (AnnouncedBasicResponse, error)
 	GetMovie(id uint64) (Announced, error)
 	GetRelated(id uint64) ([]AnnouncedSummary, error)
 

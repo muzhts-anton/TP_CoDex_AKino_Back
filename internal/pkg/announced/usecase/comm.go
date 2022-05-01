@@ -14,10 +14,11 @@ func InitAnnUsc(ar domain.AnnouncedRepository) domain.AnnouncedUsecase {
 	}
 }
 
-func (gu announcedUsecase) GetMovies() ([]domain.AnnouncedBasic, error) {
+func (gu announcedUsecase) GetMovies() (domain.AnnouncedBasicResponse, error) {
+	var movs domain.AnnouncedBasicResponse
 	movs, err := gu.announcedRepo.GetMovies()
 	if err != nil {
-		return []domain.AnnouncedBasic{}, err
+		return domain.AnnouncedBasicResponse{}, err
 	}
 
 	return movs, err

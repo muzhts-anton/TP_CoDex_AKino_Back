@@ -7,6 +7,11 @@ import (
 	"codex/internal/pkg/utils/log"
 )
 
+const(
+	title = "ЭТО ЛУЧШТЕ ПРЕМЬЕРЫ!!!11!Ы!!"
+	description = "Понятия не имею, зачем описание в премьерах, но фронтовики хотят и ментор по интерфейсам одобрил"
+)
+
 type dbAnnouncedRepository struct {
 	dbm *database.DBManager
 }
@@ -17,15 +22,15 @@ func InitAnnRep(manager *database.DBManager) domain.AnnouncedRepository {
 	}
 }
 
-func (ar *dbAnnouncedRepository) GetMovies() ([]domain.AnnouncedBasic, error) {
+func (ar *dbAnnouncedRepository) GetMovies() (domain.AnnouncedBasicResponse, error) {
 	resp, err := ar.dbm.Query(queryGetMovies)
 	if err != nil {
 		log.Warn("{GetMovies} in query: " + queryGetMovies)
 		log.Error(err)
-		return []domain.AnnouncedBasic{}, domain.Err.ErrObj.InternalServer
+		return domain.AnnouncedBasicResponse{}, domain.Err.ErrObj.InternalServer
 	}
 	if len(resp) == 0 {
-		return []domain.AnnouncedBasic{}, domain.Err.ErrObj.SmallDb
+		return domain.AnnouncedBasicResponse{}, domain.Err.ErrObj.SmallDb
 	}
 
 	movies := make([]domain.AnnouncedBasic, 0)
@@ -38,8 +43,11 @@ func (ar *dbAnnouncedRepository) GetMovies() ([]domain.AnnouncedBasic, error) {
 			Description: cast.ToString(resp[i][5]),
 		})
 	}
-
-	return movies, nil
+	var movieResponse domain.AnnouncedBasicResponse
+	movieResponse.MovieList = movies
+	movieResponse.Title = title
+	movieResponse.Description = description
+	return movieResponse, nil
 }
 
 func (ar *dbAnnouncedRepository) GetMovie(id uint64) (domain.Announced, error) {
