@@ -52,15 +52,7 @@ func (handler *PlaylistHandler) AddMovie(w http.ResponseWriter, r *http.Request)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	// out, err := json.Marshal(us)
-	// if err != nil {
-	// 	http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
-	// 	return
-	// }
-
 	w.WriteHeader(http.StatusCreated)
-	// w.Write(out)
 }
 
 func (handler *PlaylistHandler) DeleteMovie(w http.ResponseWriter, r *http.Request) {

@@ -194,3 +194,36 @@ func (mr *dbMovieRepository) GetReviewRating(movieId, userId uint64) (string, st
 
 	return reviewExist, userRating, nil
 }
+
+func (mr *dbMovieRepository) GetCollectionsInfo( userId, movieId uint64 ) ([]domain.CollectionInfo, error) {
+	resp, err := mr.dbm.Query(queryGetPlaylists,  userId)
+	if err != nil {
+		log.Warn("{GetCollectionsInfo} in query: " + queryGetPlaylists)
+		log.Error(err)
+		return []domain.CollectionInfo{}, domain.Err.ErrObj.InternalServer
+	}
+
+	var CollectionsInfo []domain.CollectionInfo
+
+	for i := range resp {
+		CollectionInfo := domain.CollectionInfo{
+			Collection: cast.ToString(resp[i][0]),
+    		BookmarkId :  cast.ToUint64(resp[i][1]),
+		}
+
+		tmp, err := mr.dbm.Query(queryGetFilmAvailability, CollectionInfo.BookmarkId, movieId)
+		if err != nil {
+			log.Warn("{GetCollectionsInfo} in query: " + queryGetFilmAvailability)
+			log.Error(err)
+			return nil, domain.Err.ErrObj.InternalServer
+		}
+
+		if cast.ToUint64(tmp[0][0]) == 1 {
+			CollectionInfo.HasMovie = true
+		}
+
+		CollectionsInfo = append(CollectionsInfo, CollectionInfo)
+	}
+
+	return CollectionsInfo, nil
+}

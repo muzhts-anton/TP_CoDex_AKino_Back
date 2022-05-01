@@ -49,3 +49,12 @@ func (mu movieUsecase) GetReviewRating(movieId, userId uint64) (string, string, 
 
 	return reviewExist, userRating, nil
 }
+
+func (mu movieUsecase) GetCollectionsInfo (userId, movieId uint64) ([]domain.CollectionInfo, error) {
+	CollectionsInfo, err := mu.movieRepo.GetCollectionsInfo(userId, movieId)
+	if err != nil {
+		return []domain.CollectionInfo{}, err
+	}
+
+	return CollectionsInfo, nil
+}

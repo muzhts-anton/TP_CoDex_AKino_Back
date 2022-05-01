@@ -41,12 +41,19 @@ type MovieSummary struct {
 	Title  string `json:"title"`
 }
 
+type CollectionInfo struct{
+	Collection  string `json:"collection"`
+	HasMovie	bool   `json:"hasMovie"`
+	BookmarkId  uint64 `json:"bookmarkId"`
+}
+
 type MovieResponse struct {
-	Movie       Movie          `json:"movie"`
-	Related     []MovieSummary `json:"related"`
-	Comments    []Comment      `json:"reviews"`
-	ReviewExist string         `json:"reviewex"`
-	UserRating  string         `json:"userrating"`
+	Movie            Movie             `json:"movie"`
+	Related          []MovieSummary    `json:"related"`
+	Comments         []Comment         `json:"reviews"`
+	ReviewExist      string            `json:"reviewex"`
+	UserRating 		 string            `json:"userrating"`
+	CollectionsInfo  []CollectionInfo  `json:"collectionsInfo"`
 }
 
 type MovieRepository interface {
@@ -54,6 +61,7 @@ type MovieRepository interface {
 	GetRelated(id uint64) ([]MovieSummary, error)
 	GetComments(id uint64) ([]Comment, error)
 	GetReviewRating(movieId, userId uint64) (string, string, error)
+	GetCollectionsInfo(movieId, userId uint64) ([]CollectionInfo, error)
 }
 
 type MovieUsecase interface {
@@ -61,4 +69,6 @@ type MovieUsecase interface {
 	GetRelated(id uint64) ([]MovieSummary, error)
 	GetComments(id uint64) ([]Comment, error)
 	GetReviewRating(movieId, userId uint64) (string, string, error)
+	GetCollectionsInfo(movieId, userId uint64) ([]CollectionInfo, error)
+
 }

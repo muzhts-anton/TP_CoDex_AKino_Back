@@ -38,7 +38,7 @@ func (handler *MovieHandler) GetMovie(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var rexiewExist, userRating string
-
+	var collectionsInfo []domain.CollectionInfo
 	userId, err := sessions.CheckSession(r)
 	if err == domain.Err.ErrObj.UserNotLoggedIn {
 		rexiewExist = ""
@@ -52,14 +52,21 @@ func (handler *MovieHandler) GetMovie(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
+		collectionsInfo, err = handler.MovieUsecase.GetCollectionsInfo(userId, movId)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
 	}
-
+	
+	
 	out, err := json.Marshal(domain.MovieResponse{
-		Movie:       movie,
-		Related:     related,
-		Comments:    comments,
-		ReviewExist: rexiewExist,
-		UserRating:  userRating,
+		Movie:           movie,
+		Related:         related,
+		Comments:        comments,
+		ReviewExist:     rexiewExist,
+		UserRating:      userRating,
+		CollectionsInfo: collectionsInfo,
 	})
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)

@@ -68,3 +68,18 @@ const (
 	WHERE user_id = $1 AND movie_id = $2;
 	`
 )
+
+const (
+	queryGetPlaylists = `
+	SELECT title, id
+	FROM playlists
+	JOIN users_playlists ON playlists.id = users_playlists.playlist_id
+	WHERE users_playlists.user_id = $1;
+	`
+
+	queryGetFilmAvailability = `
+	SELECT COUNT(*)
+	FROM playlists_movies
+	WHERE playlists_movies.playlist_id = $1 and playlists_movies.movie_id = $2;
+	`
+)
