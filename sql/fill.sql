@@ -168,13 +168,16 @@ VALUES
     (1, 2),
     (2, 3),
     (2, 4),
-    (2, 5);
+    (2, 5),
+    (13, 1),
+    (13, 2),
+    (14, 1);
 
 INSERT INTO
     users_playlists (user_id, playlist_id)
 VALUES
-    (1, 13),
-    (1, 14);
+    (2, 13),
+    (2, 14);
 
 INSERT INTO
     actors (
