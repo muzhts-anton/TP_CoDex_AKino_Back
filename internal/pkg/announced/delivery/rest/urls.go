@@ -1,6 +1,6 @@
 package anndelivery
 
 const (
-	getMoviesUrl = "/announced"
-	getMovieUrl = "/announced/{id:[0-9]+}"
+	getMoviesUrl = "/premiers"
+	getMovieUrl = "/premiers/{id:[0-9]+}"
 )
