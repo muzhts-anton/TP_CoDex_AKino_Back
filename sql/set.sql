@@ -17,6 +17,8 @@ DROP TABLE IF EXISTS movies_genres      CASCADE;
 DROP TABLE IF EXISTS actors_genres      CASCADE;
 DROP TABLE IF EXISTS announced_genres   CASCADE;
 DROP TABLE IF EXISTS actors_movies      CASCADE;
+DROP TABLE IF EXISTS announced_actors   CASCADE;
+DROP TABLE IF EXISTS announced_announced   CASCADE;
 
 CREATE TABLE users (
     id                                  BIGSERIAL NOT NULL PRIMARY KEY,
@@ -153,4 +155,16 @@ CREATE TABLE announced_genres (
     announced_id                        BIGINT REFERENCES announced (id),
     genre                               VARCHAR(50) REFERENCES genres (genre),
     CONSTRAINT announced_genres_id      PRIMARY KEY (announced_id, genre)
+);
+
+CREATE TABLE announced_actors (
+    announced_id                        BIGINT REFERENCES announced (id),
+    actor_id                            BIGINT REFERENCES actors (id),
+    CONSTRAINT announced_actors_id      PRIMARY KEY (announced_id, actor_id)
+);
+
+CREATE TABLE announced_announced (
+    announced_id                        BIGINT REFERENCES movies (id),
+    relation_id                         BIGINT REFERENCES movies (id),
+    CONSTRAINT announced_announced_id   PRIMARY KEY (announced_id, relation_id)
 );

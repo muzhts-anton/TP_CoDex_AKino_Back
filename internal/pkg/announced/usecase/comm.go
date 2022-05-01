@@ -22,3 +22,21 @@ func (gu announcedUsecase) GetMovies() ([]domain.AnnouncedBasic, error) {
 
 	return movs, err
 }
+
+func (gu announcedUsecase) GetMovie(id uint64) (domain.Announced, error) {
+	announced, err := gu.announcedRepo.GetMovie(id)
+	if err != nil {
+		return domain.Announced{}, err
+	}
+
+	return announced, err
+}
+
+func (gu announcedUsecase) GetRelated(id uint64) ([]domain.AnnouncedSummary, error) {
+	related, err := gu.announcedRepo.GetRelated(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return related, err
+}

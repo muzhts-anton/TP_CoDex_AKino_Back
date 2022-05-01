@@ -257,6 +257,46 @@ VALUES
         '1939-05-25',
         'Бернли, Ланкашир, Англия, Великобритания',
         295
+    ),
+    (
+        'benedictCumberbatch.webp',
+        'Бенедикт Камбербэтч',
+        'Benedict Cumberbatch',
+        'Актер, Продюсер',
+        '183 см',
+        '1976-07-19',
+        'Лондон, Англия, Великобритания',
+        184
+    ),
+    (
+        'сhrisHemsworth.webp',
+        'Крис Хемсворт',
+        'Chris Hemsworth',
+        'Актер, Продюсер',
+        '190 см',
+        '1983-08-11',
+        'Мельбурн, Виктория, Австралия',
+        125
+    ),
+    (
+        'сhrisPratt.webp',
+        'Крис Пратт',
+        'Chris Pratt',
+        'Актер, Продюсер',
+        '188 см',
+        '1979-06-21',
+        'Вирджиния, Миннесота, США',
+        155
+    ),
+    (
+        'elizabethOlsen.webp',
+        'Элизабет Олсен',
+        'Elizabeth Olsen',
+        'Актер, Продюсер',
+        '168 см',
+        '1989-02-16',
+        'Шерман Оукс, Калифорния, США',
+        77
     );
 
 INSERT INTO
@@ -411,3 +451,36 @@ VALUES
         'США',
         'Джеймс Ганн'
     );
+
+INSERT INTO
+    announced_actors (actor_id, announced_id)
+VALUES
+    (8, 1),
+    (11, 1),
+    (9, 2),
+    (10, 3);
+
+INSERT INTO
+    announced_genres (announced_id, genre)
+VALUES
+    (1, 'fantasy'),
+    (1, 'action'),
+    (1, 'horror'),
+    (1, 'adventure'),
+    (2, 'adventure'),
+    (2, 'fantasy'),
+    (2, 'action'),
+    (2, 'comedy'),
+    (3, 'adventure'),
+    (3, 'fantasy'),
+    (3, 'action'),
+    (3, 'comedy');
+
+INSERT INTO
+    announced_announced (announced_id, relation_id)
+VALUES
+    (1, 2),
+    (1, 3),
+    (2, 3),
+    (3, 1),
+    (3, 2);
