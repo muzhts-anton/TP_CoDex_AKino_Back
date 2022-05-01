@@ -27,7 +27,7 @@ type AnnouncedBasic struct {
 type AnnouncedBasicResponse struct {
 	Title         string           `json:"title"`
 	Description   string           `json:"description"`
-	MovieList     []AnnouncedBasic `json:"movieList"`
+	MovieList     []AnnouncedBasic `json:"movielist"`
 }
 
 type AnnouncedSummary struct {
