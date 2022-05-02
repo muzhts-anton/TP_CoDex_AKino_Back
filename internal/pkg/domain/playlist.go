@@ -8,7 +8,7 @@ const (
 
 type PlaylistRequest struct {
 	Title  string `json:"title"`
-	UserId uint64 `json:"userId"`
+	UserId string `json:"userId"`
 	Public bool   `json:"public"`
 }
 
@@ -25,26 +25,21 @@ type PlaylistResponse struct {
 }
 
 type MovieInPlaylist struct {
-	// UserId     uint64 `json:"userId"`
-	MovieId    uint64 `json:"movieId"`
-	PlaylistId uint64 `json:"bookmarkId"`
+	MovieId    string `json:"movieId"`
+	PlaylistId string `json:"bookmarkId"`
 }
 
 type Playlist struct {
-	Id          uint64 `json:"ID"`
+	Id          string `json:"ID"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Poster      string `json:"poster"`
 	Public      bool   `json:"public"`
 }
 
-// type DeleteMovieInfo struct {
-// 	MovieId    uint64 `json:"movieId"`
-// 	PlaylistId uint64 `json:"bookmarkId"`
-// }
 
 type DeletePlaylistInfo struct {
-	PlaylistId uint64 `json:"bookmarkId"`
+	PlaylistId string `json:"bookmarkId"`
 }
 
 type Plarepository interface {
