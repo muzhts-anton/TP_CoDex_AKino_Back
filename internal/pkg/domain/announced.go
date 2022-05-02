@@ -37,7 +37,7 @@ type AnnouncedSummary struct {
 }
 
 type AnnouncedResponse struct {
-	Announced   Announced          `json:"Announced"`
+	Announced   Announced          `json:"movie"`
 	Related     []AnnouncedSummary `json:"related"`
 }
 
