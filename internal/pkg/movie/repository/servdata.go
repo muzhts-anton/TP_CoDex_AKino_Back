@@ -140,7 +140,7 @@ func (mr *dbMovieRepository) GetComments(id uint64) ([]domain.Comment, error) {
 			Imgsrc:   cast.ToString(resp[i][0]),
 			Username: cast.ToString(resp[i][1]),
 			UserId:   cast.IntToStr(cast.ToUint64(resp[i][2])),
-			Date:     cast.ToString(resp[i][3]),
+			Date:     cast.TimeToStr(cast.ToTime(resp[i][3]), false),
 			Content:  cast.ToString(resp[i][4]),
 			Type:     cast.ToString(resp[i][5]),
 			Rating:   "",
