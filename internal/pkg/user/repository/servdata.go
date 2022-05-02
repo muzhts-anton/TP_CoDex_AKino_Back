@@ -133,7 +133,7 @@ func (ur *dbUserRepository) GetUserReviews(id uint64) ([]domain.UserReview, erro
 
 				Rating: "",
 
-				Date:         cast.ToString(resp[i][1]),
+				Date:         cast.TimeToStr(cast.ToTime(resp[i][1]), true),
 				FeedbackType: "",
 				MovieTitle:   cast.ToString(resp[i][3]),
 			}
