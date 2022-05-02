@@ -20,6 +20,22 @@ const (
 		($1, $2, $3)
 	RETURNING id;
 	`
+	queryAddBasicPlaylists = `
+    INSERT INTO
+        playlists (title)
+    VALUES
+        ('Избранное'),
+		('Мне нравится')
+    RETURNING id;
+	`
+	
+	queryBindBasicPlaylists = `
+	INSERT INTO
+    	users_playlists (user_id, playlist_id)
+	VALUES
+    	($1, $2),
+    	($1, $3);
+	`
 
 	queryUpdateUser = `
 	UPDATE users

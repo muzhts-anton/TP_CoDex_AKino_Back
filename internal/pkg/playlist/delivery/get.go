@@ -2,13 +2,10 @@ package pladelivery
 
 import (
 	"codex/internal/pkg/domain"
-	// "codex/internal/pkg/sessions"
 
 	"codex/internal/pkg/utils/sanitizer"
 	"encoding/json"
 	"net/http"
-	// "strconv"
-	// "github.com/gorilla/mux"
 )
 
 func (handler *PlaylistHandler) CreatePlaylist(w http.ResponseWriter, r *http.Request) {

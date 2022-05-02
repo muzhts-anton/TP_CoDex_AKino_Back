@@ -85,6 +85,22 @@ func (ur *dbAuthRepository) AddUser(us domain.User) (uint64, error) {
 		log.Error(err)
 		return 0, err
 	}
+	userId := cast.ToUint64(resp[0][0])
 
-	return cast.ToUint64(resp[0][0]), nil
+	resp, err = ur.dbm.Query(queryAddBasicPlaylists)
+	if err != nil {
+		log.Warn("{AddUser} in query: " + queryAddBasicPlaylists)
+		log.Error(err)
+		return 0, err
+	}
+	firstBasicPlaylistId := cast.ToUint64(resp[0][0])
+	secondBasicPlaylistId := cast.ToUint64(resp[1][0])
+	_, err = ur.dbm.Query(queryBindBasicPlaylists, userId, firstBasicPlaylistId, secondBasicPlaylistId)
+	if err != nil {
+		log.Warn("{AddUser} in query: " + queryBindBasicPlaylists)
+		log.Error(err)
+		return 0, err
+	}
+
+	return userId, nil
 }

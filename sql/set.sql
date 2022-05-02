@@ -28,6 +28,21 @@ CREATE TABLE users (
     imgsrc                              VARCHAR(50) DEFAULT '/profile.svg'
 );
 
+-- CREATE TRIGGER t_playlists_user
+-- AFTER INSERT OR UPDATE OR DELETE ON users FOR EACH ROW EXECUTE PROCEDURE add_to_playlists ();
+
+-- CREATE OR REPLACE FUNCTION add_to_playlists(user_id BIGINT) RETURNS TRIGGER AS $$
+-- BEGIN
+--     INSERT INTO
+--         playlists (title)
+--     VALUES
+--         ('Избранное')
+--     RETURNING id;
+
+--         -- ('Мне нравится');
+-- END;
+-- $$ LANGUAGE plpgsql;
+
 CREATE TABLE playlists (
     id                                  BIGSERIAL NOT NULL PRIMARY KEY,
     title                               VARCHAR(50) NOT NULL,
