@@ -5,9 +5,9 @@ package Rtng;
 option go_package = "./internal/pkg/rating/delivery/grpc/";
 
 message Data {
-  uint64 MovieId = 1;
-  uint64 UserId = 2;
-  int32 Rating = 3;
+  uint64 movieId = 1;
+  uint64 userId = 2;
+  int32 rating = 3;
 }
 
 message NewRating { double Rating = 1; }

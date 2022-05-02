@@ -5,20 +5,20 @@ package Comm;
 option go_package = "./internal/pkg/comment/delivery/grpc/";
 
 message Comment {
-  string Imgsrc = 1;
-  string Username = 2;
-  string UserId = 3;
-  string Rating = 4;
-  string Date = 5;
-  string Content = 6;
-  string Type = 7;
+  string imgsrc = 1;
+  string username = 2;
+  string userId = 3;
+  string rating = 4;
+  string date = 5;
+  string content = 6;
+  string type = 7;
 }
 
 message Data {
-  uint64 MovieId = 1;
-  uint64 UserId = 2;
-  string Content = 3;
-  int32 CommentType = 4;
+  uint64 movieId = 1;
+  uint64 userId = 2;
+  string content = 3;
+  int32 commentType = 4;
 }
 
 service Poster { rpc PostComment(Data) returns (Comment); }

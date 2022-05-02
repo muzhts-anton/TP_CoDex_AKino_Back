@@ -10,15 +10,15 @@ service Auther {
 }
 
 message User {
-  uint64 Id = 1;
-  string Username = 2;
-  string Email = 3;
-  string Password = 4;
-  string Imgsrc = 5;
-  string RepeatPassword = 6;
+  uint64 id = 1;
+  string username = 2;
+  string email = 3;
+  string password = 4;
+  string imgsrc = 5;
+  string repeatPassword = 6;
 }
 
 message UserBasic {
-  string Email = 1;
-  string Password = 2;
+  string email = 1;
+  string password = 2;
 }
