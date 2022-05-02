@@ -1,7 +1,7 @@
 package domain
 
 const (
-	BasePlaylistPicture = "/static/avatars/profile.svg"
+	BasePlaylistPicture = "/profile.svg"
 	minTitleLength      = 4
 	maxTitleLength      = 50
 )

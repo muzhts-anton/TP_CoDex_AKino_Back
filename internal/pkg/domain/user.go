@@ -1,6 +1,6 @@
 package domain
 
-const BaseUserPicture = "/profile.svg"
+const BaseUserPicture = "/static/avatars/profile.svg"
 
 type User struct {
 	Id             uint64 `json:"ID"`
