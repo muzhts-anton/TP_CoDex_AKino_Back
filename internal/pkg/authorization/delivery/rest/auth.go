@@ -32,7 +32,7 @@ func (handler *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	sanitizer.SanitizeUser(userForm)
 
 	us, err := handler.AuthClient.Register(context.Background(), &grpc.User{
-		Id:             userForm.Id,
+		ID:             userForm.Id,
 		Username:       userForm.Username,
 		Password:       userForm.Password,
 		Email:          userForm.Email,
@@ -44,8 +44,8 @@ func (handler *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = sessions.StartSession(w, r, us.Id)
-	if err != nil && us.Id != 0 {
+	err = sessions.StartSession(w, r, us.ID)
+	if err != nil && us.ID != 0 {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -91,7 +91,7 @@ func (handler *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = sessions.StartSession(w, r, us.Id)
+	err = sessions.StartSession(w, r, us.ID)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return

@@ -48,7 +48,7 @@ func (au authUsecase) Register(ctx context.Context, us *grpc.User) (*grpc.User, 
 	}
 
 	idupd, err := au.authRepo.AddUser(domain.User{
-		Id:             us.GetId(),
+		Id:             us.GetID(),
 		Username:       us.GetUsername(),
 		Password:       us.GetPassword(),
 		Email:          us.GetEmail(),
@@ -63,7 +63,7 @@ func (au authUsecase) Register(ctx context.Context, us *grpc.User) (*grpc.User, 
 	out = out.ClearPasswords()
 
 	return &grpc.User{
-		Id:             out.Id,
+		ID:             out.Id,
 		Username:       out.Username,
 		Password:       out.Password,
 		Email:          out.Email,
@@ -89,7 +89,7 @@ func (au authUsecase) Login(ctx context.Context, ub *grpc.UserBasic) (*grpc.User
 	usr = usr.ClearPasswords()
 
 	return &grpc.User{
-		Id:             usr.Id,
+		ID:             usr.Id,
 		Username:       usr.Username,
 		Password:       usr.Password,
 		Email:          usr.Email,
