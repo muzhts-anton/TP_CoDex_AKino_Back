@@ -141,7 +141,7 @@ func (ar *dbAnnouncedRepository) GetRelated(id uint64) ([]domain.AnnouncedSummar
 	out := make([]domain.AnnouncedSummary, 0)
 	for i := range resp {
 		out = append(out, domain.AnnouncedSummary{
-			Href:   "/premiers/" + cast.IntToStr(cast.ToUint64(resp[i][0])),
+			Href:   "/announced/" + cast.IntToStr(cast.ToUint64(resp[i][0])),
 			Poster: cast.ToString(resp[i][1]),
 			Title:  cast.ToString(resp[i][2]),
 		})
