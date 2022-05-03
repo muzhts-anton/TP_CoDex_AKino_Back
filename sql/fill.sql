@@ -421,17 +421,17 @@ VALUES
 INSERT INTO
     announced (poster, title, titleoriginal, info, description, trailer, releasedate, country, director)
 VALUES
-    (
-        'doctorStrange.webp',
-        'Доктор Стрэндж: В мультивселенной безумия',
-        'Doctor Strange in the Multiverse of Madness',
-        'Продолжение магических приключений Доктора Стрэнджа.',
-        'Предстоящий американский супергеройский фильм, основанный на комиксах Marvel о Докторе Стрэндже, созданный Marvel Studios и распространяемый Walt Disney Studios Motion Pictures. Продолжение фильма «Доктор Стрэндж» (2016) и 28-я по счёту картина в медиафраншизе «Кинематографическая вселенная Marvel» (КВM).',
-        'https://www.youtube.com/watch?v=aWzlQ2N6qqg',
-        '2022-05-05',
-        'США',
-        'Сэм Рэйми'
-    ),
+    -- (
+    --     'doctorStrange.webp',
+    --     'Доктор Стрэндж: В мультивселенной безумия',
+    --     'Doctor Strange in the Multiverse of Madness',
+    --     'Продолжение магических приключений Доктора Стрэнджа.',
+    --     'Предстоящий американский супергеройский фильм, основанный на комиксах Marvel о Докторе Стрэндже, созданный Marvel Studios и распространяемый Walt Disney Studios Motion Pictures. Продолжение фильма «Доктор Стрэндж» (2016) и 28-я по счёту картина в медиафраншизе «Кинематографическая вселенная Marvel» (КВM).',
+    --     'https://www.youtube.com/watch?v=aWzlQ2N6qqg',
+    --     '2022-05-05',
+    --     'США',
+    --     'Сэм Рэйми'
+    -- ),
     (
         'Thor4.webp',
         'Тор: Любовь и гром',
@@ -458,32 +458,32 @@ VALUES
 INSERT INTO
     announced_actors (actor_id, announced_id)
 VALUES
-    (8, 1),
-    (11, 1),
-    (9, 2),
-    (10, 3);
+    -- (8, 1),
+    -- (11, 1),
+    (9, 1),
+    (10, 2);
 
 INSERT INTO
     announced_genres (announced_id, genre)
 VALUES
+    -- (1, 'fantasy'),
+    -- (1, 'action'),
+    -- (1, 'horror'),
+    -- (1, 'adventure'),
+    (1, 'adventure'),
     (1, 'fantasy'),
     (1, 'action'),
-    (1, 'horror'),
-    (1, 'adventure'),
+    (1, 'comedy'),
     (2, 'adventure'),
     (2, 'fantasy'),
     (2, 'action'),
-    (2, 'comedy'),
-    (3, 'adventure'),
-    (3, 'fantasy'),
-    (3, 'action'),
-    (3, 'comedy');
+    (2, 'comedy');
 
 INSERT INTO
     announced_announced (announced_id, relation_id)
 VALUES
+    -- (1, 2),
+    -- (1, 3),
     (1, 2),
-    (1, 3),
-    (2, 3),
-    (3, 1),
-    (3, 2);
+    -- (3, 1),
+    (2, 1);
