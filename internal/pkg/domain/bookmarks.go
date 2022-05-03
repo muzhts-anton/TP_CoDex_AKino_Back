@@ -6,6 +6,12 @@ type Bookmark struct {
 	Imgsrc      string `json:"imgSrc"`
 }
 
+type BookmarkWithMovies struct {
+	Id          string `json:"ID"`
+	Description string `json:"description"`
+	Imgsrc      string `json:"imgSrc"`
+}
+
 type BookmarkResp struct {
 	UserId    uint64     `json:"ID"`
 	Bookmarks []Bookmark `json:"bookmarksList"`

@@ -84,8 +84,3 @@ func (pr *dbplarepository) DeletePlaylist(deletePlaylistInfo domain.DeletePlayli
 
 	return nil
 }
-
-// router.HandleFunc(createPlaylistUrl, handler.CreatePlaylist).Methods("POST", "OPTIONS")
-// router.HandleFunc(addMovieUrl, handler.AddMovie).Methods("POST", "OPTIONS")
-// router.HandleFunc(deleteMovieUrl, handler.DeleteMovie).Methods("POST", "OPTIONS")
-// router.HandleFunc(deletePlaylistUrl, handler.DeletePlaylist).Methods("POST", "OPTIONS")

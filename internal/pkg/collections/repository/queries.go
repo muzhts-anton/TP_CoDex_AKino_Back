@@ -3,7 +3,7 @@ package colrepository
 const(
 	queryGetCollections = `
 	SELECT
-		playlists.title, playlists.description, movies.id, movies.poster,
+		playlists.title, playlists.description, playlists.public , movies.id, movies.poster,
 		movies.title, movies.rating, movies.info, movies.description
 	FROM playlists
 	JOIN playlists_movies ON playlists.id = playlists_movies.playlist_id

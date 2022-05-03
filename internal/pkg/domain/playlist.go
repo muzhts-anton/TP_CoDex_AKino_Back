@@ -37,9 +37,15 @@ type Playlist struct {
 	Public      bool   `json:"public"`
 }
 
-
 type DeletePlaylistInfo struct {
 	PlaylistId string `json:"bookmarkId"`
+}
+
+type PlaylistWithMovies struct {
+	Title     string       `json:"title"`
+	UserId    string       `json:"userId"`
+	Public    bool         `json:"public"`
+	MovieList []MovieBasic `json:"movieList"`
 }
 
 type Plarepository interface {

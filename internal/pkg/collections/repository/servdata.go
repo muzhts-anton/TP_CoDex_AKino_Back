@@ -34,18 +34,19 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 	movies := make([]domain.MovieBasic, 0)
 	for i := range resp {
 		movies = append(movies, domain.MovieBasic{
-			Id:          cast.IntToStr(cast.ToUint64(resp[i][2])),
-			Poster:      cast.ToString(resp[i][3]),
-			Title:       cast.ToString(resp[i][4]),
-			Rating:      cast.FlToStr(cast.ToFloat64(resp[i][5])),
-			Info:        cast.ToString(resp[i][6]),
-			Description: cast.ToString(resp[i][7]),
+			Id:          cast.IntToStr(cast.ToUint64(resp[i][3])),
+			Poster:      cast.ToString(resp[i][4]),
+			Title:       cast.ToString(resp[i][5]),
+			Rating:      cast.FlToStr(cast.ToFloat64(resp[i][6])),
+			Info:        cast.ToString(resp[i][7]),
+			Description: cast.ToString(resp[i][8]),
 		})
 	}
 
 	out := domain.Collection{
 		Title:       cast.ToString(resp[0][0]),
 		Description: cast.ToString(resp[0][1]),
+		Public:      cast.ToBool(resp[0][2]),
 		MovieList:   movies,
 	}
 
