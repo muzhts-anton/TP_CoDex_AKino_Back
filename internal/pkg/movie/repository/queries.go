@@ -4,7 +4,7 @@ const (
 	queryGetMovie = `
 	SELECT
 		id, poster, title, titleoriginal, rating, info, description, trailer,
-		releaseyear, country, string_agg(mg.genre, ', '), motto, director, budget, gross, duration
+		releaseyear, country, motto, director, budget, gross, duration
 	FROM movies m JOIN movies_genres mg on m.id = mg.movie_id
 	WHERE id = $1
 	GROUP BY m.id;
