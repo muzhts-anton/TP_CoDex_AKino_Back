@@ -19,9 +19,9 @@ func InitColRep(manager *database.DBManager) domain.CollectionsRepository {
 }
 
 func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, error) {
-	resp, err := cr.dbm.Query(queryGetCollections, id)
+	resp, err := cr.dbm.Query(queryGetCollectionBasic, id)
 	if err != nil {
-		log.Warn("{GetCollection} in query: " + queryGetCollections)
+		log.Warn("{GetCollection} in query: " + queryGetCollectionBasic)
 		log.Error(err)
 		return domain.Collection{}, domain.Err.ErrObj.InternalServer
 	}
@@ -30,25 +30,31 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 		log.Error(domain.Err.ErrObj.SmallDb)
 		return domain.Collection{}, domain.Err.ErrObj.SmallDb
 	}
-
-	movies := make([]domain.MovieBasic, 0)
-	for i := range resp {
-		movies = append(movies, domain.MovieBasic{
-			Id:          cast.IntToStr(cast.ToUint64(resp[i][3])),
-			Poster:      cast.ToString(resp[i][4]),
-			Title:       cast.ToString(resp[i][5]),
-			Rating:      cast.FlToStr(cast.ToFloat64(resp[i][6])),
-			Info:        cast.ToString(resp[i][7]),
-			Description: cast.ToString(resp[i][8]),
-		})
-	}
-
 	out := domain.Collection{
 		Title:       cast.ToString(resp[0][0]),
 		Description: cast.ToString(resp[0][1]),
 		Public:      cast.ToBool(resp[0][2]),
-		MovieList:   movies,
 	}
+
+	resp, err = cr.dbm.Query(queryGetCollectionMovies, id)
+	if err != nil {
+		log.Warn("{GetCollection} in query: " + queryGetCollectionMovies)
+		log.Error(err)
+		return domain.Collection{}, domain.Err.ErrObj.InternalServer
+	}
+
+	movies := make([]domain.MovieBasic, 0)
+	for i := range resp {
+		movies = append(movies, domain.MovieBasic{
+			Id:          cast.IntToStr(cast.ToUint64(resp[i][0])),
+			Poster:      cast.ToString(resp[i][1]),
+			Title:       cast.ToString(resp[i][2]),
+			Rating:      cast.FlToStr(cast.ToFloat64(resp[i][3])),
+			Info:        cast.ToString(resp[i][4]),
+			Description: cast.ToString(resp[i][5]),
+		})
+	}
+	out.MovieList = movies
 
 	return out, nil
 }
