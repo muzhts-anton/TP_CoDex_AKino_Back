@@ -15,30 +15,9 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-
-	// "github.com/prometheus/client_golang/prometheus"
-	// "github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-// var fooCount = prometheus.NewCounter(prometheus.CounterOpts{
-// 	Name: "foo_total",
-// 	Help: "Number of foo successfully processed.",
-// })
-
-// var hits = prometheus.NewCounterVec(prometheus.CounterOpts{
-// 	Name: "hits",
-// }, []string{"status", "path"})
-
 func RunServer() {
-	// prometheus.MustRegister(fooCount, hits)
-	// http.Handle("/metrics", promhttp.Handler())
-
-	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-	// 	hits.WithLabelValues("200", r.URL.String()).Inc()
-	// 	fooCount.Add(1)
-	// 	fmt.Fprintf(w, "foo_total increased (from akino)")
-	// })
-
 	router := mux.NewRouter()
 	api := router.PathPrefix("/api/v1").Subrouter()
 
