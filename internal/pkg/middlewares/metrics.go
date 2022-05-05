@@ -54,6 +54,7 @@ func (m *MetricsProm) Metrics(next http.Handler) http.Handler {
 		if s := timerHist.ObserveDuration().Seconds(); s < 0 {
 			mylog.Debug().Msg("negative request duration")
 		}
+		// hits.WithLabelValues(strconv.Itoa(customWriter.Status), url).Inc()
 		// record hits and errors
 		hits.WithLabelValues(strconv.Itoa(customWriter.Status), url).Inc()
 		if customWriter.Status >= 400 {

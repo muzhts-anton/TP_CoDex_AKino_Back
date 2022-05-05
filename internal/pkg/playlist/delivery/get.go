@@ -6,10 +6,16 @@ import (
 	"codex/internal/pkg/utils/sanitizer"
 	"encoding/json"
 	"net/http"
+	"codex/internal/pkg/sessions"
 )
 
 func (handler *PlaylistHandler) CreatePlaylist(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+	if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
+		http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
+		return
+	}
+
 	playlistRequest := new(domain.PlaylistRequest)
 	err := json.NewDecoder(r.Body).Decode(&playlistRequest)
 	if err != nil {
@@ -37,6 +43,10 @@ func (handler *PlaylistHandler) CreatePlaylist(w http.ResponseWriter, r *http.Re
 
 func (handler *PlaylistHandler) AddMovie(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+	if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
+		http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
+		return
+	}
 	addPlaylistInfo := new(domain.MovieInPlaylist)
 	err := json.NewDecoder(r.Body).Decode(&addPlaylistInfo)
 	if err != nil {
@@ -54,6 +64,10 @@ func (handler *PlaylistHandler) AddMovie(w http.ResponseWriter, r *http.Request)
 
 func (handler *PlaylistHandler) DeleteMovie(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+	if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
+		http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
+		return
+	}
 	MovieInPlaylist := new(domain.MovieInPlaylist)
 	err := json.NewDecoder(r.Body).Decode(&MovieInPlaylist)
 	if err != nil {
@@ -72,6 +86,10 @@ func (handler *PlaylistHandler) DeleteMovie(w http.ResponseWriter, r *http.Reque
 
 func (handler *PlaylistHandler) DeletePlaylist(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+	if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
+		http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
+		return
+	}
 	deletePlaylistInfo := new(domain.DeletePlaylistInfo)
 	err := json.NewDecoder(r.Body).Decode(&deletePlaylistInfo)
 	if err != nil {
