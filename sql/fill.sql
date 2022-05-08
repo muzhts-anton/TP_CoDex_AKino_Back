@@ -53,6 +53,7 @@ VALUES
 
 INSERT INTO
     movies (
+        id,
         poster,
         title,
         titleoriginal,
@@ -71,6 +72,7 @@ INSERT INTO
     )
 VALUES
     (
+        1000001,
         'showshenkRedemption.webp',
         'Побег из Шоушенка',
         'The Shawshank Redemption',
@@ -88,6 +90,7 @@ VALUES
         '142 мин.'
     ),
     (
+        1000002,
         'ironman.webp',
         'Железный Человек',
         'Iron Man',
@@ -105,6 +108,7 @@ VALUES
         '121 мин.'
     ),
     (
+        1000003,
         'greenMile.webp',
         'Зеленая миля',
         'The Green Mile',
@@ -122,6 +126,7 @@ VALUES
         '189 мин.'
     ),
     (
+        1000004,
         'shindlersList.webp',
         'Список Шиндлера',
         'The Green Mile',
@@ -139,6 +144,7 @@ VALUES
         '195 мин.'
     ),
     (
+        1000005,
         'returnOfTheKing.webp',
         'Властелин Колец',
         'The Green Mile',
@@ -164,14 +170,14 @@ VALUES
 INSERT INTO
     playlists_movies (playlist_id, movie_id)
 VALUES
-    (1, 1),
-    (1, 2),
-    (2, 3),
-    (2, 4),
-    (2, 5),
-    (13, 1),
-    (13, 2),
-    (14, 1);
+    (1, 1000001),
+    (1, 1000002),
+    (2, 1000003),
+    (2, 1000004),
+    (2, 1000005),
+    (13,1000001),
+    (13,1000002),
+    (14,1000001);
 
 INSERT INTO
     users_playlists (user_id, playlist_id)
@@ -181,6 +187,7 @@ VALUES
 
 INSERT INTO
     actors (
+        id,
         imgsrc,
         name,
         nameoriginal,
@@ -192,6 +199,7 @@ INSERT INTO
     )
 VALUES
     (
+        1000001,
         'tales.webp',
         'Баба Яга',
         'Baba Yaga',
@@ -202,6 +210,7 @@ VALUES
         500
     ),
     (
+        1000002,
         'robertDowneyJr.webp',
         'Роберт Дауни мл.',
         'Robert Downey Jr.',
@@ -212,6 +221,7 @@ VALUES
         259
     ),
     (
+        1000003,
         'tomHanks.webp',
         'Том Хэнкс',
         'Tom Hanks',
@@ -222,6 +232,7 @@ VALUES
         399
     ),
     (
+        1000004,
         'timRobbins.webp',
         'Тим Роббинс',
         'Tim Robbins',
@@ -232,6 +243,7 @@ VALUES
         213
     ),
     (
+        1000005,
         'liamNeeson.webp',
         'Лиам Нисон',
         'Liam Neeson',
@@ -242,6 +254,7 @@ VALUES
         302
     ),
     (
+        1000006,
         'elijahWood.webp',
         'Элайджа Вуд',
         'Elijah Wood',
@@ -252,6 +265,7 @@ VALUES
         271
     ),
     (
+        1000007,
         'ianMcKellen.webp',
         'Иэн МакКеллен',
         'Ian McKellen',
@@ -262,6 +276,7 @@ VALUES
         295
     ),
     (
+        1000008,
         'benedictCumberbatch.webp',
         'Бенедикт Камбербэтч',
         'Benedict Cumberbatch',
@@ -272,6 +287,7 @@ VALUES
         184
     ),
     (
+        1000009,
         'сhrisHemsworth.webp',
         'Крис Хемсворт',
         'Chris Hemsworth',
@@ -282,6 +298,7 @@ VALUES
         125
     ),
     (
+        1000010,
         'сhrisPratt.webp',
         'Крис Пратт',
         'Chris Pratt',
@@ -292,6 +309,7 @@ VALUES
         155
     ),
     (
+        1000011,
         'elizabethOlsen.webp',
         'Элизабет Олсен',
         'Elizabeth Olsen',
@@ -313,7 +331,7 @@ INSERT INTO
 VALUES
     (
         1,
-        1,
+        1000001,
         '2022-04-10 15:47:24',
         'good',
         'Любимый фильм. Енто шыэдевр!'
@@ -322,38 +340,38 @@ VALUES
 INSERT INTO
     ratings (user_id, movie_id, rating)
 VALUES
-    (1, 2, 10);
+    (1, 1000002, 10);
 
 INSERT INTO
     actors_actors (actor_id, relation_id)
 VALUES
-    (1, 2),
-    (2, 3),
-    (3, 4),
-    (4, 5),
-    (5, 6),
-    (6, 7),
-    (7, 1);
+    (1000001, 1000002),
+    (1000002, 1000003),
+    (1000003, 1000004),
+    (1000004, 1000005),
+    (1000005, 1000006),
+    (1000006, 1000007),
+    (1000007, 1000001);
 
 INSERT INTO
     movies_movies (movie_id, relation_id)
 VALUES
-    (1, 2),
-    (2, 3),
-    (3, 4),
-    (4, 5),
-    (5, 1);
+    (1000001, 1000002),
+    (1000002, 1000003),
+    (1000003, 1000004),
+    (1000004, 1000005),
+    (1000005, 1000001);
 
 INSERT INTO
     movies_actors (movie_id, actor_id)
 VALUES
-    (1, 1),
-    (1, 4),
-    (2, 2),
-    (3, 3),
-    (4, 5),
-    (5, 6),
-    (5, 7);
+    (1000001, 1000001),
+    (1000001, 1000004),
+    (1000002, 1000002),
+    (1000003, 1000003),
+    (1000004, 1000005),
+    (1000005, 1000006),
+    (1000005, 1000007);
 
 INSERT INTO
     genres (genre, imgsrc, description, title)
@@ -385,38 +403,38 @@ VALUES
 INSERT INTO
     movies_genres (movie_id, genre)
 VALUES
-    (1, 'anime'),
-    (1, 'action'),
-    (1, 'mystic'),
-    (2, 'anime'),
-    (2, 'drama'),
-    (2, 'horror'),
-    (2, 'thriller'),
-    (3, 'comedy'),
-    (4, 'action'),
-    (4, 'romantic'),
-    (4, 'thriller'),
-    (5, 'anime'),
-    (5, 'fantasy'),
-    (5, 'horror');
+    (1000001, 'anime'),
+    (1000001, 'action'),
+    (1000001, 'mystic'),
+    (1000002, 'anime'),
+    (1000002, 'drama'),
+    (1000002, 'horror'),
+    (1000002, 'thriller'),
+    (1000003, 'comedy'),
+    (1000004, 'action'),
+    (1000004, 'romantic'),
+    (1000004, 'thriller'),
+    (1000005, 'anime'),
+    (1000005, 'fantasy'),
+    (1000005, 'horror');
 
 INSERT INTO
     actors_genres (actor_id, genre)
 VALUES
-    (1, 'anime'),
-    (1, 'action'),
-    (1, 'mystic'),
-    (2, 'anime'),
-    (2, 'action'),
-    (2, 'horror'),
-    (3, 'comedy'),
-    (4, 'action'),
-    (4, 'romantic'),
-    (4, 'thriller'),
-    (5, 'anime'),
-    (5, 'fantasy'),
-    (6, 'horror'),
-    (7, 'fantasy');
+    (1000001, 'anime'),
+    (1000001, 'action'),
+    (1000001, 'mystic'),
+    (1000002, 'anime'),
+    (1000002, 'action'),
+    (1000002, 'horror'),
+    (1000003, 'comedy'),
+    (1000004, 'action'),
+    (1000004, 'romantic'),
+    (1000004, 'thriller'),
+    (1000005, 'anime'),
+    (1000005, 'fantasy'),
+    (1000006, 'horror'),
+    (1000007, 'fantasy');
 
 INSERT INTO
     announced (poster, title, titleoriginal, info, description, trailer, releasedate, country, director)
@@ -460,8 +478,8 @@ INSERT INTO
 VALUES
     -- (8, 1),
     -- (11, 1),
-    (9, 1),
-    (10, 2);
+    (1000009, 1),
+    (1000010, 2);
 
 INSERT INTO
     announced_genres (announced_id, genre)

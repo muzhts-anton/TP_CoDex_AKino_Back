@@ -164,7 +164,7 @@ CREATE TABLE announced_actors (
 );
 
 CREATE TABLE announced_announced (
-    announced_id                        BIGINT REFERENCES movies (id),
-    relation_id                         BIGINT REFERENCES movies (id),
+    announced_id                        BIGINT REFERENCES announced (id),
+    relation_id                         BIGINT REFERENCES announced (id),
     CONSTRAINT announced_announced_id   PRIMARY KEY (announced_id, relation_id)
 );
