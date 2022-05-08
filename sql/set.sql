@@ -44,8 +44,8 @@ CREATE TABLE feed (
 CREATE TABLE movies (
     id                                  BIGSERIAL NOT NULL PRIMARY KEY,
     poster                              VARCHAR(50) NOT NULL,
-    title                               VARCHAR(50) NOT NULL,
-    titleoriginal                       VARCHAR(50) NOT NULL,
+    title                               VARCHAR(100) NOT NULL,
+    titleoriginal                       VARCHAR(100) NOT NULL,
     rating                              DOUBLE PRECISION NOT NULL,
     votesnum                            BIGINT NOT NULL,
     info                                VARCHAR(100) NOT NULL,
