@@ -42,7 +42,7 @@ CREATE TABLE feed (
 );
 
 CREATE TABLE movies (
-    id                                  BIGSERIAL NOT NULL PRIMARY KEY,
+    id                                  NOT NULL PRIMARY KEY,
     poster                              VARCHAR(50) NOT NULL,
     title                               VARCHAR(100) NOT NULL,
     titleoriginal                       VARCHAR(100) NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE announced (
 );
 
 CREATE TABLE actors (
-    id                                  BIGSERIAL NOT NULL PRIMARY KEY,
+    id                                  NOT NULL PRIMARY KEY,
     imgsrc                              VARCHAR(50) NOT NULL,
     name                                VARCHAR(100) NOT NULL,
     nameoriginal                        VARCHAR(100) NOT NULL,
