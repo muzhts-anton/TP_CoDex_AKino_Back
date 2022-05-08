@@ -81,20 +81,21 @@ func (mr *dbMovieRepository) GetMovie(id uint64) (domain.Movie, error) {
 		log.Error(err)
 		return domain.Movie{}, domain.Err.ErrObj.InternalServer
 	}
-	if len(resp) == 0 {
-		log.Warn("{GetMovie} no genres")
-		log.Error(domain.Err.ErrObj.SmallDb)
-		return domain.Movie{}, domain.Err.ErrObj.SmallDb
-	}
-
+	// if len(resp) == 0 {
+	// 	log.Warn("{GetMovie} no genres")
+	// 	log.Error(domain.Err.ErrObj.SmallDb)
+	// 	return domain.Movie{}, domain.Err.ErrObj.SmallDb
+	// }
 	genres := make([]domain.GenreInMovie, 0)
-	for i := range resp {
-		genres = append(genres, domain.GenreInMovie{
-			Href: "/genres/" + cast.ToString(resp[i][0]),
-			Title: cast.ToString(resp[i][1]),
-		})
-	}
+	if(len(resp) != 0){
+		for i := range resp {
+			genres = append(genres, domain.GenreInMovie{
+				Href: "/genres/" + cast.ToString(resp[i][0]),
+				Title: cast.ToString(resp[i][1]),
+			})
+		}
 
+	}
 	out.Genres = genres
 
 	return out, nil
