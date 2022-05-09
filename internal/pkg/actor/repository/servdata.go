@@ -39,8 +39,7 @@ func (ar *dbActorRepository) GetActor(id uint64) (domain.Actor, error) {
 		Height:       cast.ToString(resp[0][5]),
 		Birthday:     cast.ToString(resp[0][6]),
 		Birthplace:   cast.ToString(resp[0][7]),
-		Genres:       cast.ToString(resp[0][8]),
-		Total:        cast.IntToStr(cast.ToUint64(resp[0][9])),
+		Total:        cast.IntToStr(cast.ToUint64(resp[0][8])),
 	}
 
 	return actor, nil

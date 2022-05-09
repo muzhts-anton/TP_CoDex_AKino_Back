@@ -9,7 +9,6 @@ type Actor struct {
 	Height       string `json:"height"`
 	Birthday     string `json:"birthdate"`
 	Birthplace   string `json:"birthplace"`
-	Genres       string `json:"genres"`
 	Total        string `json:"total"`
 }
 
