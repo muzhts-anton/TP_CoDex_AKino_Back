@@ -22,6 +22,37 @@ func InitAnnRep(manager *database.DBManager) domain.AnnouncedRepository {
 	}
 }
 
+func intToStringMonth(number string) (string, error) {
+	switch number {
+	case "1":
+		return "января", nil
+	case "2":
+		return "февраля", nil
+	case "3":
+		return "марта", nil
+	case "4":
+		return "апреля", nil
+	case "5":
+		return "мая", nil
+	case "6":
+		return "июня", nil
+	case "7":
+		return "июля", nil
+	case "8":
+		return "августа", nil
+	case "9":
+		return "сентября", nil
+	case "10":
+		return "октября", nil
+	case "11":
+		return "ноября", nil
+	case "12":
+		return "декабря", nil
+	}
+	log.Warn("{intToStringMonth}")
+	return "", domain.Err.ErrObj.InternalServer
+}
+
 func (ar *dbAnnouncedRepository) GetMovies() (domain.AnnouncedBasicResponse, error) {
 	resp, err := ar.dbm.Query(queryGetMovies)
 	if err != nil {
@@ -35,12 +66,19 @@ func (ar *dbAnnouncedRepository) GetMovies() (domain.AnnouncedBasicResponse, err
 
 	movies := make([]domain.AnnouncedBasic, 0)
 	for i := range resp {
+		PremierMonth, err := intToStringMonth(cast.ToString(resp[i][4]))
+		if err != nil {
+			log.Warn("{GetMovies}")
+			log.Error(err)
+			return domain.AnnouncedBasicResponse{}, domain.Err.ErrObj.InternalServer
+		}
 		movies = append(movies, domain.AnnouncedBasic{
-			Id:          cast.IntToStr(cast.ToUint64(resp[i][0])),
-			Poster:      cast.ToString(resp[i][1]),
-			Title:       cast.ToString(resp[i][2]),
-			Info:        "Дата премьеры: " + cast.TimeToStr(cast.ToTime(resp[i][3]), false) + ". Осталось " +  cast.ToString(resp[i][4]) + " дня.",
-			Description: cast.ToString(resp[i][5]),
+			Id:                cast.IntToStr(cast.ToUint64(resp[i][0])),
+			Poster:            cast.ToString(resp[i][1]),
+			Title:             cast.ToString(resp[i][2]),
+			OriginalTitle:     cast.ToString(resp[i][3]),
+			PremierMonth:      PremierMonth,
+			PremierDay:        cast.ToString(resp[i][5]),
 		})
 	}
 	var movieResponse domain.AnnouncedBasicResponse

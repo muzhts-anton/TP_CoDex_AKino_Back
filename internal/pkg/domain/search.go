@@ -16,8 +16,8 @@ type SearchActorsResp struct {
 }
 
 type SearchAnnouncedResp struct {
-	Empty bool             `json:"isEmpty"`
-	Data  []AnnouncedBasic `json:"data"`
+	Empty bool              `json:"isEmpty"`
+	Data  []AnnouncedSearch `json:"data"`
 }
 
 type SearchBookmarksResp struct {

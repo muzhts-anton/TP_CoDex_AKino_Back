@@ -3,8 +3,7 @@ package annrepository
 const (
 	queryGetMovies = `
 	SELECT
-		id, poster, title,
-		releasedate, (EXTRACT(epoch FROM (SELECT (releasedate - CURRENT_TIMESTAMP)))/86400)::int::varchar(255), info, description
+		id, poster, title, titleoriginal, (date_part('month', releasedate))::int::varchar(255), (date_part('day', releasedate))::int::varchar(255)
 	FROM announced
 	ORDER BY releasedate;
 	`

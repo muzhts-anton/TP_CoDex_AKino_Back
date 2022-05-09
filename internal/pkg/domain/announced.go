@@ -17,11 +17,21 @@ type Announced struct {
 }
 
 type AnnouncedBasic struct {
-	Id          string `json:"ID"`
-	Poster      string `json:"poster"`
-	Title       string `json:"title"`
-	Info        string `json:"info"`
-	Description string `json:"description"`
+	Id              string `json:"ID"`
+	Poster          string `json:"poster"`
+	Title           string `json:"title"`
+	OriginalTitle   string `json:"originalTitle"`
+	PremierDay      string `json:"premierDay"`
+	PremierMonth    string `json:"premierMonth"`
+}
+
+type AnnouncedSearch struct {
+	Id              string `json:"ID"`
+	Poster          string `json:"poster"`
+	Title           string `json:"title"`
+	Releasedate   string `json:"releasedate"`
+	Info          string `json:"info"`
+	Description   string `json:"description"`
 }
 
 type AnnouncedBasicResponse struct {
