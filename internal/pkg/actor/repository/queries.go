@@ -13,7 +13,8 @@ const (
 	SELECT
 		id, poster, title, rating, info, description
 	FROM movies
-	WHERE id = $1;
+	JOIN movies_actors on movies_actors.movie_id = movies.id
+	WHERE movies_actors.actor_id = $1;
 	`
 
 	queryGetRelated = `
