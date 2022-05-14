@@ -12,7 +12,7 @@ import (
 func (handler *PlaylistHandler) CreatePlaylist(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
-		http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
+		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -44,7 +44,7 @@ func (handler *PlaylistHandler) CreatePlaylist(w http.ResponseWriter, r *http.Re
 func (handler *PlaylistHandler) AddMovie(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
-		http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
+		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
 		return
 	}
 	addPlaylistInfo := new(domain.MovieInPlaylist)
@@ -65,7 +65,7 @@ func (handler *PlaylistHandler) AddMovie(w http.ResponseWriter, r *http.Request)
 func (handler *PlaylistHandler) DeleteMovie(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
-		http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
+		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
 		return
 	}
 	MovieInPlaylist := new(domain.MovieInPlaylist)
@@ -87,7 +87,7 @@ func (handler *PlaylistHandler) DeleteMovie(w http.ResponseWriter, r *http.Reque
 func (handler *PlaylistHandler) DeletePlaylist(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
-		http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
+		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
 		return
 	}
 	deletePlaylistInfo := new(domain.DeletePlaylistInfo)

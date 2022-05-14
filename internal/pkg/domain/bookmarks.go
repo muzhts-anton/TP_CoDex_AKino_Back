@@ -4,6 +4,7 @@ type Bookmark struct {
 	Id          string `json:"ID"`
 	Description string `json:"description"`
 	Imgsrc      string `json:"imgSrc"`
+	Public      bool   `json:"public"`
 }
 
 type BookmarkWithMovies struct {

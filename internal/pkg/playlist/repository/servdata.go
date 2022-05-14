@@ -33,8 +33,10 @@ func (pr *dbplarepository) CreatePlaylist(playlist domain.PlaylistRequest) (doma
 	}
 
 	return domain.PlaylistResponse{
-		ID:    cast.IntToStr(cast.ToUint64(resp[0][0])),
-		Title: cast.ToString(resp[0][1]),
+		ID:     cast.IntToStr(cast.ToUint64(resp[0][0])),
+		Title:  cast.ToString(resp[0][1]),
+		Poster: cast.ToString(resp[0][2]),
+		Public: cast.ToBool(resp[0][3]),
 	}, nil
 }
 

@@ -72,6 +72,7 @@ func (ur *dbUserRepository) GetBookmarks(id uint64) ([]domain.Bookmark, error) {
 			Id:          cast.IntToStr(cast.ToUint64(resp[i][0])),
 			Description: cast.ToString(resp[i][1]),
 			Imgsrc:      cast.ToString(resp[i][2]),
+			Public:      cast.ToBool(resp[i][3]),
 		})
 	}
 

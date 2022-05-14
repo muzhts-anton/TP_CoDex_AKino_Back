@@ -53,7 +53,7 @@ const (
 	`
 	
 	queryGetUserBookmarks = `
-	SELECT playlists.id, playlists.title, playlists.poster
+	SELECT playlists.id, playlists.title, playlists.poster, playlists.public
 	FROM users_playlists
 	JOIN users ON users_playlists.user_id = users.id
 	JOIN playlists ON users_playlists.playlist_id = playlists.id
