@@ -10,7 +10,7 @@ const (
 	JOIN movies ON movies_genres.movie_id = movies.id
 	JOIN genres ON movies_genres.genre = genres.genre
 	WHERE movies_genres.genre = $1
-	ORDER BY movies.rating
+	ORDER BY movies.rating DESC
 	LIMIT $2;
 	`
 
