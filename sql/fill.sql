@@ -498,3 +498,176 @@ VALUES
     (1, 2),
     -- (3, 1),
     (2, 1);
+
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+SELECT
+1, m.id
+FROM  movies m
+ORDER BY m.rating DESC
+LIMIT 256;
+
+-- Adventures
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+VALUES
+    (2, 685246),
+    (2, 464963),
+    (2, 4445150),
+    (2, 841914),
+    (2, 312),
+    (2, 3498),
+    (2, 476),
+    (2, 401152),
+    (2, 328),
+    (2, 44745);
+
+-- For kids
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+VALUES
+    (3, 4445150),
+    (3, 841914),
+    (3, 46483),
+    (3, 476),
+    (3, 401152),
+    (3, 679486),
+    (3, 775273),
+    (3, 95232),
+    (3, 279102),
+    (3, 775276);
+
+-- Comics
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+VALUES
+    (4, 1000002),
+    (4, ),
+    (4, ),
+    (4, ),
+    (4, ),
+    (4, ),
+    (4, ),
+    (4, ),
+    (4, ),
+    (4, );
+
+-- Drama
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+VALUES
+    (5, 1000002),
+    (5, 1000003),
+    (5, 464963),
+    (5, 404900),
+    (5, 4445150),
+    (5, 841914),
+    (5, 258687),
+    (5, 401152),
+    (5, 361),
+    (5, 679486);
+
+-- For family
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+VALUES
+    (6, 4445150),
+    (6, 535341),
+    (6, 841914),
+    (6, 46483),
+    (6, 312),
+    (6, 3498),
+    (6, 476),
+    (6, 401152),
+    (6, 679486),
+    (6, );
+
+-- Recomendations
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+VALUES
+    (7, 1000002),
+    (7, 1000003),
+    (7, 685246),
+    (7, 464963),
+    (7, 404900),
+    (7, 4445150),
+    (7, 535341),
+    (7, 841914),
+    (7, 46483),
+    (7, 258687);
+
+-- Romantic
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+VALUES
+    (8, 464963),
+    (8, 4445150),
+    (8, ),
+    (8, ),
+    (8, ),
+    (8, ),
+    (8, ),
+    (8, ),
+    (8, ),
+    (8, );
+
+-- Save the world
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+VALUES
+    (9, 1000002),
+    (9, 685246),
+    (9, 258687),
+    (9, ),
+    (9, ),
+    (9, ),
+    (9, ),
+    (9, ),
+    (9, ),
+    (9, );
+
+-- Soviet
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+VALUES
+    (10, 42664),
+    (10, 25108),
+    (10, 46483),
+    (10, 77263),
+    (10, ),
+    (10, ),
+    (10, ),
+    (10, ),
+    (10, ),
+    (10, );
+
+-- SPY
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+VALUES
+    (11, ),
+    (11, ),
+    (11, ),
+    (11, ),
+    (11, ),
+    (11, ),
+    (11, ),
+    (11, ),
+    (11, ),
+    (11, );
+
+-- fairy tales
+INSERT INTO 
+    playlists_movies (playlist_id, movie_id)
+VALUES
+    (12, 322),
+    (12, 689),
+    (12, 407636),
+    (12, 688),
+    (12, 8408),
+    (12, 276762),
+    (12, 48356),
+    (12, 89515),
+    (12, 427127),
+    (12, );
