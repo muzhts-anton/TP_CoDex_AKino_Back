@@ -22,7 +22,7 @@ func (pr PlaylistRequest) TitleIsValid() (isValid bool) {
 type PlaylistResponse struct {
 	ID     string `json:"ID"`
 	Title  string `json:"title"`
-	Poster string `json:"poster"`
+	ImgSrc string `json:"imgSrc"`
 	Public bool   `json:"public"`
 
 }
@@ -36,7 +36,7 @@ type Playlist struct {
 	Id          string `json:"ID"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
-	Poster      string `json:"poster"`
+	ImgSrc      string `json:"imgSrc"`
 	Public      bool   `json:"public"`
 }
 
