@@ -44,6 +44,11 @@ type DeletePlaylistInfo struct {
 	PlaylistId string `json:"bookmarkId"`
 }
 
+type AlterPlaylistPublicInfo struct {
+	PlaylistId string `json:"bookmarkId"`
+	Public     bool    `json:"public"`
+}
+
 type PlaylistWithMovies struct {
 	Title     string       `json:"title"`
 	UserId    string       `json:"userId"`
@@ -57,6 +62,8 @@ type Plarepository interface {
 	DeleteMovie(movieDeleteInfo MovieInPlaylist) error
 	DeletePlaylist(deletePlaylistInfo DeletePlaylistInfo) error
 	PlaylistAlreadyExist(playlist PlaylistRequest) (bool, error)
+	AlterPlaylistPublic(alterPlaylistPublicInfo AlterPlaylistPublicInfo) error
+
 }
 
 type PlaylistUsecase interface {
@@ -64,4 +71,5 @@ type PlaylistUsecase interface {
 	AddMovie(addMovieInfo MovieInPlaylist) error
 	DeleteMovie(MovieInPlaylist MovieInPlaylist) error
 	DeletePlaylist(deletePlaylistInfo DeletePlaylistInfo) error
+	AlterPlaylistPublic(alterPlaylistPublicInfo AlterPlaylistPublicInfo) error
 }

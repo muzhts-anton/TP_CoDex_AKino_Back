@@ -66,3 +66,11 @@ func (pu playlistUsecase) DeletePlaylist(deletePlaylistInfo domain.DeletePlaylis
 	}
 	return nil
 }
+
+func (pu playlistUsecase) AlterPlaylistPublic(alterPlaylistPublic domain.AlterPlaylistPublicInfo) error {
+	err := pu.playlistRepo.AlterPlaylistPublic(alterPlaylistPublic)
+	if err != nil {
+		return err
+	}
+	return nil
+}

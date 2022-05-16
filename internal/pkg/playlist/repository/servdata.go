@@ -86,3 +86,14 @@ func (pr *dbplarepository) DeletePlaylist(deletePlaylistInfo domain.DeletePlayli
 
 	return nil
 }
+
+func (pr *dbplarepository) AlterPlaylistPublic(alterPlaylistPublicInfo domain.AlterPlaylistPublicInfo) error {
+	_, err := pr.dbm.Query(queryAlterPlaylistPublic, alterPlaylistPublicInfo.PlaylistId, alterPlaylistPublicInfo.Public)
+	if err != nil {
+		log.Warn("{AlterPlaylistPublic} in query: " + queryAlterPlaylistPublic)
+		log.Error(err)
+		return err
+	}
+
+	return nil
+}

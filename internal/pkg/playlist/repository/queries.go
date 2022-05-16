@@ -39,4 +39,10 @@ const (
 	DELETE FROM playlists
 	WHERE id = $1;
 	`
+
+	queryAlterPlaylistPublic = `
+	UPDATE playlists 
+	SET public = $2
+	WHERE id = $1;
+	`
 )
