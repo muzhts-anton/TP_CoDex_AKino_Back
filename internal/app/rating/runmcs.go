@@ -3,8 +3,8 @@ package mcsrtng
 import (
 	"codex/internal/pkg/database"
 	proto "codex/internal/pkg/rating/delivery/grpc"
-	"codex/internal/pkg/rating/repository"
-	"codex/internal/pkg/rating/usecase"
+	ratrepository "codex/internal/pkg/rating/repository"
+	ratusecase "codex/internal/pkg/rating/usecase"
 	"codex/internal/pkg/utils/config"
 	"codex/internal/pkg/utils/log"
 

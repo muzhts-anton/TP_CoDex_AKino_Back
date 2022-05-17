@@ -26,7 +26,7 @@ func (gu genresUsecase) GetGenre(genre string) (domain.GenreWithMovies, error) {
 		return domain.GenreWithMovies{}, err
 	}
 
-	for index, _ := range movs.MovieList{
+	for index := range movs.MovieList{
 		movs.MovieList[index].Poster = addPreview.ToMiniCopy(movs.MovieList[index].Poster)
 	}
 

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"codex/internal/app/rating"
+	mcsrtng "codex/internal/app/rating"
 	"codex/internal/pkg/utils/config"
 )
 

@@ -2,8 +2,8 @@ package mcscomt
 
 import (
 	proto "codex/internal/pkg/comment/delivery/grpc"
-	"codex/internal/pkg/comment/repository"
-	"codex/internal/pkg/comment/usecase"
+	comrepository "codex/internal/pkg/comment/repository"
+	comusecase "codex/internal/pkg/comment/usecase"
 	"codex/internal/pkg/database"
 	"codex/internal/pkg/utils/config"
 	"codex/internal/pkg/utils/log"

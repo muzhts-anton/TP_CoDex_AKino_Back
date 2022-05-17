@@ -1,7 +1,7 @@
 package main
 
 import (
-	"codex/internal/app/comment"
+	mcscomt "codex/internal/app/comment"
 	"codex/internal/pkg/utils/config"
 )
 

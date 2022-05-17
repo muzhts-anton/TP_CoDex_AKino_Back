@@ -2,8 +2,8 @@ package mcsauth
 
 import (
 	proto "codex/internal/pkg/authorization/delivery/grpc"
-	"codex/internal/pkg/authorization/repository"
-	"codex/internal/pkg/authorization/usecase"
+	autrepository "codex/internal/pkg/authorization/repository"
+	autusecase "codex/internal/pkg/authorization/usecase"
 	"codex/internal/pkg/database"
 	"codex/internal/pkg/utils/config"
 	"codex/internal/pkg/utils/log"

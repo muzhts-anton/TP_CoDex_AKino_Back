@@ -1,7 +1,7 @@
 package main
 
 import (
-	"codex/internal/app/authorization"
+	mcsauth "codex/internal/app/authorization"
 	"codex/internal/pkg/utils/config"
 )
 

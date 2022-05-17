@@ -6,8 +6,8 @@ import (
 	"codex/internal/pkg/utils/log"
 
 	usrdelivery "codex/internal/pkg/user/delivery/rest"
-	"codex/internal/pkg/user/repository"
-	"codex/internal/pkg/user/usecase"
+	usrrepository "codex/internal/pkg/user/repository"
+	usrusecase "codex/internal/pkg/user/usecase"
 
 	coldelivery "codex/internal/pkg/collections/delivery/rest"
 	colrepository "codex/internal/pkg/collections/repository"
@@ -15,36 +15,36 @@ import (
 
 	movdelivery "codex/internal/pkg/movie/delivery/rest"
 	movrepository "codex/internal/pkg/movie/repository"
-	"codex/internal/pkg/movie/usecase"
+	movusecase "codex/internal/pkg/movie/usecase"
 
 	actdelivery "codex/internal/pkg/actor/delivery/rest"
 	actrepository "codex/internal/pkg/actor/repository"
-	"codex/internal/pkg/actor/usecase"
+	actusecase "codex/internal/pkg/actor/usecase"
 
 	gendelivery "codex/internal/pkg/genres/delivery/rest"
-	"codex/internal/pkg/genres/repository"
-	"codex/internal/pkg/genres/usecase"
+	genrepository "codex/internal/pkg/genres/repository"
+	genusecase "codex/internal/pkg/genres/usecase"
 
-	"codex/internal/pkg/announced/delivery/rest"
-	"codex/internal/pkg/announced/repository"
-	"codex/internal/pkg/announced/usecase"
+	anndelivery "codex/internal/pkg/announced/delivery/rest"
+	annrepository "codex/internal/pkg/announced/repository"
+	annusecase "codex/internal/pkg/announced/usecase"
 
-	"codex/internal/pkg/search/delivery/rest"
-	"codex/internal/pkg/search/repository"
-	"codex/internal/pkg/search/usecase"
+	serdelivery "codex/internal/pkg/search/delivery/rest"
+	serrepository "codex/internal/pkg/search/repository"
+	serusecase "codex/internal/pkg/search/usecase"
 
-	"codex/internal/pkg/playlist/delivery"
-	"codex/internal/pkg/playlist/repository"
-	"codex/internal/pkg/playlist/usecase"
+	pladelivery "codex/internal/pkg/playlist/delivery"
+	plarepository "codex/internal/pkg/playlist/repository"
+	plausecase "codex/internal/pkg/playlist/usecase"
 
 	ratmcs "codex/internal/pkg/rating/delivery/grpc"
-	"codex/internal/pkg/rating/delivery/rest"
+	ratdelivery "codex/internal/pkg/rating/delivery/rest"
 
 	autmcs "codex/internal/pkg/authorization/delivery/grpc"
-	"codex/internal/pkg/authorization/delivery/rest"
+	autdelivery "codex/internal/pkg/authorization/delivery/rest"
 
 	commcs "codex/internal/pkg/comment/delivery/grpc"
-	"codex/internal/pkg/comment/delivery/rest"
+	comdelivery "codex/internal/pkg/comment/delivery/rest"
 
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"

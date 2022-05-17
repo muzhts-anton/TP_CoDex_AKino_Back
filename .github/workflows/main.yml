@@ -7,6 +7,9 @@ on:
     branches: [script_fix]
 
 jobs:
+  update packages:
+    name: Install dependencies
+    run: sudo apt update && sudo apt install libsnmp-dev
   golangci:
     name: lint
     runs-on: ubuntu-latest
