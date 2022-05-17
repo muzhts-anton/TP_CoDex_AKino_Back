@@ -1,16 +1,16 @@
 package domain
 
-type Genre struct{
-	Href        string `json:"href"`
-	Imgsrc      string `json:"imgsrc"`
+type Genre struct {
+	Href   string `json:"href"`
+	Imgsrc string `json:"imgsrc"`
 }
 
-type GenreInMovie struct{
-	Href        string `json:"href"`
-	Title       string `json:"title"`
+type GenreInMovie struct {
+	Href  string `json:"href"`
+	Title string `json:"title"`
 }
 
-type GenreWithMovies struct{
+type GenreWithMovies struct {
 	Href        string       `json:"href"`
 	Imgsrc      string       `json:"imgsrc"`
 	Description string       `json:"description"`

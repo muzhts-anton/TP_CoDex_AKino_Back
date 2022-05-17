@@ -1,6 +1,6 @@
 package colrepository
 
-const(
+const (
 	queryGetCollections = `
 	SELECT
 		playlists.title, playlists.description, playlists.public , movies.id, movies.poster,
@@ -11,7 +11,7 @@ const(
 	WHERE playlists.id = $1
 	ORDER BY movies.id;
 	`
-	
+
 	queryGetCollectionBasic = `
 	SELECT
 		playlists.title, playlists.description, playlists.public
@@ -36,5 +36,4 @@ const(
 	ORDER BY feed.id
 	LIMIT $1;
 	`
-)	
-
+)

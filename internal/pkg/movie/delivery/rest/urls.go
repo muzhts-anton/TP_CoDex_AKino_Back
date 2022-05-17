@@ -1,5 +1,5 @@
 package movdelivery
 
 const (
-	getMovieUrl    = "/movies/{id:[0-9]+}"
+	getMovieUrl = "/movies/{id:[0-9]+}"
 )

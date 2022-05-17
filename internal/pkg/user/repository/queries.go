@@ -39,7 +39,7 @@ const (
 	JOIN movies ON comments.movie_id = movies.id
 	WHERE comments.user_id = $1;
 	`
-	
+
 	queryUpdAvatarByUsID = `
 	UPDATE users 
 	SET imgsrc = $2
@@ -51,7 +51,7 @@ const (
 	FROM users
 	WHERE id = $1;
 	`
-	
+
 	queryGetUserBookmarks = `
 	SELECT playlists.id, playlists.title, playlists.poster, playlists.public
 	FROM users_playlists

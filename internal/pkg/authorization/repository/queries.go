@@ -28,7 +28,7 @@ const (
 		('Мне нравится')
     RETURNING id;
 	`
-	
+
 	queryBindBasicPlaylists = `
 	INSERT INTO
     	users_playlists (user_id, playlist_id)
@@ -55,7 +55,7 @@ const (
 	JOIN movies ON comments.movie_id = movies.id
 	WHERE comments.user_id = $1;
 	`
-	
+
 	queryUpdAvatarByUsID = `
 	UPDATE users 
 	SET imgsrc = $2

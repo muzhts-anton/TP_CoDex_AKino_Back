@@ -59,8 +59,7 @@ func (handler *MovieHandler) GetMovie(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	
-	
+
 	out, err := json.Marshal(domain.MovieResponse{
 		Movie:           movie,
 		Related:         related,

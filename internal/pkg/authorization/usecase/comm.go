@@ -1,8 +1,8 @@
 package autusecase
 
 import (
-	"codex/internal/pkg/domain"
 	"codex/internal/pkg/authorization/delivery/grpc"
+	"codex/internal/pkg/domain"
 
 	"context"
 

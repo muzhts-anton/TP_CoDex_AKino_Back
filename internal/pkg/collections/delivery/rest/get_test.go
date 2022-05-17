@@ -6,37 +6,37 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/golang/mock/gomock"
-	"github.com/stretchr/testify/assert"
 	"github.com/gorilla/mux"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strconv"
 	"strings"
 	"testing"
-	"strconv"
 )
 
 type testRow struct {
-	out        string
-	status     int
-	name       string
-	id         uint64
+	out    string
+	status int
+	name   string
+	id     uint64
 }
 
 var testTableSuccess = [...]testRow{
 	{
-		out: `{"title":"Топ 256","description":"must see","movielist":[{"ID":"1","poster":"showshenkRedemption.webp","title":"Побег из Шоушенка","rating":"6.8","info":"1994, США. Драма.","description":"Бухгалтер Энди Дюфрейн обвинён в убийстве собственной жены и её любовника. Оказавшись в тюрьме под названием Шоушенк, он сталкивается с жестокостью и беззаконием, царящими по обе стороны решётки. Каждый, кто попадает в эти стены, становится их рабом до конца жизни. Но Энди, обладающий живым умом и доброй душой, находит подход как к заключённым, так и к охранникам, добиваясь их особого к себе расположения."},{"ID":"2","poster":"ironman.webp","title":"Железный Человек","rating":"10.0","info":"2008, США, Канада. Фантастика, Боевик, Приключения.","description":"Миллиардер-изобретатель Тони Старк попадает в плен к Афганским террористам, которые пытаются заставить его создать оружие массового поражения. В тайне от своих захватчиков Старк конструирует высокотехнологичную киберброню, которая помогает ему сбежать. Однако по возвращении в США он узнаёт, что в совете директоров его фирмы плетётся заговор, чреватый страшными последствиями. Используя своё последнее изобретение, Старк пытается решить проблемы своей компании радикально..."}]}`+ "\n",
-		status:  http.StatusOK,
-		name:    `GetCollection work`,
-		id:      1,
+		out:    `{"title":"Топ 256","description":"must see","movielist":[{"ID":"1","poster":"showshenkRedemption.webp","title":"Побег из Шоушенка","rating":"6.8","info":"1994, США. Драма.","description":"Бухгалтер Энди Дюфрейн обвинён в убийстве собственной жены и её любовника. Оказавшись в тюрьме под названием Шоушенк, он сталкивается с жестокостью и беззаконием, царящими по обе стороны решётки. Каждый, кто попадает в эти стены, становится их рабом до конца жизни. Но Энди, обладающий живым умом и доброй душой, находит подход как к заключённым, так и к охранникам, добиваясь их особого к себе расположения."},{"ID":"2","poster":"ironman.webp","title":"Железный Человек","rating":"10.0","info":"2008, США, Канада. Фантастика, Боевик, Приключения.","description":"Миллиардер-изобретатель Тони Старк попадает в плен к Афганским террористам, которые пытаются заставить его создать оружие массового поражения. В тайне от своих захватчиков Старк конструирует высокотехнологичную киберброню, которая помогает ему сбежать. Однако по возвращении в США он узнаёт, что в совете директоров его фирмы плетётся заговор, чреватый страшными последствиями. Используя своё последнее изобретение, Старк пытается решить проблемы своей компании радикально..."}]}` + "\n",
+		status: http.StatusOK,
+		name:   `GetCollection work`,
+		id:     1,
 	},
 }
 var testTableFailure = [...]testRow{
 	{
-		out: "Bad input\n" + `a`,
-		status:  http.StatusBadRequest,
-		name:    `GetCollection work`,
-		id:      1000,
+		out:    "Bad input\n" + `a`,
+		status: http.StatusBadRequest,
+		name:   `GetCollection work`,
+		id:     1000,
 	},
 }
 
@@ -54,7 +54,7 @@ func TestGetCollectionSuccess(t *testing.T) {
 		bodyReader := strings.NewReader("")
 		w := httptest.NewRecorder()
 
-		colId := strconv.Itoa(int(test.id)) 
+		colId := strconv.Itoa(int(test.id))
 		r := httptest.NewRequest("GET", apiPath+colId, bodyReader)
 		vars := map[string]string{
 			"id": colId,
@@ -80,7 +80,7 @@ func TestGetCollectionError(t *testing.T) {
 
 		handler := CollectionsHandler{CollectionsUsecase: mock}
 		bodyReader := strings.NewReader("")
-		colId := strconv.Itoa(int(test.id)) 
+		colId := strconv.Itoa(int(test.id))
 		w := httptest.NewRecorder()
 		r := httptest.NewRequest("GET", apiPath+colId, bodyReader)
 		vars := map[string]string{

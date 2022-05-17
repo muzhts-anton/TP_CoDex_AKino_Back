@@ -2,12 +2,12 @@ package usrdelivery
 
 import (
 	"codex/internal/pkg/domain"
-	"codex/internal/pkg/utils/log"
 	"codex/internal/pkg/utils/filesaver"
-	
+	"codex/internal/pkg/utils/log"
+
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"fmt"
+	"github.com/gorilla/mux"
 	"net/http"
 	"path/filepath"
 	"strconv"
@@ -59,7 +59,7 @@ func (handler *UserHandler) UploadAvatar(w http.ResponseWriter, r *http.Request)
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
 	}
-	
+
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshalledUs)
 }

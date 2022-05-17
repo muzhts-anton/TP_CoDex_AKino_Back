@@ -47,7 +47,7 @@ const (
 	WHERE movies.id = $1
 	ORDER BY comments.commentdate DESC;
 	`
-	
+
 	queryGetCommentsCount = `
 	SELECT COUNT(*)
 	FROM comments
@@ -61,7 +61,7 @@ const (
 	FROM ratings
 	WHERE user_id = $1;
 	`
-	
+
 	queryGetUserRating = `
 	SELECT rating
 	FROM ratings

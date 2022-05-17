@@ -3,8 +3,8 @@ package anndelivery
 import (
 	"codex/internal/pkg/domain"
 
-	"net/http"
 	"encoding/json"
+	"net/http"
 
 	"github.com/gorilla/mux"
 	"strconv"
@@ -47,10 +47,9 @@ func (handler *AnnouncedHandler) GetMovie(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-
 	out, err := json.Marshal(domain.AnnouncedResponse{
-		Announced:       movie,
-		Related:         related,
+		Announced: movie,
+		Related:   related,
 	})
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)

@@ -1,23 +1,23 @@
 package domain
 
 type Movie struct {
-	Id            string  `json:"ID"`
-	Poster        string  `json:"poster"`
-	Title         string  `json:"title"`
-	TitleOriginal string  `json:"originalTitle"`
-	Rating        string  `json:"rating"`
-	VotesNum      uint64  `json:"-"`
-	Info          string  `json:"info"`
-	Description   string  `json:"description"`
-	Trailer       string  `json:"trailerHref"`
-	ReleaseYear   string  `json:"year"`
-	Country       string  `json:"country"`
-	Motto         string  `json:"motto"`
-	Director      string  `json:"director"`
-	Budget        string  `json:"budget"`
-	Gross         string  `json:"gross"`
-	Duration      string  `json:"duration"`
-	Actors        []Cast  `json:"cast"`
+	Id            string         `json:"ID"`
+	Poster        string         `json:"poster"`
+	Title         string         `json:"title"`
+	TitleOriginal string         `json:"originalTitle"`
+	Rating        string         `json:"rating"`
+	VotesNum      uint64         `json:"-"`
+	Info          string         `json:"info"`
+	Description   string         `json:"description"`
+	Trailer       string         `json:"trailerHref"`
+	ReleaseYear   string         `json:"year"`
+	Country       string         `json:"country"`
+	Motto         string         `json:"motto"`
+	Director      string         `json:"director"`
+	Budget        string         `json:"budget"`
+	Gross         string         `json:"gross"`
+	Duration      string         `json:"duration"`
+	Actors        []Cast         `json:"cast"`
 	Genres        []GenreInMovie `json:"genres"`
 }
 
@@ -41,19 +41,19 @@ type MovieSummary struct {
 	Title  string `json:"title"`
 }
 
-type CollectionInfo struct{
-	Collection  string `json:"collection"`
-	HasMovie	bool   `json:"hasMovie"`
-	BookmarkId  uint64 `json:"bookmarkId"`
+type CollectionInfo struct {
+	Collection string `json:"collection"`
+	HasMovie   bool   `json:"hasMovie"`
+	BookmarkId uint64 `json:"bookmarkId"`
 }
 
 type MovieResponse struct {
-	Movie            Movie             `json:"movie"`
-	Related          []MovieSummary    `json:"related"`
-	Comments         []Comment         `json:"reviews"`
-	ReviewExist      string            `json:"reviewex"`
-	UserRating 		 string            `json:"userrating"`
-	CollectionsInfo  []CollectionInfo  `json:"collectionsInfo"`
+	Movie           Movie            `json:"movie"`
+	Related         []MovieSummary   `json:"related"`
+	Comments        []Comment        `json:"reviews"`
+	ReviewExist     string           `json:"reviewex"`
+	UserRating      string           `json:"userrating"`
+	CollectionsInfo []CollectionInfo `json:"collectionsInfo"`
 }
 
 type MovieRepository interface {
@@ -70,5 +70,4 @@ type MovieUsecase interface {
 	GetComments(id uint64) ([]Comment, error)
 	GetReviewRating(movieId, userId uint64) (string, string, error)
 	GetCollectionsInfo(movieId, userId uint64) ([]CollectionInfo, error)
-
 }

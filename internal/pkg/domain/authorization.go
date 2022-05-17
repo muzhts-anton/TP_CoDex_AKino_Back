@@ -10,4 +10,3 @@ type AuthUsecase interface {
 	Register(us User) (User, error)
 	Login(ub UserBasic) (User, error)
 }
-

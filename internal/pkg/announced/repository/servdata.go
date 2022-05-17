@@ -7,8 +7,8 @@ import (
 	"codex/internal/pkg/utils/log"
 )
 
-const(
-	title = "Самые долгожданные премьеры"
+const (
+	title       = "Самые долгожданные премьеры"
 	description = "Премьеры были собраны лучшими кинокритиками, чтобы вы не упустили самое интересное!"
 )
 
@@ -73,12 +73,12 @@ func (ar *dbAnnouncedRepository) GetMovies() (domain.AnnouncedBasicResponse, err
 			return domain.AnnouncedBasicResponse{}, domain.Err.ErrObj.InternalServer
 		}
 		movies = append(movies, domain.AnnouncedBasic{
-			Id:                cast.IntToStr(cast.ToUint64(resp[i][0])),
-			Poster:            cast.ToString(resp[i][1]),
-			Title:             cast.ToString(resp[i][2]),
-			OriginalTitle:     cast.ToString(resp[i][3]),
-			PremierMonth:      PremierMonth,
-			PremierDay:        cast.ToString(resp[i][5]),
+			Id:            cast.IntToStr(cast.ToUint64(resp[i][0])),
+			Poster:        cast.ToString(resp[i][1]),
+			Title:         cast.ToString(resp[i][2]),
+			OriginalTitle: cast.ToString(resp[i][3]),
+			PremierMonth:  PremierMonth,
+			PremierDay:    cast.ToString(resp[i][5]),
 		})
 	}
 	var movieResponse domain.AnnouncedBasicResponse
@@ -138,8 +138,6 @@ func (ar *dbAnnouncedRepository) GetMovie(id uint64) (domain.Announced, error) {
 
 	out.Actors = actors
 
-
-
 	resp, err = ar.dbm.Query(queryGetAnnouncedGenres, id)
 	if err != nil {
 		log.Warn("{GetMovie} in query: " + queryGetAnnouncedGenres)
@@ -155,7 +153,7 @@ func (ar *dbAnnouncedRepository) GetMovie(id uint64) (domain.Announced, error) {
 	genres := make([]domain.GenreInMovie, 0)
 	for i := range resp {
 		genres = append(genres, domain.GenreInMovie{
-			Href: "/genres/" + cast.ToString(resp[i][0]),
+			Href:  "/genres/" + cast.ToString(resp[i][0]),
 			Title: cast.ToString(resp[i][1]),
 		})
 	}

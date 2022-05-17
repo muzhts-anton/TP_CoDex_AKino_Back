@@ -3,10 +3,10 @@ package pladelivery
 import (
 	"codex/internal/pkg/domain"
 
+	"codex/internal/pkg/sessions"
 	"codex/internal/pkg/utils/sanitizer"
 	"encoding/json"
 	"net/http"
-	"codex/internal/pkg/sessions"
 )
 
 func (handler *PlaylistHandler) CreatePlaylist(w http.ResponseWriter, r *http.Request) {
@@ -112,7 +112,7 @@ func (handler *PlaylistHandler) AlterPlaylistPublic(w http.ResponseWriter, r *ht
 		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
 		return
 	}
-	
+
 	alterPlaylistPublicInfo := new(domain.AlterPlaylistPublicInfo)
 	err := json.NewDecoder(r.Body).Decode(&alterPlaylistPublicInfo)
 	if err != nil {

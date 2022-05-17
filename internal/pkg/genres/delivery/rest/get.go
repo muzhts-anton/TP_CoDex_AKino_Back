@@ -3,9 +3,9 @@ package gendelivery
 import (
 	"codex/internal/pkg/domain"
 
-	"net/http"
 	"encoding/json"
-	
+	"net/http"
+
 	"github.com/gorilla/mux"
 )
 

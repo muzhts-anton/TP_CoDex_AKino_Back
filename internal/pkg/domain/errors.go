@@ -38,7 +38,7 @@ type errObj struct {
 
 	BadGenre error
 
-	InvalidTitle error
+	InvalidTitle  error
 	PlaylistExist error
 }
 
@@ -81,7 +81,7 @@ var Err = err{
 
 		BadGenre: errors.New("Genre request gives empty response from db"),
 
-		InvalidTitle: errors.New("Invalid title"),
+		InvalidTitle:  errors.New("Invalid title"),
 		PlaylistExist: errors.New("Playlist with this title already exist"),
 	},
 }

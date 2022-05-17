@@ -1,8 +1,8 @@
 package ratusecase
 
 import (
-	"codex/internal/pkg/rating/delivery/grpc"
 	"codex/internal/pkg/domain"
+	"codex/internal/pkg/rating/delivery/grpc"
 
 	"context"
 )

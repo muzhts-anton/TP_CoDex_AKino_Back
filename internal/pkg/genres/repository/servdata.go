@@ -30,8 +30,8 @@ func (cr *dbGenresRepository) GetGenre(genre string) (domain.GenreWithMovies, er
 	}
 
 	var genreWithMovies domain.GenreWithMovies
-	genreWithMovies.Description = cast.ToString(resp[0][6]) 
-	genreWithMovies.Title = cast.ToString(resp[0][7]) 
+	genreWithMovies.Description = cast.ToString(resp[0][6])
+	genreWithMovies.Title = cast.ToString(resp[0][7])
 	for i := range resp {
 		genreWithMovies.MovieList = append(genreWithMovies.MovieList, domain.MovieBasic{
 			Id:          cast.IntToStr(cast.ToUint64(resp[i][0])),
@@ -57,8 +57,8 @@ func (cr *dbGenresRepository) GetGenres() ([]domain.Genre, error) {
 	genres := make([]domain.Genre, 0)
 	for i := range resp {
 		genres = append(genres, domain.Genre{
-			Href:          "/genres/" + cast.ToString(resp[i][0]),
-			Imgsrc:        "genres" + cast.ToString(resp[i][1]),
+			Href:   "/genres/" + cast.ToString(resp[i][0]),
+			Imgsrc: "genres" + cast.ToString(resp[i][1]),
 		})
 	}
 

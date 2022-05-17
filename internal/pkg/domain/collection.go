@@ -14,7 +14,7 @@ type FeedResponse struct {
 type Collection struct {
 	Title       string       `json:"title"`
 	Description string       `json:"description"`
-	Public	    bool         `json:"public"`
+	Public      bool         `json:"public"`
 	MovieList   []MovieBasic `json:"movielist"`
 }
 

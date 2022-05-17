@@ -1,5 +1,5 @@
 package ratdelivery
 
 const (
-	postRatingUrl  = "/ratings/set"
+	postRatingUrl = "/ratings/set"
 )

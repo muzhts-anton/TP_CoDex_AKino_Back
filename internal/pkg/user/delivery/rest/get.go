@@ -70,7 +70,7 @@ func (handler *UserHandler) UpdateInfo(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
 		return
 	}
-	
+
 	sanitizer.SanitizeUpdUser(newUsrInfo)
 
 	params := mux.Vars(r)

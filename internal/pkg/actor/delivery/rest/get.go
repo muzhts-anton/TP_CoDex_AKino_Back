@@ -36,9 +36,9 @@ func (handler *ActorHandler) GetActor(w http.ResponseWriter, r *http.Request) {
 	}
 
 	out, err := json.Marshal(domain.ActorResponse{
-		Person: actor,
-		Related:  related,
-		Movies:    movies,
+		Person:  actor,
+		Related: related,
+		Movies:  movies,
 	})
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
