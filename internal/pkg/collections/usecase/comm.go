@@ -30,6 +30,7 @@ func (cu collectionsUsecase) GetCollection(id uint64) (domain.Collection, error)
 
 func (cu collectionsUsecase) GetFeed() (domain.FeedResponse, error) {
 	feed, err := cu.collectionsRepo.GetFeed()
+	
 	if err != nil {
 		return domain.FeedResponse{}, err
 	}
