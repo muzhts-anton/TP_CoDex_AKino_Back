@@ -13,8 +13,8 @@ jobs:
     name: lint
     runs-on: ubuntu-latest
     steps:
-      # - name: Install dependencies
-        # run: sudo apt update && sudo apt install libsnmp-dev
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install libsnmp-dev
       - uses: actions/checkout@v2
       - name: golangci-lint
         uses: Jerome1337/golint-action@v1.0.2
@@ -49,7 +49,7 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Build API
         run: make &
 
