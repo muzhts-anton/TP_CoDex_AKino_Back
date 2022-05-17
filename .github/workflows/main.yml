@@ -1,0 +1,141 @@
+name: Simple Build
+
+on:
+  push:
+    branches: [script_fix]
+  pull_request:
+    branches: [script_fix]
+
+jobs:
+  golangci:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: golangci-lint
+        uses: Jerome1337/golint-action@v1.0.2
+        with:
+          golint-path: './...'
+
+#   tests:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Install Go
+#         uses: actions/setup-go@v2
+#         with:
+#           go-version: 1.16.x
+          
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Main Test
+#         run: go test -coverprofile=coverage1.out -coverpkg=./... -cover ./... && cat coverage1.out | grep -v _mock | grep -v pb.go > cover.out &&go tool cover -func=cover.out
+
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16.x
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build auth
+        run: make autmcs
+
+      - name: Build comments
+        run: make commcs
+
+      - name: Build ratings
+        run: make ratmcs
+        
+      - name: Build API
+        run: make
+
+#   deploy:
+#     runs-on: ubuntu-latest
+#     needs: build
+#     steps:
+#       - name: Download bin file
+#         uses: actions/download-artifact@v1
+#         with:
+#           name: bin
+#       - name: Transfer bin1 file to server 1
+#         uses: appleboy/scp-action@v0.0.10
+#         with:
+#           host: 89.208.198.186
+#           username: ubuntu
+#           key: ${{ secrets.PRIVATE_KEY }}
+#           source: "bin/main"
+#           target: "/home/ubuntu"
+
+#       - name: Transfer bin2 file to server 1
+#         uses: appleboy/scp-action@v0.0.10
+#         with:
+#           host: 89.208.198.186
+#           username: ubuntu
+#           key: ${{ secrets.PRIVATE_KEY }}
+#           source: "bin/main_fileserver"
+#           target: "/home/ubuntu"
+
+#       - name: Transfer bin3 file to server 1
+#         uses: appleboy/scp-action@v0.0.10
+#         with:
+#           host: 89.208.198.186
+#           username: ubuntu
+#           key: ${{ secrets.PRIVATE_KEY }}
+#           source: "bin/main_auth"
+#           target: "/home/ubuntu"
+
+#       - name: chmod
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: 89.208.198.186
+#           username: ubuntu
+#           key: ${{ secrets.PRIVATE_KEY }}
+#           script: chmod 755 /home/ubuntu/bin/main
+
+#       - name: chmod
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: 89.208.198.186
+#           username: ubuntu
+#           key: ${{ secrets.PRIVATE_KEY }}
+#           script: chmod 755 /home/ubuntu/bin/main_fileserver
+
+#       - name: chmod
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: 89.208.198.186
+#           username: ubuntu
+#           key: ${{ secrets.PRIVATE_KEY }}
+#           script: chmod 755 /home/ubuntu/bin/main_auth
+
+#       - name: restart service
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: 89.208.198.186
+#           username: ubuntu
+#           key: ${{ secrets.PRIVATE_KEY }}
+#           script: sudo systemctl restart api.service
+
+#       - name: restart service
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: 89.208.198.186
+#           username: ubuntu
+#           key: ${{ secrets.PRIVATE_KEY }}
+#           script: sudo systemctl restart auth.service
+
+#       - name: restart service
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: 89.208.198.186
+#           username: ubuntu
+#           key: ${{ secrets.PRIVATE_KEY }}
+#           script: sudo systemctl restart fileserver.service
