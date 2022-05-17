@@ -19,6 +19,14 @@ const (
 	WHERE playlists.id = $1;
 	`
 
+	queryGetCollectionUserId = `
+	SELECT
+	users_playlists.user_id
+	FROM playlists
+	JOIN users_playlists ON playlists.id = users_playlists.playlist_id
+	WHERE playlists.id = $1;
+	`
+
 	queryGetCollectionMovies = `
 	SELECT
 	movies.id, movies.poster, movies.title, movies.rating, movies.info, movies.description

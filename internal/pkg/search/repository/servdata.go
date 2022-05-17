@@ -183,7 +183,6 @@ func (cr *dbSearchRepository) SearchUsers(tag string) (domain.SearchUsersResp, e
 		usrs = append(usrs, domain.UserPublicInfo{
 			Id:       cast.ToUint64(resp[i][0]),
 			Username: cast.ToString(resp[i][1]),
-			Imgsrc:   cast.ToString(resp[i][2]),
 		})
 	}
 

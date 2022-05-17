@@ -5,23 +5,23 @@ import (
 	"codex/internal/pkg/utils/config"
 	"codex/internal/pkg/utils/log"
 
-	"codex/internal/pkg/user/delivery/rest"
+	usrdelivery "codex/internal/pkg/user/delivery/rest"
 	"codex/internal/pkg/user/repository"
 	"codex/internal/pkg/user/usecase"
 
-	"codex/internal/pkg/collections/delivery/rest"
-	"codex/internal/pkg/collections/repository"
-	"codex/internal/pkg/collections/usecase"
+	coldelivery "codex/internal/pkg/collections/delivery/rest"
+	colrepository "codex/internal/pkg/collections/repository"
+	colusecase "codex/internal/pkg/collections/usecase"
 
-	"codex/internal/pkg/movie/delivery/rest"
-	"codex/internal/pkg/movie/repository"
+	movdelivery "codex/internal/pkg/movie/delivery/rest"
+	movrepository "codex/internal/pkg/movie/repository"
 	"codex/internal/pkg/movie/usecase"
 
-	"codex/internal/pkg/actor/delivery/rest"
-	"codex/internal/pkg/actor/repository"
+	actdelivery "codex/internal/pkg/actor/delivery/rest"
+	actrepository "codex/internal/pkg/actor/repository"
 	"codex/internal/pkg/actor/usecase"
 
-	"codex/internal/pkg/genres/delivery/rest"
+	gendelivery "codex/internal/pkg/genres/delivery/rest"
 	"codex/internal/pkg/genres/repository"
 	"codex/internal/pkg/genres/usecase"
 
