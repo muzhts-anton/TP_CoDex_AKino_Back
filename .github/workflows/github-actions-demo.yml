@@ -47,20 +47,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build autmcs
-        run: make autmcs
-
-      - name: Build fileserver
-        run: go build cmd/fileserver/main_fileserver.go
-
-      - name: Build comments
-        run: make commcs
-
-      - name: Build ratings
-        run: make ratmcs
-
       - name: Build API
-        run: make
+        run: go build cmd/main.go
+
+      - name: Run API
+        run: ./main.go
+
+      # - name: Build autmcs
+      #   run: make autmcs
+
+      # - name: Build fileserver
+      #   run: go build cmd/fileserver/main_fileserver.go
+
+      # - name: Build comments
+      #   run: make commcs
+
+      # - name: Build ratings
+      #   run: make ratmcs
 
   # deploy:
   #   runs-on: ubuntu-latest
