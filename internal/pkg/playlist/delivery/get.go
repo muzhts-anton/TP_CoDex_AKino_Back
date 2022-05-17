@@ -108,10 +108,11 @@ func (handler *PlaylistHandler) DeletePlaylist(w http.ResponseWriter, r *http.Re
 
 func (handler *PlaylistHandler) AlterPlaylistPublic(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	// if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
-	// 	http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
-	// 	return
-	// }
+	if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
+		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
+		return
+	}
+	
 	alterPlaylistPublicInfo := new(domain.AlterPlaylistPublicInfo)
 	err := json.NewDecoder(r.Body).Decode(&alterPlaylistPublicInfo)
 	if err != nil {

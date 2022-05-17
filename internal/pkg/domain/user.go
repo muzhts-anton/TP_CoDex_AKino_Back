@@ -25,7 +25,6 @@ type UserBasic struct {
 type UserPublicInfo struct {
 	Id       uint64 `json:"ID"`
 	Username string `json:"name"`
-	Imgsrc   string `json:"imgsrc"`
 }
 
 type UpdUser struct {
