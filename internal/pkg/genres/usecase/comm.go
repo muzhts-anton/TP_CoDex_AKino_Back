@@ -2,7 +2,7 @@ package genusecase
 
 import (
 	"codex/internal/pkg/domain"
-
+	"codex/internal/pkg/utils/addPreview"
 	"strings"
 )
 
@@ -24,6 +24,10 @@ func (gu genresUsecase) GetGenre(genre string) (domain.GenreWithMovies, error) {
 	movs, err := gu.genresRepo.GetGenre(strings.Trim(genre, " "))
 	if err != nil {
 		return domain.GenreWithMovies{}, err
+	}
+
+	for index, _ := range movs.MovieList{
+		movs.MovieList[index].Poster = addPreview.ToMiniCopy(movs.MovieList[index].Poster)
 	}
 
 	return movs, err
