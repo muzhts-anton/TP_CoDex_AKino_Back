@@ -50,9 +50,6 @@ jobs:
       - name: Run API
         run: make &
 
-      - name: Run API
-        run: ./main.go
-
       - name: Run autmcs
         run: make autmcs &
 
