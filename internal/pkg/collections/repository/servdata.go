@@ -42,7 +42,7 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 		log.Error(err)
 		return domain.Collection{}, domain.Err.ErrObj.InternalServer
 	}
-	
+
 	movies := make([]domain.MovieBasic, 0)
 	for i := range resp {
 		movies = append(movies, domain.MovieBasic{
@@ -55,7 +55,7 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 		})
 	}
 	out.MovieList = movies
-	
+
 	resp, err = cr.dbm.Query(queryGetCollectionUserId, id)
 	if err != nil {
 		log.Warn("{GetCollection} in query: " + queryGetCollectionUserId)

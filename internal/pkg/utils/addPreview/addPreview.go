@@ -5,11 +5,11 @@ import (
 )
 
 func Reverse(s string) string {
-    runes := []rune(s)
-    for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-        runes[i], runes[j] = runes[j], runes[i]
-    }
-    return string(runes)
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
 }
 
 func ToMiniCopy(imgSrc string) string {
@@ -19,7 +19,7 @@ func ToMiniCopy(imgSrc string) string {
 	point := rune('.')
 	for _, symbol := range reversed {
 		sb.WriteString(string(symbol))
-		if (symbol == point){
+		if symbol == point {
 			sb.WriteString(reversedAdditional)
 		}
 	}

@@ -17,7 +17,6 @@ type Collection struct {
 	Public      bool         `json:"public"`
 	UserId      string       `json:"userId"`
 	MovieList   []MovieBasic `json:"movielist"`
-
 }
 
 type CollectionsRepository interface {

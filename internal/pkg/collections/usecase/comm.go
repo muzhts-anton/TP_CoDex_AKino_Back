@@ -21,10 +21,9 @@ func (cu collectionsUsecase) GetCollection(id uint64) (domain.Collection, error)
 		return domain.Collection{}, err
 	}
 
-	for index := range coll.MovieList{
+	for index := range coll.MovieList {
 		coll.MovieList[index].Poster = addPreview.ToMiniCopy(coll.MovieList[index].Poster)
 	}
-
 
 	return coll, err
 }
