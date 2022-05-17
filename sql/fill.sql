@@ -657,7 +657,7 @@ VALUES
     (11, 840884),
     (11, 41381);
 
--- fairy tales
+-- Fairy tales
 INSERT INTO 
     playlists_movies (playlist_id, movie_id)
 VALUES
