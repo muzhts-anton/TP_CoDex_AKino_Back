@@ -2,9 +2,11 @@ name: Simple Build
 
 on:
   push:
-    branches: rk4
+    branches:
+     - rk4
   pull_request:
-    branches: rk4
+    branches:
+     - rk4
 
 jobs:
   golangci:
@@ -47,18 +49,19 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Build auth
-        run: make autmcs
-
-      - name: Build comments
-        run: make commcs
-
-      - name: Build ratings
-        run: make ratmcs
         
       - name: Build API
-        run: make
+        run: make &
+
+      - name: Build auth
+        run: make autmcs &
+
+      - name: Build comments
+        run: make commcs &
+
+      - name: Build ratings
+        run: make ratmcs &
+        
 
 #   deploy:
 #     runs-on: ubuntu-latest
