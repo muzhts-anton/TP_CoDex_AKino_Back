@@ -1,0 +1,10 @@
+Mon, 16 May 2022 22:00:19 MSK INF database.go:60: Successful connection to postgres
+Mon, 16 May 2022 22:00:19 MSK INF database.go:61: Connection params: user=akino password=1234 host=localhost port=5432 dbname=codex
+Mon, 16 May 2022 22:00:19 MSK INF ruserver.go:67: Connecting to port 3000
+Mon, 16 May 2022 22:00:44 MSK INF [POST] 127.0.0.1:55870, /api/v1/playlist/create 29.688µs
+Mon, 16 May 2022 22:37:04 MSK INF [POST] 127.0.0.1:55872, /api/v1/login 22.44µs
+Mon, 16 May 2022 22:39:07 MSK INF [POST] 127.0.0.1:55874, /api/v1/login 25.077µs
+Mon, 16 May 2022 22:40:18 MSK INF [POST] 127.0.0.1:55876, /api/v1/login 50.254µs
+Mon, 16 May 2022 22:40:20 MSK INF [GET] 127.0.0.1:55878, /api/v1/collections/feed 254.694471ms
+Mon, 16 May 2022 22:40:21 MSK INF [POST] 127.0.0.1:55880, /api/v1/login 35.377µs
+Mon, 16 May 2022 23:15:03 MSK INF [POST] 127.0.0.1:55882, /api/v1/playlist/create 36.8µs
