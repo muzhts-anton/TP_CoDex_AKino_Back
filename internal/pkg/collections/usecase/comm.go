@@ -43,8 +43,8 @@ func (cu collectionsUsecase) GetCollection(id uint64) (domain.Collection, error)
 		return domain.Collection{}, err
 	}
 
-	for _, element := range coll.MovieList{
-		element.Poster = toMiniCopy(element.Poster)
+	for index, _ := range coll.MovieList{
+		coll.MovieList[index].Poster = toMiniCopy(coll.MovieList[index].Poster)
 	}
 
 
