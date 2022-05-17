@@ -5,6 +5,7 @@ on:
     branches:
      - rk4
   pull_request:
+    branches:
      - rk4
 
 jobs:
