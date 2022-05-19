@@ -63,16 +63,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build API
-        run: make &
+        run: go build cmd/main.go
 
       - name: Build auth
-        run: make autmcs &
+        run: go build cmd/authorization/auth.go
 
       - name: Build comments
-        run: make commcs &
+        run: go build cmd/comment/comt.go
 
       - name: Build ratings
-        run: make ratmcs &
+        run: go build cmd/rating/rtng.go
       
       # Artifacts
       - name: Upload build result
