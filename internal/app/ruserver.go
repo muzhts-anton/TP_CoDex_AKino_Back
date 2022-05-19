@@ -1,30 +1,23 @@
 package app
 
 import (
-	"codex/internal/pkg/database"
-	"codex/internal/pkg/middlewares"
-	"codex/internal/pkg/utils/config"
-	"codex/internal/pkg/utils/log"
-	"codex/internal/pkg/utils/setter"
+	// "codex/internal/pkg/database"
+	// "codex/internal/pkg/middlewares"
+	// "codex/internal/pkg/utils/config"
+	// "codex/internal/pkg/utils/log"
+	// "codex/internal/pkg/utils/setter"
 
-	csrfsecurity "codex/internal/pkg/csrf"
+	// csrfsecurity "codex/internal/pkg/csrf"
 
-	"fmt"
-	"net/http"
-	"os"
+	// "fmt"
+	// "net/http"
+	// "os"
 
-	"github.com/gorilla/mux"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	// "github.com/gorilla/mux"
+	// "github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-type dontUseMe struct {
-	attribute string
-}
-
 func RunServer() {
-	if (false){
-		fmt.Println("IF FALSE IS RUNNING!")
-	}
 	router := mux.NewRouter()
 	api := router.PathPrefix("/api/v1").Subrouter()
 
