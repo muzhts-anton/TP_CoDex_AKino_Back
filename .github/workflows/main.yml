@@ -85,6 +85,12 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: bin
+          path: ./auth
+
+      - name: Upload build result
+        uses: actions/upload-artifact@v1
+        with:
+          name: bin
           path: ./comt
 
       - name: Upload build result
