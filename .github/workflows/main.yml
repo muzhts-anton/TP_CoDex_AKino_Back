@@ -151,7 +151,7 @@ jobs:
           host: 89.208.197.150
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          script: chmod 755 /home/ubuntu/lolkek/bin/main
+          script: chmod 755 /home/ubuntu/lolkek/scripts/bin/main
 
       - name: chmod
         uses: appleboy/ssh-action@master
@@ -159,7 +159,7 @@ jobs:
           host: 89.208.197.150
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          script: chmod 755 /home/ubuntu/lolkek/bin/auth
+          script: chmod 755 /home/ubuntu/lolkek/scripts/bin/auth
 
       - name: chmod
         uses: appleboy/ssh-action@master
@@ -167,7 +167,7 @@ jobs:
           host: 89.208.197.150
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          script: chmod 755 /home/ubuntu/lolkek/bin/comt
+          script: chmod 755 /home/ubuntu/lolkek/scripts/bin/comt
 
       - name: chmod
         uses: appleboy/ssh-action@master
@@ -175,7 +175,7 @@ jobs:
           host: 89.208.197.150
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          script: chmod 755 /home/ubuntu/lolkek/bin/rtng
+          script: chmod 755 /home/ubuntu/lolkek/scripts/bin/rtng
       
       # Restart
       - name: restart service
