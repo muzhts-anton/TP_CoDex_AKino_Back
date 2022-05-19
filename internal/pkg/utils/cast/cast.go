@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"math"
 	"time"
-
+	"codex/internal/pkg/utils/log"
 	"github.com/jackc/pgx/pgtype"
 )
 
@@ -38,18 +38,30 @@ func ToFloat64(src []byte) float64 {
 
 func ToTime(src []byte) time.Time {
 	tmp := pgtype.Timestamp{}
-	tmp.DecodeBinary(nil, src)
+	err := tmp.DecodeBinary(nil, src)
+	if (err != nil){
+		log.Error(err)
+		return time.Time{}
+	}
 	return tmp.Time
 }
 
 func ToDate(src []byte) time.Time {
 	tmp := pgtype.Timestamp{}
-	tmp.DecodeBinary(nil, src)
+	err := tmp.DecodeBinary(nil, src)
+	if (err != nil){
+		log.Error(err)
+		return time.Time{}
+	}
 	return tmp.Time
 }
 
 func ToBool(src []byte) bool {
 	tmp := pgtype.Bool{}
-	tmp.DecodeBinary(nil, src)
+	err := tmp.DecodeBinary(nil, src)
+	if (err != nil){
+		log.Error(err)
+		return tmp.Bool
+	}
 	return tmp.Bool
 }

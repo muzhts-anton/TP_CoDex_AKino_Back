@@ -31,5 +31,8 @@ func RunServer() {
 		log.Error(err)
 	}
 
-	s.Serve(l)
+	err = s.Serve(l)
+	if err != nil{
+		log.Error(err)
+	}
 }

@@ -15,7 +15,11 @@ import (
 )
 
 func init() {
-	config.DevConfigStore.FromJson() // this code runs before main.go. So here i have to parse config 2nd time :(
+	err := config.DevConfigStore.FromJson()
+	if err != nil {
+		log.Error()
+	}
+	 // this code runs before main.go. So here i have to parse config 2nd time :(
 	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	if config.DevConfigStore.Logs.OutputStdout {
 		SetOutput(os.Stdout)

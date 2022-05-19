@@ -48,6 +48,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type Data struct {
@@ -71,7 +72,7 @@ type Services struct {
 }
 
 func setAutMcs() autmcs.AutherClient {
-	autconn, err := grpc.Dial(":"+config.DevConfigStore.Mcs.Auth.Port, grpc.WithInsecure())
+	autconn, err := grpc.Dial(":"+config.DevConfigStore.Mcs.Auth.Port, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Warn("{setAutMcs} mcs Dial")
 	}
@@ -80,7 +81,7 @@ func setAutMcs() autmcs.AutherClient {
 }
 
 func setComMcs() commcs.PosterClient {
-	autconn, err := grpc.Dial(":"+config.DevConfigStore.Mcs.Comment.Port, grpc.WithInsecure())
+	autconn, err := grpc.Dial(":"+config.DevConfigStore.Mcs.Comment.Port, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Warn("{setComMcs} mcs Dial")
 	}
@@ -89,7 +90,7 @@ func setComMcs() commcs.PosterClient {
 }
 
 func setRatMcs() ratmcs.PosterClient {
-	autconn, err := grpc.Dial(":"+config.DevConfigStore.Mcs.Rating.Port, grpc.WithInsecure())
+	autconn, err := grpc.Dial(":"+config.DevConfigStore.Mcs.Rating.Port, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Warn("{setRatMcs} mcs Dial")
 	}
