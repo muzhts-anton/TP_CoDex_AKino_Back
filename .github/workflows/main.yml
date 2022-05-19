@@ -9,17 +9,17 @@ on:
      - rk4
 
 jobs:
-  golangci:
+  golangci-main:
     name: lint
     runs-on: ubuntu-latest
     steps:
-      - name: Install dependencies
-        run: sudo apt update && sudo apt install libsnmp-dev
-      - uses: actions/checkout@v2
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
       - name: golangci-lint
-        uses: Jerome1337/golint-action@v1.0.2
+        uses: reviewdog/action-golangci-lint@v1
         with:
-          golint-path: './...'
+          golangci_lint_flags: "--config=../.golangci.yml"
+          workdir: .
 
 
 #   tests:

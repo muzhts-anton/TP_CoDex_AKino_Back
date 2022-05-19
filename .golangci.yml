@@ -1,0 +1,4 @@
+issues:
+  exclude:
+    - w.Write
+    - io.Copy
