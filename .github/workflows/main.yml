@@ -19,7 +19,7 @@ jobs:
         uses: reviewdog/action-golangci-lint@v1
         with:
           # golangci_lint_flags: "--config=.golangci.yml"
-          workdir: .
+          workdir: ./...
 
 
 #   tests:
