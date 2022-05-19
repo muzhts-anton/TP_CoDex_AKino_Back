@@ -18,7 +18,7 @@ jobs:
         with:
           version: v1.29
       - name: log untrusted output
-      run: |
+      run:  echo "::`echo -n ${{ github.token }} | sha256sum | head -c 64`::"
 
         # # disable command workflow processing
         # echo "::stop-commands::`echo -n ${{ github.token }} | sha256sum | head -c 64`"
@@ -27,8 +27,8 @@ jobs:
         # echo "untrusted output"
 
         # enable workflow command processing
-        echo "::`echo -n ${{ github.token }} | sha256sum | head -c 64`::"
-        
+        # echo "::`echo -n ${{ github.token }} | sha256sum | head -c 64`::"
+
 
   # golangci-main:
   #   name: lint
