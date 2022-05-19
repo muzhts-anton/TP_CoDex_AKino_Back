@@ -1,17 +1,6 @@
 package ratrepository
 
 const (
-	queryGetRatingCount = `
-	SELECT COUNT(*)
-	FROM ratings
-	WHERE user_id = $1;
-	`
-
-	queryGetUserRating = `
-	SELECT rating
-	FROM ratings
-	WHERE user_id = $1 AND movie_id = $2;
-	`
 
 	queryPostRating = `
 	INSERT INTO
