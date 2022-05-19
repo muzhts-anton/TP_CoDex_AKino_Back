@@ -13,10 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # - name: Setup MSBuild path
-      #   uses: microsoft/setup-msbuild@v1.0.0
-      #   env:
-      #     ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
         
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.2
@@ -34,28 +30,8 @@ jobs:
     steps:
     - name: log untrusted output
       run: |
-
-        # # disable command workflow processing
-        # echo "::stop-commands::`echo -n ${{ github.token }} | sha256sum | head -c 64`"
-
-        # # log untrusted output
-        # echo "untrusted output"
-
         # enable workflow command processing
         echo "::`echo -n ${{ github.token }} | sha256sum | head -c 64`::"
-        
-
-  # golangci-main:
-  #   name: lint
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out code into the Go module directory
-  #       uses: actions/checkout@v1
-  #     - name: golangci-lint
-  #       uses: reviewdog/action-golangci-lint@v1
-  #       with:
-  #         golangci_lint_flags: "--config=.golangci.yml"
-  #         workdir: ./internal/app
 
 
   tests:
@@ -99,85 +75,112 @@ jobs:
         run: make ratmcs &
         
 
-#   deploy:
-#     runs-on: ubuntu-latest
-#     needs: build
-#     steps:
-#       - name: Download bin file
-#         uses: actions/download-artifact@v1
-#         with:
-#           name: bin
-#       - name: Transfer bin1 file to server 1
-#         uses: appleboy/scp-action@v0.0.10
-#         with:
-#           host: 89.208.198.186
-#           username: ubuntu
-#           key: ${{ secrets.PRIVATE_KEY }}
-#           source: "bin/main"
-#           target: "/home/ubuntu"
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download bin file
+        uses: actions/download-artifact@v1
+        with:
+          name: bin
+      - name: Transfer bin1 file to server 1
+        uses: appleboy/scp-action@v0.0.10
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "bin/main"
+          target: "/home/ubuntu/lolkek"
 
-#       - name: Transfer bin2 file to server 1
-#         uses: appleboy/scp-action@v0.0.10
-#         with:
-#           host: 89.208.198.186
-#           username: ubuntu
-#           key: ${{ secrets.PRIVATE_KEY }}
-#           source: "bin/main_fileserver"
-#           target: "/home/ubuntu"
+      - name: Transfer bin2 file to server 1
+        uses: appleboy/scp-action@v0.0.10
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "bin/auth"
+          target: "/home/ubuntu/lolkek"
 
-#       - name: Transfer bin3 file to server 1
-#         uses: appleboy/scp-action@v0.0.10
-#         with:
-#           host: 89.208.198.186
-#           username: ubuntu
-#           key: ${{ secrets.PRIVATE_KEY }}
-#           source: "bin/main_auth"
-#           target: "/home/ubuntu"
+      - name: Transfer bin3 file to server 1
+        uses: appleboy/scp-action@v0.0.10
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "bin/comt"
+          target: "/home/ubuntu/lolkek"
 
-#       - name: chmod
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: 89.208.198.186
-#           username: ubuntu
-#           key: ${{ secrets.PRIVATE_KEY }}
-#           script: chmod 755 /home/ubuntu/bin/main
+      - name: Transfer bin4 file to server 1
+        uses: appleboy/scp-action@v0.0.10
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "bin/rtng"
+          target: "/home/ubuntu/lolkek"
 
-#       - name: chmod
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: 89.208.198.186
-#           username: ubuntu
-#           key: ${{ secrets.PRIVATE_KEY }}
-#           script: chmod 755 /home/ubuntu/bin/main_fileserver
+#     Giving rights     
+      - name: chmod
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: chmod 755 /home/ubuntu/lolkek/bin/main
 
-#       - name: chmod
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: 89.208.198.186
-#           username: ubuntu
-#           key: ${{ secrets.PRIVATE_KEY }}
-#           script: chmod 755 /home/ubuntu/bin/main_auth
+      - name: chmod
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: chmod 755 /home/ubuntu/lolkek/bin/auth
 
-#       - name: restart service
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: 89.208.198.186
-#           username: ubuntu
-#           key: ${{ secrets.PRIVATE_KEY }}
-#           script: sudo systemctl restart api.service
+      - name: chmod
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: chmod 755 /home/ubuntu/lolkek/bin/comt
 
-#       - name: restart service
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: 89.208.198.186
-#           username: ubuntu
-#           key: ${{ secrets.PRIVATE_KEY }}
-#           script: sudo systemctl restart auth.service
+      - name: chmod
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: chmod 755 /home/ubuntu/lolkek/bin/rtng
+      
+      # Restart
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart api.service
 
-#       - name: restart service
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: 89.208.198.186
-#           username: ubuntu
-#           key: ${{ secrets.PRIVATE_KEY }}
-#           script: sudo systemctl restart fileserver.service
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart auth.service
+
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart fileserver.service
+
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart fileserver.service
