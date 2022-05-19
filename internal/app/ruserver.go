@@ -7,7 +7,7 @@ import (
 	"codex/internal/pkg/utils/log"
 	"codex/internal/pkg/utils/setter"
 
-	"codex/internal/pkg/csrf"
+	csrfsecurity "codex/internal/pkg/csrf"
 
 	"fmt"
 	"net/http"
@@ -17,7 +17,14 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
+type dontUseMe struct {
+	attribute string
+}
+
 func RunServer() {
+	if (false){
+		fmt.Println("IF FALSE IS RUNNING!")
+	}
 	router := mux.NewRouter()
 	api := router.PathPrefix("/api/v1").Subrouter()
 
