@@ -29,6 +29,7 @@ jobs:
         # enable workflow command processing
         echo "::`echo -n ${{ github.token }} | sha256sum | head -c 64`::"
         
+
   # golangci-main:
   #   name: lint
   #   runs-on: ubuntu-latest
