@@ -2,11 +2,13 @@ package pladelivery
 
 import (
 	"codex/internal/pkg/domain"
-
 	"codex/internal/pkg/sessions"
 	"codex/internal/pkg/utils/sanitizer"
+
 	"encoding/json"
 	"net/http"
+
+	"github.com/mailru/easyjson"
 )
 
 func (handler *PlaylistHandler) CreatePlaylist(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +33,7 @@ func (handler *PlaylistHandler) CreatePlaylist(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	out, err := json.Marshal(us)
+	out, err := easyjson.Marshal(us)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return

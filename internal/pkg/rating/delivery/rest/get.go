@@ -11,15 +11,19 @@ import (
 	"strconv"
 )
 
-func (handler *RatingHandler) PostRating(w http.ResponseWriter, r *http.Request) {
-	type ratingReq struct {
-		MovieId string `json:"movieId"`
-		UserId  string `json:"userId"`
-		Rating  string `json:"rating"`
-	}
+type RatingResp struct {
+	NewMovieRating string `json:"newrating"`
+}
 
+type RatingReq struct {
+	MovieId string `json:"movieId"`
+	UserId  string `json:"userId"`
+	Rating  string `json:"rating"`
+}
+
+func (handler *RatingHandler) PostRating(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	ratingreq := new(ratingReq)
+	ratingreq := new(RatingReq)
 	err := json.NewDecoder(r.Body).Decode(&ratingreq)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
@@ -54,11 +58,7 @@ func (handler *RatingHandler) PostRating(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	type ratingResp struct {
-		NewMovieRating string `json:"newrating"`
-	}
-
-	out, err := json.Marshal(ratingResp{
+	out, err := json.Marshal(RatingResp{
 		NewMovieRating: cast.FlToStr(float64(movieRating.GetRating())),
 	})
 	if err != nil {

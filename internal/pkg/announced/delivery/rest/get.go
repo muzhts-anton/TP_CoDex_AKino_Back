@@ -3,11 +3,11 @@ package anndelivery
 import (
 	"codex/internal/pkg/domain"
 
-	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
-	"strconv"
+	"github.com/mailru/easyjson"
 )
 
 func (handler *AnnouncedHandler) GetMovies(w http.ResponseWriter, r *http.Request) {
@@ -17,7 +17,7 @@ func (handler *AnnouncedHandler) GetMovies(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	out, err := json.Marshal(movs)
+	out, err := easyjson.Marshal(movs)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
@@ -47,7 +47,7 @@ func (handler *AnnouncedHandler) GetMovie(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	out, err := json.Marshal(domain.AnnouncedResponse{
+	out, err := easyjson.Marshal(domain.AnnouncedResponse{
 		Announced: movie,
 		Related:   related,
 	})

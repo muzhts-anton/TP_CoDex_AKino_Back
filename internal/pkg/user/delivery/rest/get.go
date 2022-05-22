@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/mailru/easyjson"
 )
 
 func (handler *UserHandler) GetBasicInfo(w http.ResponseWriter, r *http.Request) {
@@ -25,7 +26,7 @@ func (handler *UserHandler) GetBasicInfo(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	out, err := json.Marshal(us)
+	out, err := easyjson.Marshal(us)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
@@ -49,7 +50,7 @@ func (handler *UserHandler) GetBookmarks(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	out, err := json.Marshal(domain.BookmarkResp{
+	out, err := easyjson.Marshal(domain.BookmarkResp{
 		UserId:    userId,
 		Bookmarks: bookmarks,
 	})
@@ -86,7 +87,7 @@ func (handler *UserHandler) UpdateInfo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out, err := json.Marshal(usr)
+	out, err := easyjson.Marshal(usr)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
@@ -110,7 +111,7 @@ func (handler *UserHandler) GetUserReviews(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	out, err := json.Marshal(domain.UserReviewResp{
+	out, err := easyjson.Marshal(domain.UserReviewResp{
 		Id:      userId,
 		Reviews: usrRev,
 	})

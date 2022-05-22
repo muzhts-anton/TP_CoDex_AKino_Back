@@ -9,16 +9,22 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+
+	"github.com/mailru/easyjson"
 )
 
-func (handler *CommentHandler) PostComment(w http.ResponseWriter, r *http.Request) {
-	type commentReq struct {
-		MovieId string `json:"movieId"`
-		UserId  string `json:"userId"`
-		Content string `json:"reviewText"`
-		Type    string `json:"reviewType"` //int {1 2 3} {default: 2}
-	}
+type commentsResp struct {
+	Comment domain.Comment `json:"review"`
+}
 
+type commentReq struct {
+	MovieId string `json:"movieId"`
+	UserId  string `json:"userId"`
+	Content string `json:"reviewText"`
+	Type    string `json:"reviewType"` //int {1 2 3} {default: 2}
+}
+
+func (handler *CommentHandler) PostComment(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	commentreq := new(commentReq)
 	err := json.NewDecoder(r.Body).Decode(&commentreq)
@@ -58,11 +64,7 @@ func (handler *CommentHandler) PostComment(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	type commentsResp struct {
-		Comment domain.Comment `json:"review"`
-	}
-
-	out, err := json.Marshal(commentsResp{
+	out, err := easyjson.Marshal(commentsResp{
 		Comment: domain.Comment{
 			Imgsrc:   comm.Imgsrc,
 			Username: comm.Username,

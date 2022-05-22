@@ -3,10 +3,11 @@ package coldelivery
 import (
 	"codex/internal/pkg/domain"
 
-	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
+
+	"github.com/mailru/easyjson"
 )
 
 func (handler *CollectionsHandler) GetCollection(w http.ResponseWriter, r *http.Request) {
@@ -23,7 +24,7 @@ func (handler *CollectionsHandler) GetCollection(w http.ResponseWriter, r *http.
 		return
 	}
 
-	out, err := json.Marshal(coll)
+	out, err := easyjson.Marshal(coll)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
@@ -40,7 +41,7 @@ func (handler *CollectionsHandler) GetFeed(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	out, err := json.Marshal(feed)
+	out, err := easyjson.Marshal(feed)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return

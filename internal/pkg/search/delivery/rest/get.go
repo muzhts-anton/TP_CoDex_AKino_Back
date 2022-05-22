@@ -3,10 +3,10 @@ package serdelivery
 import (
 	"codex/internal/pkg/domain"
 
-	"encoding/json"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/mailru/easyjson"
 )
 
 func (handler *SearchHandler) Search(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +22,7 @@ func (handler *SearchHandler) Search(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out, err := json.Marshal(sr)
+	out, err := easyjson.Marshal(sr)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return

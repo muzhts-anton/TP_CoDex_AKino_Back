@@ -33,3 +33,11 @@ __________MOCK__________
 install:
     export GOPATH=$HOME/go
     export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+
+__________EJSN__________
+use:
+    //easyjson:json
+
+command:
+    easyjson -all -no_std_marshalers *

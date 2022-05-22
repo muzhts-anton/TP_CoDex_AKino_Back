@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/mailru/easyjson"
 )
 
 func (handler *GenresHandler) GetGenre(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +23,7 @@ func (handler *GenresHandler) GetGenre(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out, err := json.Marshal(genreWithMovies)
+	out, err := easyjson.Marshal(genreWithMovies)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return
@@ -33,7 +34,6 @@ func (handler *GenresHandler) GetGenre(w http.ResponseWriter, r *http.Request) {
 }
 
 func (handler *GenresHandler) GetGenres(w http.ResponseWriter, r *http.Request) {
-
 	genres, err := handler.GenresUsecase.GetGenres()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

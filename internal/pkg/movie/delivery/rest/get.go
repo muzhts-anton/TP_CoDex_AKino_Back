@@ -4,11 +4,11 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/sessions"
 
-	"encoding/json"
 	"net/http"
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/mailru/easyjson"
 )
 
 func (handler *MovieHandler) GetMovie(w http.ResponseWriter, r *http.Request) {
@@ -60,7 +60,7 @@ func (handler *MovieHandler) GetMovie(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	out, err := json.Marshal(domain.MovieResponse{
+	out, err := easyjson.Marshal(domain.MovieResponse{
 		Movie:           movie,
 		Related:         related,
 		Comments:        comments,
