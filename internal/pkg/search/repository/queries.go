@@ -5,7 +5,7 @@ const (
 	SELECT
 		id, poster, title, rating, info, description
 	FROM movies
-	WHERE title ILIKE $1 OR description ILIKE $1
+	WHERE title ILIKE $1
 	ORDER BY rating;
 	`
 
@@ -29,7 +29,7 @@ const (
 		id, poster, title,
 		releasedate, info, description
 	FROM announced
-	WHERE title ILIKE $1 OR description ILIKE $1
+	WHERE title ILIKE $1
 	ORDER BY releasedate;
 	`
 
