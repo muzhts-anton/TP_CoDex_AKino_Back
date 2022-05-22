@@ -115,7 +115,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           source: "bin/main"
-          target: "/home/ubuntu/lolkek/scripts/bin"
+          target: "/home/ubuntu/lolkek/scripts"
 
       - name: Transfer bin2 file to server 1
         uses: appleboy/scp-action@v0.0.10
@@ -124,7 +124,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           source: "bin/auth"
-          target: "/home/ubuntu/lolkek/scripts/bin"
+          target: "/home/ubuntu/lolkek/scripts"
 
       - name: Transfer bin3 file to server 1
         uses: appleboy/scp-action@v0.0.10
@@ -133,7 +133,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           source: "bin/comt"
-          target: "/home/ubuntu/lolkek/scripts/bin"
+          target: "/home/ubuntu/lolkek/scripts"
 
       - name: Transfer bin4 file to server 1
         uses: appleboy/scp-action@v0.0.10
@@ -142,7 +142,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           source: "bin/rtng"
-          target: "/home/ubuntu/lolkek/scripts/bin"
+          target: "/home/ubuntu/lolkek/scripts"
 
 #     Giving rights     
       - name: chmod
