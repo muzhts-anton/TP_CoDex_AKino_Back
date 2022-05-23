@@ -49,7 +49,7 @@ jobs:
       - name: Main Test
         run: go test -coverprofile=coverage1.out -coverpkg=./... -cover ./... && cat coverage1.out | grep -v _mock | grep -v pb.go > cover.out &&go tool cover -func=cover.out
 
-
+  # Build
   build:
     runs-on: ubuntu-latest
 
@@ -124,7 +124,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           source: "bin/auth"
-          target: "/home/ubuntu/lolkek/scripts"
+          target: "/home/ubuntu/back-end"
 
       - name: Transfer bin3 file to server 1
         uses: appleboy/scp-action@v0.0.10
@@ -133,7 +133,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           source: "bin/comt"
-          target: "/home/ubuntu/lolkek/scripts"
+          target: "/home/ubuntu/back-end"
 
       - name: Transfer bin4 file to server 1
         uses: appleboy/scp-action@v0.0.10
@@ -142,7 +142,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           source: "bin/rtng"
-          target: "/home/ubuntu/lolkek/scripts"
+          target: "/home/ubuntu/back-end"
 
 #     Giving rights     
       - name: chmod
@@ -159,7 +159,7 @@ jobs:
           host: 89.208.197.150
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          script: chmod 755 /home/ubuntu/lolkek/scripts/bin/auth
+          script: chmod 755 /home/ubuntu/back-end/bin/auth
 
       - name: chmod
         uses: appleboy/ssh-action@master
@@ -167,7 +167,7 @@ jobs:
           host: 89.208.197.150
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          script: chmod 755 /home/ubuntu/lolkek/scripts/bin/comt
+          script: chmod 755 /home/ubuntu/back-end/bin/comt
 
       - name: chmod
         uses: appleboy/ssh-action@master
@@ -175,7 +175,7 @@ jobs:
           host: 89.208.197.150
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          script: chmod 755 /home/ubuntu/lolkek/scripts/bin/rtng
+          script: chmod 755 /home/ubuntu/back-end/bin/rtng
       
       # Restart
       - name: restart service
@@ -186,26 +186,26 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           script: sudo systemctl restart api.service
 
-      # - name: restart service
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: 89.208.197.150
-      #     username: ubuntu
-      #     key: ${{ secrets.PRIVATE_KEY }}
-      #     script: sudo systemctl restart auth.service
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart auth.service
 
-      # - name: restart service
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: 89.208.197.150
-      #     username: ubuntu
-      #     key: ${{ secrets.PRIVATE_KEY }}
-      #     script: sudo systemctl restart fileserver.service
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart comt.service
 
-      # - name: restart service
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: 89.208.197.150
-      #     username: ubuntu
-      #     key: ${{ secrets.PRIVATE_KEY }}
-      #     script: sudo systemctl restart fileserver.service
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart rtng.service
