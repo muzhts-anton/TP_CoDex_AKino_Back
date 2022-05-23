@@ -47,6 +47,6 @@ func (handler *CollectionsHandler) GetFeed(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(410) //http.StatusOK
 	w.Write(out)
 }
