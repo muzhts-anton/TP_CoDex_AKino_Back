@@ -2,7 +2,7 @@ package app
 
 import (
 	announcedRepository "codex/internal/pkg/announced/repository"
-	"codex/internal/pkg/csrf"
+	csrfsecurity "codex/internal/pkg/csrf"
 	"codex/internal/pkg/database"
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/middlewares"
