@@ -7,7 +7,7 @@ import (
 	"codex/internal/pkg/utils/log"
 	"codex/internal/pkg/utils/setter"
 
-	csrfsecurity "codex/internal/pkg/csrf"
+	"codex/internal/pkg/csrf"
 
 	"fmt"
 	"net/http"

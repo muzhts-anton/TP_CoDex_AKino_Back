@@ -54,7 +54,7 @@ const (
 	devExt      = "json"
 )
 
-const configpath = "config/"
+var configpath = readConfigPath()
 
 func (cfg *DevConfig) FromJson() error {
 	viper.AddConfigPath(configpath)
