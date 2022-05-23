@@ -20,4 +20,5 @@ func SetUsrHandlers(router *mux.Router, uc domain.UserUsecase) {
 	router.HandleFunc(updateUrl, handler.UpdateInfo).Methods("POST", "OPTIONS")
 	router.HandleFunc(reviewsUrl, handler.GetUserReviews).Methods("GET", "OPTIONS")
 	router.HandleFunc(avatarUrl, handler.UploadAvatar).Methods("POST", "OPTIONS")
+	router.HandleFunc(subscribePush, handler.AddUserToNotificationTopic).Methods("POST", "OPTIONS")
 }

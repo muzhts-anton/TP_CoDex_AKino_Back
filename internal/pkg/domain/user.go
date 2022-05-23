@@ -32,6 +32,10 @@ type UpdUser struct {
 	Imgsrc   string `json:"imgsrc"`
 }
 
+type UserNotificationToken struct {
+	Token string `json:"token"`
+}
+
 type UserRepository interface {
 	GetById(id uint64) (User, error)
 	GetBookmarks(id uint64) ([]Bookmark, error)

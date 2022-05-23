@@ -50,6 +50,10 @@ type AnnouncedResponse struct {
 	Announced Announced          `json:"movie"`
 	Related   []AnnouncedSummary `json:"related"`
 }
+type AnnouncedList struct {
+	AnnouncedList      []Announced `json:"announced_list"`
+	AnnouncedTotal          int    `json:"announced_total"`
+}
 
 type AnnouncedUsecase interface {
 	GetMovies() (AnnouncedBasicResponse, error)
@@ -60,5 +64,7 @@ type AnnouncedUsecase interface {
 type AnnouncedRepository interface {
 	GetMovies() (AnnouncedBasicResponse, error)
 	GetMovie(id uint64) (Announced, error)
-	GetRelated(id uint64) ([]AnnouncedSummary, error)
+	GetRelated(id uint64) ([]AnnouncedSummary, error)	
+	GetAnnouncedByMonthYear(month int, year int) (AnnouncedList, error)
+
 }

@@ -185,3 +185,44 @@ func (ar *dbAnnouncedRepository) GetRelated(id uint64) ([]domain.AnnouncedSummar
 
 	return out, nil
 }
+
+func (fr *dbAnnouncedRepository) GetAnnouncedByMonthYear(month int, year int) (domain.AnnouncedList, error) {
+	resp, err := fr.dbm.Query(queryCountAnnouncedByMonthYear, month, year)
+	if err != nil {
+		return domain.AnnouncedList{}, domain.Err.ErrObj.InternalServer
+	}
+	announcedQuantity := int(cast.ToUint64(resp[0][0]))
+	// if skip >= dbSize && skip != 0 {
+	// 	return domain.FilmList{}, customErrors.ErrorSkip
+	// }
+	// moreAvailable := skip+limit < dbSize
+
+	resp, err = fr.dbm.Query(queryGetAnnouncedsByMonthYear, month, year)
+	if err != nil {
+		return domain.AnnouncedList{}, err
+	}
+
+	bufferAnnounced := make([]domain.Announced, 0)
+	for i := range resp {
+		announced := domain.Announced{
+			Id:             cast.IntToStr(cast.ToUint64(resp[i][0])),
+			Poster:         cast.ToString(resp[i][1]),
+			Title:          cast.ToString(resp[i][2]),
+			TitleOriginal:  cast.ToString(resp[i][3]),
+			Info:           cast.ToString(resp[i][4]),
+			Description:    cast.ToString(resp[i][5]),
+			Trailer:        cast.ToString(resp[i][6]),
+			Releasedate:    cast.ToString(resp[i][7]),
+			Country:        cast.ToString(resp[i][8]),
+			Director:       cast.ToString(resp[i][9]),
+		}
+
+		bufferAnnounced = append(bufferAnnounced, announced)
+	}
+	announcedList := domain.AnnouncedList{
+		AnnouncedList:  bufferAnnounced,
+		AnnouncedTotal: announcedQuantity,
+	}
+	return announcedList, nil
+}
+

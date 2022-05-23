@@ -15,6 +15,7 @@ const (
 	FROM announced
 	WHERE id = $1;
 	`
+
 	queryGetAnnouncedCast = `
 	SELECT actors.name, actors.id
 	FROM announced_actors
@@ -22,6 +23,7 @@ const (
 	WHERE announced_actors.announced_id = $1
 	ORDER BY actors.id;
 	`
+	
 	queryGetAnnouncedGenres = `
 	SELECT genres.genre, genres.title
 	FROM genres
@@ -29,6 +31,7 @@ const (
 	WHERE announced_genres.announced_id = $1
 	ORDER BY genres.genre;
 	`
+	
 	queryGetRelated = `
 	SELECT announced.id, announced.poster, announced.title
 	FROM announced_announced
@@ -36,4 +39,17 @@ const (
 	WHERE announced_announced.announced_id = $1
 	ORDER BY announced_announced.relation_id;
 	`
+	
+	queryCountAnnouncedByMonthYear = `
+	SELECT COUNT(*) 
+	FROM announced 
+	WHERE EXTRACT(MONTH FROM premiere_ru) = $1 AND EXTRACT(YEAR FROM premiere_ru) = $2
+	`
+	queryGetAnnouncedsByMonthYear = `
+	SELECT id, poster, title, titleoriginal, info, description, trailer, releasedate, country, director
+	FROM film 
+	WHERE EXTRACT(MONTH FROM premiere_ru) = $1 AND EXTRACT(YEAR FROM premiere_ru) = $2 
+	ORDER BY premiere_ru ASC
+	`
+
 )

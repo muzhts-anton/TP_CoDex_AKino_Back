@@ -6,12 +6,19 @@ import (
 	"codex/internal/pkg/utils/config"
 	"codex/internal/pkg/utils/log"
 	"codex/internal/pkg/utils/setter"
-
+	"codex/internal/pkg/domain"
 	"codex/internal/pkg/csrf"
+	announcedRepository "codex/internal/pkg/announced/repository"
 
 	"fmt"
 	"net/http"
 	"os"
+	"context"
+	firebase "firebase.google.com/go"
+	"firebase.google.com/go/messaging"
+	"google.golang.org/api/option"
+	"sync"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -45,12 +52,16 @@ func RunServer() {
 		Ann: setter.Data{Db: db, Api: api},
 		Ser: setter.Data{Db: db, Api: api},
 		Pla: setter.Data{Db: db, Api: api},
+		// announcedRepo: setter.Data{Db: db, Api: api},
 
 		Com: setter.Data{Db: nil, Api: api},
 		Rat: setter.Data{Db: nil, Api: api},
 		Aut: setter.Data{Db: nil, Api: api},
 	})
 	router.Handle("/metrics", promhttp.Handler())
+	
+	announcedRepo := announcedRepository.InitAnnRep(db)
+	go notificationWorker(announcedRepo)
 
 	csrfsecurity.SetCsrf(api)
 
@@ -69,4 +80,75 @@ func RunServer() {
 	if err := server.ListenAndServe(); err != nil {
 		log.Error(err)
 	}
+}
+
+func notificationWorker(announcedRepo domain.AnnouncedRepository) {
+	// storage for announceds released today
+	comingAnnounced := struct {
+		announceds []domain.Announced
+		sync.RWMutex
+	}{}
+
+	// daemon to update coming this month announceds
+	go func(announcedRepo domain.AnnouncedRepository) {
+		for {
+			comingAnnounced.Lock()
+			comingAnnounced.announceds = []domain.Announced{}
+			comingAnnounced.Unlock()
+
+			year, month, _ := time.Now().Date()
+			announcedsBuffer, err := announcedRepo.GetAnnouncedByMonthYear(int(month), year)
+			if err == nil {
+				for _, v := range announcedsBuffer.AnnouncedList {
+					if time.Now().Format("2006-01-02") == v.Releasedate {
+						comingAnnounced.Lock()
+						comingAnnounced.announceds = append(comingAnnounced.announceds, v)
+						comingAnnounced.Unlock()
+					}
+				}
+			}
+			log.Info(fmt.Sprintf("Found %d announceds released today", len(comingAnnounced.announceds)))
+			time.Sleep(24 * time.Hour)
+		}
+	}(announcedRepo)
+
+	// preparing firebase messages sender
+	opt := option.WithCredentialsFile("firebasePrivateKey.json")
+	app, err := firebase.NewApp(context.Background(), nil, opt)
+	if err != nil {
+		log.Warn(fmt.Sprintf("error initializing Firebase app: %v\n", err))
+	}
+	ctx := context.Background()
+	client, err := app.Messaging(ctx)
+	if err != nil {
+		log.Warn(fmt.Sprintf("error getting Firebase Messaging client: %v\n", err))
+	}
+
+	// then we send notifications for all announceds that were released today
+	ticker := time.NewTicker(time.Minute)
+	for {
+		select {
+		case <-ticker.C:
+			hr, min, _ := time.Now().Clock()
+			if hr == 12 && min == 0 {
+				comingAnnounced.RLock()
+				for _, v := range comingAnnounced.announceds {
+					message := &messaging.Message{
+						Notification: &messaging.Notification{
+							Title: "Сегодня вышел в прокат фильм",
+							Body:  v.Title,
+						},
+						Topic: "all",
+					}
+					response, err := client.Send(ctx, message)
+					if err != nil {
+						log.Error(err)
+					}
+					log.Info(fmt.Sprintf("Successfully sent message: %v, for announced id: %d", response, v.Id))
+				}
+				comingAnnounced.RUnlock()
+			}
+		}
+	}
+
 }
