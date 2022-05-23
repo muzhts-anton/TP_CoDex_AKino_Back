@@ -36,8 +36,8 @@ install:
 
 
 __________EJSN__________
-use:
-    //easyjson:json
+install:
+    go get github.com/mailru/easyjson && go install github.com/mailru/easyjson/...@latest
 
-command:
+useage:
     easyjson -all -no_std_marshalers *
