@@ -1,24 +1,26 @@
 package app
 
 import (
+	announcedRepository "codex/internal/pkg/announced/repository"
+	"codex/internal/pkg/csrf"
 	"codex/internal/pkg/database"
+	"codex/internal/pkg/domain"
 	"codex/internal/pkg/middlewares"
 	"codex/internal/pkg/utils/config"
 	"codex/internal/pkg/utils/log"
 	"codex/internal/pkg/utils/setter"
-	"codex/internal/pkg/domain"
-	"codex/internal/pkg/csrf"
-	announcedRepository "codex/internal/pkg/announced/repository"
+	"strconv"
 
+	"context"
 	"fmt"
 	"net/http"
 	"os"
-	"context"
+	"sync"
+	"time"
+
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/messaging"
 	"google.golang.org/api/option"
-	"sync"
-	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -59,7 +61,7 @@ func RunServer() {
 		Aut: setter.Data{Db: nil, Api: api},
 	})
 	router.Handle("/metrics", promhttp.Handler())
-	
+
 	announcedRepo := announcedRepository.InitAnnRep(db)
 	go notificationWorker(announcedRepo)
 
@@ -144,7 +146,12 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 					if err != nil {
 						log.Error(err)
 					}
-					log.Info(fmt.Sprintf("Successfully sent message: %v, for announced id: %d", response, v.Id))
+					id, err := strconv.Atoi(v.Id)
+					if err != nil{
+						log.Error(err)
+						return
+					}
+					log.Info(fmt.Sprintf("Successfully sent message: %v, for announced id: %d", response, id))
 				}
 				comingAnnounced.RUnlock()
 			}

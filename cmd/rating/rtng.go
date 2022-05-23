@@ -4,7 +4,6 @@ import (
 	mcsrtng "codex/internal/app/rating"
 	"codex/internal/pkg/utils/config"
 	"codex/internal/pkg/utils/log"
-
 )
 
 func main() {

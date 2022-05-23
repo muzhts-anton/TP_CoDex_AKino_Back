@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-
 	"github.com/spf13/viper"
 )
 
@@ -50,13 +49,23 @@ type DevConfig struct {
 var DevConfigStore DevConfig
 
 const (
+	configpath = "config/"
 	devFilename = "devconfig.json"
 	devExt      = "json"
 )
 
-var configpath = readConfigPath()
+// var configpath string
+
+
+
+// func ReadConfigPath()  {
+	// configpath = *flag.String("configPath", "config/", "Path to config")
+// 	flag.Parse()
+// }
+
 
 func (cfg *DevConfig) FromJson() error {
+
 	viper.AddConfigPath(configpath)
 	viper.SetConfigName(devFilename)
 	viper.SetConfigType(devExt)

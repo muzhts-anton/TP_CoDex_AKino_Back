@@ -43,13 +43,14 @@ const (
 	queryCountAnnouncedByMonthYear = `
 	SELECT COUNT(*) 
 	FROM announced 
-	WHERE EXTRACT(MONTH FROM premiere_ru) = $1 AND EXTRACT(YEAR FROM premiere_ru) = $2
+	WHERE EXTRACT(MONTH FROM releasedate) = $1 AND EXTRACT(YEAR FROM releasedate) = $2
 	`
 	queryGetAnnouncedsByMonthYear = `
 	SELECT id, poster, title, titleoriginal, info, description, trailer, releasedate, country, director
-	FROM film 
-	WHERE EXTRACT(MONTH FROM premiere_ru) = $1 AND EXTRACT(YEAR FROM premiere_ru) = $2 
-	ORDER BY premiere_ru ASC
+	FROM announced 
+	WHERE EXTRACT(MONTH FROM releasedate) = $1 AND EXTRACT(YEAR FROM releasedate) = $2 
+	ORDER BY releasedate ASC
 	`
+	// TO DO EXTRACT will not work like datastamp
 
 )

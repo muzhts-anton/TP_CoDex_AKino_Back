@@ -9,6 +9,7 @@ import (
 	"errors"
 	"regexp"
 	"testing"
+	// "flag"
 
 	"github.com/pashagolub/pgxmock"
 	"github.com/stretchr/testify/assert"
@@ -23,6 +24,7 @@ func MockDatabase() (*database.DBManager, pgxmock.PgxPoolIface, error) {
 }
 
 func TestGetSuccess(t *testing.T) {
+	// flag.Parse()
 	mdb, pool, err := MockDatabase()
 	assert.Equal(t, nil, err, "create a mock")
 	repository := InitUsrRep(mdb)
