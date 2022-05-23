@@ -115,7 +115,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           source: "bin/main"
-          target: "/usr/local"
+          target: "/home/ubuntu/back-end"
 
       - name: Transfer bin2 file to server 1
         uses: appleboy/scp-action@v0.0.10
@@ -151,7 +151,7 @@ jobs:
           host: 89.208.197.150
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          script: chmod 755 /usr/local/bin/main
+          script: chmod 755 /home/ubuntu/back-end/bin/main
 
       - name: chmod
         uses: appleboy/ssh-action@master
@@ -209,4 +209,3 @@ jobs:
       #     username: ubuntu
       #     key: ${{ secrets.PRIVATE_KEY }}
       #     script: sudo systemctl restart fileserver.service
-
