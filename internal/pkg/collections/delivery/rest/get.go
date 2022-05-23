@@ -47,7 +47,6 @@ func (handler *CollectionsHandler) GetFeed(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	w.WriteHeader(410) //http.StatusOK
-	http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
+	w.WriteHeader(http.StatusOK) 
 	w.Write(out)
 }
