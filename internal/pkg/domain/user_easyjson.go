@@ -76,7 +76,59 @@ func (v UserPublicInfo) MarshalEasyJSON(w *jwriter.Writer) {
 func (v *UserPublicInfo) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson9e1087fdDecodeCodexInternalPkgDomain(l, v)
 }
-func easyjson9e1087fdDecodeCodexInternalPkgDomain1(in *jlexer.Lexer, out *UserBasic) {
+func easyjson9e1087fdDecodeCodexInternalPkgDomain1(in *jlexer.Lexer, out *UserNotificationToken) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeFieldName(false)
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "token":
+			out.Token = string(in.String())
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson9e1087fdEncodeCodexInternalPkgDomain1(out *jwriter.Writer, in UserNotificationToken) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	{
+		const prefix string = ",\"token\":"
+		out.RawString(prefix[1:])
+		out.String(string(in.Token))
+	}
+	out.RawByte('}')
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v UserNotificationToken) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjson9e1087fdEncodeCodexInternalPkgDomain1(w, v)
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *UserNotificationToken) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjson9e1087fdDecodeCodexInternalPkgDomain1(l, v)
+}
+func easyjson9e1087fdDecodeCodexInternalPkgDomain2(in *jlexer.Lexer, out *UserBasic) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -109,7 +161,7 @@ func easyjson9e1087fdDecodeCodexInternalPkgDomain1(in *jlexer.Lexer, out *UserBa
 		in.Consumed()
 	}
 }
-func easyjson9e1087fdEncodeCodexInternalPkgDomain1(out *jwriter.Writer, in UserBasic) {
+func easyjson9e1087fdEncodeCodexInternalPkgDomain2(out *jwriter.Writer, in UserBasic) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -128,14 +180,14 @@ func easyjson9e1087fdEncodeCodexInternalPkgDomain1(out *jwriter.Writer, in UserB
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v UserBasic) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson9e1087fdEncodeCodexInternalPkgDomain1(w, v)
+	easyjson9e1087fdEncodeCodexInternalPkgDomain2(w, v)
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *UserBasic) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson9e1087fdDecodeCodexInternalPkgDomain1(l, v)
+	easyjson9e1087fdDecodeCodexInternalPkgDomain2(l, v)
 }
-func easyjson9e1087fdDecodeCodexInternalPkgDomain2(in *jlexer.Lexer, out *User) {
+func easyjson9e1087fdDecodeCodexInternalPkgDomain3(in *jlexer.Lexer, out *User) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -176,7 +228,7 @@ func easyjson9e1087fdDecodeCodexInternalPkgDomain2(in *jlexer.Lexer, out *User) 
 		in.Consumed()
 	}
 }
-func easyjson9e1087fdEncodeCodexInternalPkgDomain2(out *jwriter.Writer, in User) {
+func easyjson9e1087fdEncodeCodexInternalPkgDomain3(out *jwriter.Writer, in User) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -215,14 +267,14 @@ func easyjson9e1087fdEncodeCodexInternalPkgDomain2(out *jwriter.Writer, in User)
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v User) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson9e1087fdEncodeCodexInternalPkgDomain2(w, v)
+	easyjson9e1087fdEncodeCodexInternalPkgDomain3(w, v)
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *User) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson9e1087fdDecodeCodexInternalPkgDomain2(l, v)
+	easyjson9e1087fdDecodeCodexInternalPkgDomain3(l, v)
 }
-func easyjson9e1087fdDecodeCodexInternalPkgDomain3(in *jlexer.Lexer, out *UpdUser) {
+func easyjson9e1087fdDecodeCodexInternalPkgDomain4(in *jlexer.Lexer, out *UpdUser) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -255,7 +307,7 @@ func easyjson9e1087fdDecodeCodexInternalPkgDomain3(in *jlexer.Lexer, out *UpdUse
 		in.Consumed()
 	}
 }
-func easyjson9e1087fdEncodeCodexInternalPkgDomain3(out *jwriter.Writer, in UpdUser) {
+func easyjson9e1087fdEncodeCodexInternalPkgDomain4(out *jwriter.Writer, in UpdUser) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -274,10 +326,10 @@ func easyjson9e1087fdEncodeCodexInternalPkgDomain3(out *jwriter.Writer, in UpdUs
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v UpdUser) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson9e1087fdEncodeCodexInternalPkgDomain3(w, v)
+	easyjson9e1087fdEncodeCodexInternalPkgDomain4(w, v)
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *UpdUser) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson9e1087fdDecodeCodexInternalPkgDomain3(l, v)
+	easyjson9e1087fdDecodeCodexInternalPkgDomain4(l, v)
 }

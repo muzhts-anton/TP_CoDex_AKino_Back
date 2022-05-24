@@ -3,22 +3,30 @@ package usrdelivery
 import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/log"
+
 	"context"
-	firebase "firebase.google.com/go"
 	"fmt"
-	"google.golang.org/api/option"
+	"io/ioutil"
 	"net/http"
 	"strconv"
-	"encoding/json"
+
+	"firebase.google.com/go"
+	"github.com/mailru/easyjson"
+	"google.golang.org/api/option"
 )
 
 func (handler *UserHandler) AddUserToNotificationTopic(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
-	tokenForm := new(domain.UserNotificationToken)
-
-	err := json.NewDecoder(r.Body).Decode(&tokenForm)
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	tokenForm := new(domain.UserNotificationToken)
+	err = easyjson.Unmarshal(b, tokenForm)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -43,7 +51,6 @@ func (handler *UserHandler) AddUserToNotificationTopic(w http.ResponseWriter, r 
 	log.Info(strconv.Itoa(response.SuccessCount) + " tokens were subscribed successfully")
 
 	us := domain.UserNotificationToken{}
-	x, err := json.Marshal(us)
-
-	w.Write(x)
+	out, err := easyjson.Marshal(us)
+	w.Write(out)
 }

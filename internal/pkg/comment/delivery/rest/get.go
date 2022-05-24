@@ -6,7 +6,7 @@ import (
 	"codex/internal/pkg/utils/sanitizer"
 
 	"context"
-	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -25,11 +25,17 @@ type commentReq struct {
 }
 
 func (handler *CommentHandler) PostComment(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
-	commentreq := new(commentReq)
-	err := json.NewDecoder(r.Body).Decode(&commentreq)
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	commentreq := new(commentReq)
+	err = easyjson.Unmarshal(b, commentreq)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusInternalServerError)
 		return
 	}
 

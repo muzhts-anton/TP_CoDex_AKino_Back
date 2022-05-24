@@ -5,7 +5,7 @@ import (
 	"codex/internal/pkg/sessions"
 	"codex/internal/pkg/utils/sanitizer"
 
-	"encoding/json"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/mailru/easyjson"
@@ -18,10 +18,16 @@ func (handler *PlaylistHandler) CreatePlaylist(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	playlistRequest := new(domain.PlaylistRequest)
-	err := json.NewDecoder(r.Body).Decode(&playlistRequest)
+	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	playlistRequest := new(domain.PlaylistRequest)
+	err = easyjson.Unmarshal(b, playlistRequest)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -49,10 +55,18 @@ func (handler *PlaylistHandler) AddMovie(w http.ResponseWriter, r *http.Request)
 		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
 		return
 	}
-	addPlaylistInfo := new(domain.MovieInPlaylist)
-	err := json.NewDecoder(r.Body).Decode(&addPlaylistInfo)
+
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	addPlaylistInfo := new(domain.MovieInPlaylist)
+	err = easyjson.Unmarshal(b, addPlaylistInfo)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -70,14 +84,22 @@ func (handler *PlaylistHandler) DeleteMovie(w http.ResponseWriter, r *http.Reque
 		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
 		return
 	}
-	MovieInPlaylist := new(domain.MovieInPlaylist)
-	err := json.NewDecoder(r.Body).Decode(&MovieInPlaylist)
+
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	err = handler.PlaylistUsecase.DeleteMovie(*MovieInPlaylist)
+	movieInPlaylist := new(domain.MovieInPlaylist)
+	err = easyjson.Unmarshal(b, movieInPlaylist)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = handler.PlaylistUsecase.DeleteMovie(*movieInPlaylist)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -92,10 +114,18 @@ func (handler *PlaylistHandler) DeletePlaylist(w http.ResponseWriter, r *http.Re
 		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
 		return
 	}
-	deletePlaylistInfo := new(domain.DeletePlaylistInfo)
-	err := json.NewDecoder(r.Body).Decode(&deletePlaylistInfo)
+
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	deletePlaylistInfo := new(domain.DeletePlaylistInfo)
+	err = easyjson.Unmarshal(b, deletePlaylistInfo)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -115,10 +145,17 @@ func (handler *PlaylistHandler) AlterPlaylistPublic(w http.ResponseWriter, r *ht
 		return
 	}
 
-	alterPlaylistPublicInfo := new(domain.AlterPlaylistPublicInfo)
-	err := json.NewDecoder(r.Body).Decode(&alterPlaylistPublicInfo)
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	alterPlaylistPublicInfo := new(domain.AlterPlaylistPublicInfo)
+	err = easyjson.Unmarshal(b, alterPlaylistPublicInfo)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusInternalServerError)
 		return
 	}
 

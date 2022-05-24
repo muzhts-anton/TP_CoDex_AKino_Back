@@ -7,7 +7,7 @@ import (
 	"codex/internal/pkg/utils/sanitizer"
 
 	"context"
-	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -29,11 +29,17 @@ type AuthResp struct {
 }
 
 func (handler *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
-	userForm := new(domain.User)
-	err := json.NewDecoder(r.Body).Decode(&userForm)
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	userForm := new(domain.User)
+	err = easyjson.Unmarshal(b, userForm)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -69,11 +75,17 @@ func (handler *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func (handler *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
-	userForm := new(domain.UserBasic)
-	err := json.NewDecoder(r.Body).Decode(&userForm)
 	if err != nil {
-		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	userForm := new(domain.UserBasic)
+	err = easyjson.Unmarshal(b, userForm)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusInternalServerError)
 		return
 	}
 
