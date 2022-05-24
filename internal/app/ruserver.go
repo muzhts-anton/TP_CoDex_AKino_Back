@@ -102,6 +102,7 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 			announcedsBuffer, err := announcedRepo.GetAnnouncedByMonthYear(int(month), year)
 			if err == nil {
 				for _, v := range announcedsBuffer.AnnouncedList {
+					log.Info(v.Releasedate)
 					if time.Now().Format("2006-01-02") == v.Releasedate {
 						comingAnnounced.Lock()
 						comingAnnounced.announceds = append(comingAnnounced.announceds, v)

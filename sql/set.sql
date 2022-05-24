@@ -68,7 +68,7 @@ CREATE TABLE announced (
     info                                VARCHAR(200) NOT NULL,
     description                         VARCHAR(2000) NOT NULL,
     trailer                             VARCHAR(200) NOT NULL,
-    releasedate                         TIMESTAMP NOT NULL,
+    releasedate                         DATE NOT NULL,
     country                             VARCHAR(50) NOT NULL,
     director                            VARCHAR(50) NOT NULL
 );

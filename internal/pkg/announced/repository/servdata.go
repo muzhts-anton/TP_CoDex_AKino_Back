@@ -5,6 +5,8 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/cast"
 	"codex/internal/pkg/utils/log"
+
+	"fmt"
 )
 
 const (
@@ -187,6 +189,8 @@ func (ar *dbAnnouncedRepository) GetRelated(id uint64) ([]domain.AnnouncedSummar
 }
 
 func (fr *dbAnnouncedRepository) GetAnnouncedByMonthYear(month int, year int) (domain.AnnouncedList, error) {
+	log.Info(fmt.Sprintf("Month = %d Year = %d", month, year))
+
 	resp, err := fr.dbm.Query(queryCountAnnouncedByMonthYear, month, year)
 	if err != nil {
 		return domain.AnnouncedList{}, domain.Err.ErrObj.InternalServer
