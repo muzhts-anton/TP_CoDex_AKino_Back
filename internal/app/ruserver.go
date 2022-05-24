@@ -133,8 +133,9 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 	ticker := time.NewTicker(time.Minute)
 	for {
 	<-ticker.C
-		hr, min, _ := time.Now().Clock()
-		if hr == 12 && min == 0 {
+		// hr, min, _ := time.Now().Clock()
+		if true {
+		// if hr == 12 && min == 0 {
 			comingAnnounced.RLock()
 			for _, v := range comingAnnounced.announceds {
 				message := &messaging.Message{
@@ -157,6 +158,7 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 			}
 			comingAnnounced.RUnlock()
 		}
+		time.Sleep(10 * time.Second)
 	}
 
 }
