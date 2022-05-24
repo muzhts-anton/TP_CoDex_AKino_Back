@@ -52,5 +52,8 @@ func (handler *UserHandler) AddUserToNotificationTopic(w http.ResponseWriter, r 
 
 	us := domain.UserNotificationToken{}
 	out, err := easyjson.Marshal(us)
+	if err != nil {
+		log.Error(err)
+	}
 	w.Write(out)
 }
