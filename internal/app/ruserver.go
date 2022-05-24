@@ -110,7 +110,7 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 				}
 			}
 			log.Info(fmt.Sprintf("Found %d announceds released today", len(comingAnnounced.announceds)))
-			time.Sleep(24 * time.Hour)
+			time.Sleep(10 * time.Second) // TO DO 24 hours 
 		}
 	}(announcedRepo)
 
