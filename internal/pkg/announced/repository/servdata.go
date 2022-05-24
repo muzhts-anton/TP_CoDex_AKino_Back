@@ -196,6 +196,7 @@ func (fr *dbAnnouncedRepository) GetAnnouncedByMonthYear(month int, year int) (d
 		return domain.AnnouncedList{}, domain.Err.ErrObj.InternalServer
 	}
 	announcedQuantity := int(cast.ToUint64(resp[0][0]))
+	log.Info(fmt.Sprintf("announcedQuantity = %d", announcedQuantity))
 	// if skip >= dbSize && skip != 0 {
 	// 	return domain.FilmList{}, customErrors.ErrorSkip
 	// }
