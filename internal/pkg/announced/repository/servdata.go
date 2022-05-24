@@ -217,10 +217,16 @@ func (fr *dbAnnouncedRepository) GetAnnouncedByMonthYear(month int, year int) (d
 			Info:           cast.ToString(resp[i][4]),
 			Description:    cast.ToString(resp[i][5]),
 			Trailer:        cast.ToString(resp[i][6]),
-			Releasedate:    cast.ToString(resp[i][7]),
+			// Releasedate:    cast.ToString(resp[i][7]),
 			Country:        cast.ToString(resp[i][8]),
 			Director:       cast.ToString(resp[i][9]),
 		}
+		dateString, err := cast.DateToStringUnderscore(resp[i][7])
+		if err != nil {
+			return domain.AnnouncedList{}, err
+		}
+		announced.Releasedate = dateString
+
 
 		bufferAnnounced = append(bufferAnnounced, announced)
 	}
