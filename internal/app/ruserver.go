@@ -129,32 +129,30 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 	// then we send notifications for all announceds that were released today
 	ticker := time.NewTicker(time.Minute)
 	for {
-		select {
-		case <-ticker.C:
-			hr, min, _ := time.Now().Clock()
-			if hr == 12 && min == 0 {
-				comingAnnounced.RLock()
-				for _, v := range comingAnnounced.announceds {
-					message := &messaging.Message{
-						Notification: &messaging.Notification{
-							Title: "Сегодня вышел в прокат фильм",
-							Body:  v.Title,
-						},
-						Topic: "all",
-					}
-					response, err := client.Send(ctx, message)
-					if err != nil {
-						log.Error(err)
-					}
-					id, err := strconv.Atoi(v.Id)
-					if err != nil{
-						log.Error(err)
-						return
-					}
-					log.Info(fmt.Sprintf("Successfully sent message: %v, for announced id: %d", response, id))
+	<-ticker.C
+		hr, min, _ := time.Now().Clock()
+		if hr == 12 && min == 0 {
+			comingAnnounced.RLock()
+			for _, v := range comingAnnounced.announceds {
+				message := &messaging.Message{
+					Notification: &messaging.Notification{
+						Title: "Сегодня вышел в прокат фильм",
+						Body:  v.Title,
+					},
+					Topic: "all",
 				}
-				comingAnnounced.RUnlock()
+				response, err := client.Send(ctx, message)
+				if err != nil {
+					log.Error(err)
+				}
+				id, err := strconv.Atoi(v.Id)
+				if err != nil{
+					log.Error(err)
+					return
+				}
+				log.Info(fmt.Sprintf("Successfully sent message: %v, for announced id: %d", response, id))
 			}
+			comingAnnounced.RUnlock()
 		}
 	}
 
