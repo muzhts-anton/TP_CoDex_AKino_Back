@@ -13,7 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install libsnmp-dev
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.2
         env:
