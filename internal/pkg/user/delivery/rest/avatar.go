@@ -15,7 +15,8 @@ import (
 )
 
 const (
-	root = "."
+	// root = "."
+	root = "/home/ubuntu/lolkek"
 	path = "/static/avatars/"
 )
 
