@@ -146,7 +146,7 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 						},
 						Topic: "all",
 					}
-					log.Info(message.Topic)
+					log.Info("message.Topic = " + message.Topic)
 					response, err := client.Send(ctx, message)
 					if err != nil {
 						log.Error(err)
