@@ -129,62 +129,35 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 		log.Warn(fmt.Sprintf("error getting Firebase Messaging client: %v\n", err))
 	}
 
-	// then we send notifications for all announceds that were released today
 	ticker := time.NewTicker(time.Minute)
 	for {
-		select{
-		case <-ticker.C:
-			// hr, min, _ := time.Now().Clock()
-			if true {
-			// if hr == 12 && min == 0 {
-				comingAnnounced.RLock()
-				for _, v := range comingAnnounced.announceds {
-					message := &messaging.Message{
-						Notification: &messaging.Notification{
-							Title: "Сегодня премьера фильма",
-							Body:  v.Title,
-						},
-						Topic: "all",
-					}
-					log.Info("message.Topic = " + message.Topic)
-					response, err := client.Send(ctx, message)
-					if err != nil {
-						log.Error(err)
-					}
-					id, err := strconv.Atoi(v.Id)
-					if err != nil{
-						log.Error(err)
-						return
-					}
-					log.Info(fmt.Sprintf("Successfully sent message: %v, for announced id: %d", response, id))
+		<-ticker.C
+		if true {
+			comingAnnounced.RLock()
+			for _, v := range comingAnnounced.announceds {
+				message := &messaging.Message{
+					Notification: &messaging.Notification{
+						Title: "Сегодня премьера фильма",
+						Body:  v.Title,
+					},
+					Topic: "all",
 				}
-				comingAnnounced.RUnlock()
+				log.Info("message.Topic = " + message.Topic)
+				response, err := client.Send(ctx, message)
+				if err != nil {
+					log.Error(err)
+				}
+				id, err := strconv.Atoi(v.Id)
+				if err != nil{
+					log.Error(err)
+					return
+				}
+				log.Info(fmt.Sprintf("Successfully sent message: %v, for announced id: %d", response, id))
 			}
-			time.Sleep(5 * time.Minute)
+			comingAnnounced.RUnlock()
+		}
+		time.Sleep(5 * time.Minute)
 		}
 	}
-	// for {
-	// 	select {
-	// 	case <-ticker.C:
-	// 		hr, min, _ := time.Now().Clock()
-	// 		if hr == 12 && min == 0 {
-	// 			comingFilms.RLock()
-	// 			for _, v := range comingFilms.films {
-	// 				message := &messaging.Message{
-	// 					Notification: &messaging.Notification{
-	// 						Title: "Сегодня вышел в прокат фильм",
-	// 						Body:  v.Title,
-	// 					},
-	// 					Topic: "all",
-	// 				}
-	// 				response, err := client.Send(ctx, message)
-	// 				if err != nil {
-	// 					log.Error(err)
-	// 				}
-	// 				log.Info(fmt.Sprintf("Successfully sent message: %v, for film id: %d", response, v.Id))
-	// 			}
-	// 			comingFilms.RUnlock()
-	// 		}
-	// 	}
-	// }
+
 }
