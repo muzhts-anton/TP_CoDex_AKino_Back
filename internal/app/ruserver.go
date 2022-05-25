@@ -140,7 +140,7 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 			for _, v := range comingAnnounced.announceds {
 				message := &messaging.Message{
 					Notification: &messaging.Notification{
-						Title: "Сегодня вышел в прокат фильм",
+						Title: "Сегодня премьера фильма",
 						Body:  v.Title,
 					},
 					Topic: "all",
@@ -158,7 +158,6 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 			}
 			comingAnnounced.RUnlock()
 		}
-		time.Sleep(10 * time.Second)
+		time.Sleep(30 * time.Minute)
 	}
-
 }

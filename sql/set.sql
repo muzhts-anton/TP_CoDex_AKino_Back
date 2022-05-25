@@ -25,7 +25,7 @@ CREATE TABLE users (
     username                            VARCHAR(50) NOT NULL,
     password                            VARCHAR(200) NOT NULL,
     email                               VARCHAR(50) NOT NULL,
-    imgsrc                              VARCHAR(50) DEFAULT '/home/ubuntu/lolkek/static/avatars/profile.svg'
+    imgsrc                              VARCHAR(50) DEFAULT '/static/avatars/profile.svg'
 );
 
 CREATE TABLE playlists (
