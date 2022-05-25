@@ -132,32 +132,59 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 	// then we send notifications for all announceds that were released today
 	ticker := time.NewTicker(time.Minute)
 	for {
-	<-ticker.C
-		// hr, min, _ := time.Now().Clock()
-		if true {
-		// if hr == 12 && min == 0 {
-			comingAnnounced.RLock()
-			for _, v := range comingAnnounced.announceds {
-				message := &messaging.Message{
-					Notification: &messaging.Notification{
-						Title: "Сегодня премьера фильма",
-						Body:  v.Title,
-					},
-					Topic: "all",
+		select{
+		case <-ticker.C:
+			// hr, min, _ := time.Now().Clock()
+			if true {
+			// if hr == 12 && min == 0 {
+				comingAnnounced.RLock()
+				for _, v := range comingAnnounced.announceds {
+					message := &messaging.Message{
+						Notification: &messaging.Notification{
+							Title: "Сегодня премьера фильма",
+							Body:  v.Title,
+						},
+						Topic: "all",
+					}
+					log.Info(message.Topic)
+					response, err := client.Send(ctx, message)
+					if err != nil {
+						log.Error(err)
+					}
+					id, err := strconv.Atoi(v.Id)
+					if err != nil{
+						log.Error(err)
+						return
+					}
+					log.Info(fmt.Sprintf("Successfully sent message: %v, for announced id: %d", response, id))
 				}
-				response, err := client.Send(ctx, message)
-				if err != nil {
-					log.Error(err)
-				}
-				id, err := strconv.Atoi(v.Id)
-				if err != nil{
-					log.Error(err)
-					return
-				}
-				log.Info(fmt.Sprintf("Successfully sent message: %v, for announced id: %d", response, id))
+				comingAnnounced.RUnlock()
 			}
-			comingAnnounced.RUnlock()
+			time.Sleep(24 * time.Hour)
 		}
-		time.Sleep(30 * time.Minute)
 	}
+	// for {
+	// 	select {
+	// 	case <-ticker.C:
+	// 		hr, min, _ := time.Now().Clock()
+	// 		if hr == 12 && min == 0 {
+	// 			comingFilms.RLock()
+	// 			for _, v := range comingFilms.films {
+	// 				message := &messaging.Message{
+	// 					Notification: &messaging.Notification{
+	// 						Title: "Сегодня вышел в прокат фильм",
+	// 						Body:  v.Title,
+	// 					},
+	// 					Topic: "all",
+	// 				}
+	// 				response, err := client.Send(ctx, message)
+	// 				if err != nil {
+	// 					log.Error(err)
+	// 				}
+	// 				log.Info(fmt.Sprintf("Successfully sent message: %v, for film id: %d", response, v.Id))
+	// 			}
+	// 			comingFilms.RUnlock()
+	// 		}
+	// 	}
+	// }
 }
