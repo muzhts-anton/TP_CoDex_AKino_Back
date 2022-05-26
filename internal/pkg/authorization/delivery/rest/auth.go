@@ -100,6 +100,7 @@ func (handler *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest) // TO DO: why 200?
 		log.Info("Login grpc error")
 		return
 	}
