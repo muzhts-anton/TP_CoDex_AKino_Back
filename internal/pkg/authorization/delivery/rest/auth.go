@@ -5,11 +5,13 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/sessions"
 	"codex/internal/pkg/utils/sanitizer"
+	"codex/internal/pkg/utils/log"
 
 	"context"
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"fmt"
 
 	"github.com/mailru/easyjson"
 )
@@ -96,9 +98,10 @@ func (handler *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		Email:    userForm.Email,
 		Password: userForm.Password,
 	})
+	
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
-		w.WriteHeader(http.StatusBadRequest)
+		log.Info("Login grpc error")
 		return
 	}
 

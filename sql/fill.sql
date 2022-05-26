@@ -671,3 +671,20 @@ VALUES
     (12, 89515),
     (12, 427127),
     (12, 976642);
+
+INSERT INTO
+    movies_genres(movie_id, genre)
+VALUES
+    (370, 'anime'),
+    (49684, 'anime'),
+    (958722, 'anime'),
+    (8221, 'anime'),
+    (441, 'anime'),
+    (280961, 'anime'),
+    (963343, 'anime'),
+    (1219417, 'anime'),
+    (273209, 'anime'),
+    (2428, 'anime'),
+    (885317, 'anime'),
+    (730665, 'anime'),
+    (261127, 'anime');
