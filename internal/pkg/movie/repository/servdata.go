@@ -5,10 +5,32 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/cast"
 	"codex/internal/pkg/utils/log"
+	"strings"
 )
 
 type dbMovieRepository struct {
 	dbm *database.DBManager
+}
+
+func reverse(str string) (result string) {
+	for _, v := range str {
+		result = string(v) + result
+	}
+	return
+}
+
+func addSpaces(budget string) string {
+	budgetLength := len(budget)
+	var sb strings.Builder
+	counter := 0
+	for i := budgetLength - 3; i >= 0; i-- {
+		sb.WriteString(string(budget[i]))
+		counter++
+		if counter%3 == 0 {
+			sb.WriteString(" ")
+		}
+	}
+	return reverse(sb.String())
 }
 
 func InitMovRep(manager *database.DBManager) domain.MovieRepository {
@@ -44,12 +66,14 @@ func (mr *dbMovieRepository) GetMovie(id uint64) (domain.Movie, error) {
 		Country:       cast.ToString(row[9]),
 		Motto:         cast.ToString(row[10]),
 		Director:      cast.ToString(row[11]),
-		Budget:        cast.ToString(row[12]),
-		Gross:         cast.ToString(row[13]),
+		Budget:        addSpaces(cast.ToString(row[12])),
+		Gross:         addSpaces(cast.ToString(row[13])),
 		Duration:      cast.ToString(row[14]),
 		Actors:        []domain.Cast{},
 		Genres:        []domain.GenreInMovie{},
 	}
+
+
 
 	resp, err = mr.dbm.Query(queryGetMovieCast, id)
 	if err != nil {
