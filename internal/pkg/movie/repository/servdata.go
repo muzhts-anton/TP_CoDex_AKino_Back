@@ -23,6 +23,8 @@ func addSpaces(budget string) string {
 	budgetLength := len(budget)
 	var sb strings.Builder
 	counter := 0
+	sb.WriteString(string(budget[budgetLength - 1]))
+	sb.WriteString(string(budget[budgetLength - 2]))
 	for i := budgetLength - 3; i >= 0; i-- {
 		sb.WriteString(string(budget[i]))
 		counter++
