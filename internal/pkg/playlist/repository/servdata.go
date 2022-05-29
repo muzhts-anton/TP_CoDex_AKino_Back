@@ -99,7 +99,7 @@ func (pr *dbplarepository) AlterPlaylistPublic(alterPlaylistPublicInfo domain.Al
 }
 
 func (pr *dbplarepository) AlterPlaylistTitle(alterPlaylistTitleInfo domain.AlterPlaylistTitleInfo) error {
-	_, err := pr.dbm.Query(queryAlterPlaylistTitle, alterPlaylistTitleInfo.PlaylistId, alterPlaylistTitleInfo.Title)
+	_, err := pr.dbm.Query(queryAlterPlaylistTitle, alterPlaylistTitleInfo.PlaylistId, alterPlaylistTitleInfo.NewTitle)
 	if err != nil {
 		log.Warn("{AlterPlaylistTitle} in query: " + queryAlterPlaylistTitle)
 		log.Error(err)

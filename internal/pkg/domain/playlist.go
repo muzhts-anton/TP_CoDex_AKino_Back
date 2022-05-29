@@ -50,7 +50,7 @@ type AlterPlaylistPublicInfo struct {
 
 type AlterPlaylistTitleInfo struct {
 	PlaylistId string `json:"bookmarkId"`
-	Title      string `json:"title"`
+	NewTitle      string `json:"newTitle"`
 }
 
 type PlaylistWithMovies struct {
