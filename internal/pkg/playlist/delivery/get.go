@@ -7,6 +7,7 @@ import (
 
 	"io/ioutil"
 	"net/http"
+	"encoding/json"
 
 	"github.com/mailru/easyjson"
 )
@@ -160,6 +161,29 @@ func (handler *PlaylistHandler) AlterPlaylistPublic(w http.ResponseWriter, r *ht
 	}
 
 	err = handler.PlaylistUsecase.AlterPlaylistPublic(*alterPlaylistPublicInfo)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func (handler *PlaylistHandler) AlterPlaylistTitle(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
+		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
+		return
+	}
+
+	alterPlaylistTitleInfo := new(domain.AlterPlaylistTitleInfo)
+	err := json.NewDecoder(r.Body).Decode(&alterPlaylistTitleInfo)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		return
+	}
+
+	err = handler.PlaylistUsecase.AlterPlaylistTitle(*alterPlaylistTitleInfo)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

@@ -18,5 +18,6 @@ func SetPlaHandlers(router *mux.Router, pu domain.PlaylistUsecase) {
 	router.HandleFunc(addMovieUrl, handler.AddMovie).Methods("POST", "OPTIONS")
 	router.HandleFunc(deleteMovieUrl, handler.DeleteMovie).Methods("POST", "OPTIONS")
 	router.HandleFunc(deletePlaylistUrl, handler.DeletePlaylist).Methods("POST", "OPTIONS")
-	router.HandleFunc(alterPlaylistPublic, handler.AlterPlaylistPublic).Methods("POST", "OPTIONS")
+	router.HandleFunc(alterPlaylistPublicUrl, handler.AlterPlaylistPublic).Methods("POST", "OPTIONS")
+	router.HandleFunc(alterPlaylistTitleUrl, handler.AlterPlaylistTitle).Methods("POST", "OPTIONS")
 }

@@ -74,3 +74,12 @@ func (pu playlistUsecase) AlterPlaylistPublic(alterPlaylistPublic domain.AlterPl
 	}
 	return nil
 }
+
+
+func (pu playlistUsecase) AlterPlaylistTitle(alterPlaylistTitle domain.AlterPlaylistTitleInfo) error {
+	err := pu.playlistRepo.AlterPlaylistTitle(alterPlaylistTitle)
+	if err != nil {
+		return err
+	}
+	return nil
+}

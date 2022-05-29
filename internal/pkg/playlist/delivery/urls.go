@@ -5,5 +5,6 @@ const (
 	addMovieUrl         = "/playlist/addMovie"
 	deleteMovieUrl      = "/playlist/deleteMovie"
 	deletePlaylistUrl   = "/playlist/deletePlaylist"
-	alterPlaylistPublic = "/playlist/alterPublic"
+	alterPlaylistPublicUrl = "/playlist/alterPublic"
+	alterPlaylistTitleUrl = "/playlist/alterName"
 )

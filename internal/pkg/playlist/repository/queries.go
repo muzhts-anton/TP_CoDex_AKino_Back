@@ -45,4 +45,10 @@ const (
 	SET public = $2
 	WHERE id = $1;
 	`
+
+	queryAlterPlaylistTitle = `
+	UPDATE playlists 
+	SET title = $2
+	WHERE id = $1;
+	`
 )
