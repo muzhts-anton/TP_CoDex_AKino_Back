@@ -8,7 +8,6 @@ type UserReview struct {
 	MovieTitle   string `json:"movieTitle,omitempty"`
 	MoviePoster  string `json:"moviePoster,omitempty"`
 	Text         string `json:"text,omitempty"`
-	FeedbackType string `json:"feedbacktype,omitempty"`
 }
 
 type UserReviewResp struct {

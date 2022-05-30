@@ -96,13 +96,12 @@ func (ur *dbUserRepository) UpdateUser(id uint64, upd domain.UpdUser) (domain.Us
 }
 
 func setFeedbackType(feedbackType string, review *domain.UserReview){
-	// ft := cast.ToString(resp[i][5])
 	if feedbackType == "good" {
-		(*review).FeedbackType = "1"
+		(*review).Type = "1"
 	} else if feedbackType == "bad" {
-		(*review).FeedbackType = "3"
+		(*review).Type = "3"
 	} else {
-		(*review).FeedbackType = "2"
+		(*review).Type = "2"
 	}
 }
 
@@ -120,15 +119,14 @@ func (ur *dbUserRepository) GetUserReviews(id uint64) ([]domain.UserReview, erro
 		for i := range resp {
 			// out[]
 			review := domain.UserReview{
-				Type:         "1",
 				Rating:       cast.IntToStr(cast.ToUint64(resp[i][0])),
 				Date:         "",
 				MovieId:      cast.IntToStr(cast.ToUint64(resp[i][1])),
 				MovieTitle:   cast.ToString(resp[i][2]),
 				MoviePoster:  cast.ToString(resp[i][3]),
 				Text:         "",
-				FeedbackType: "",
 			}
+			setFeedbackType("neutral", &review)
 			out[cast.ToUint64(resp[i][1])] = review
 		}
 	}
@@ -144,7 +142,6 @@ func (ur *dbUserRepository) GetUserReviews(id uint64) ([]domain.UserReview, erro
 		for i := range resp {
 			currentReview, ok := out[cast.ToUint64(resp[i][1])]
 			if ok {
-				currentReview.Type = "3"
 				currentReview.Date =  cast.TimeToStr(cast.ToTime(resp[i][0]), false)
 				currentReview.MovieId = cast.IntToStr(cast.ToUint64(resp[i][1]))
 				currentReview.MovieTitle = cast.ToString(resp[i][2])
@@ -154,14 +151,13 @@ func (ur *dbUserRepository) GetUserReviews(id uint64) ([]domain.UserReview, erro
 				out[cast.ToUint64(resp[i][1])] = currentReview
 			}else{
 				review := domain.UserReview{
-					Type:         "2",
 					Rating:       "",
 					Date:         cast.TimeToStr(cast.ToTime(resp[i][0]), false),
 					MovieId:      cast.IntToStr(cast.ToUint64(resp[i][1])),
 					MovieTitle:   cast.ToString(resp[i][2]),
 					MoviePoster:  cast.ToString(resp[i][3]),
 					Text:         cast.ToString(resp[i][4]),
-					FeedbackType: "",
+					// FeedbackType: "",
 				}
 				setFeedbackType(cast.ToString(resp[i][5]), &review)
 				out[cast.ToUint64(resp[i][1])] = review
