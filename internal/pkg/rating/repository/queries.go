@@ -16,17 +16,16 @@ const (
 	`
 
 	queryGetMovieRating = `
+
 	SELECT movies.rating
-	FROM ratings
-	JOIN movies ON ratings.movie_id = movies.id
-	WHERE ratings.movie_id = $1;	
+	FROM movies 
+	WHERE movies.id = $1;
 	`
 
 	queryGetMovieVotesnum = `
 	SELECT movies.votesnum
-	FROM ratings
-	JOIN movies ON ratings.movie_id = movies.id
-	WHERE ratings.movie_id = $1;	
+	FROM movies 
+	WHERE movies.id = $1;
 	`
 
 	queryGetRatingUserCount = `
