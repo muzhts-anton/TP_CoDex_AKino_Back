@@ -9,8 +9,9 @@ const (
 	`
 
 	queryGetUserRatings = `
-	SELECT movie_id, rating
-	FROM ratings
+	SELECT r.rating, r.movie_id, m.title, m.poster
+	FROM ratings r
+	JOIN movies m ON r.movie_id = m.id
 	WHERE user_id = $1;
 	`
 	
@@ -21,7 +22,7 @@ const (
 	`
 
 	queryGetUserComments = `
-	SELECT movies.id, comments.commentdate, comments.commenttype, movies.title
+	SELECT comments.commentdate, movies.id, movies.title, movies.poster, comments.content, comments.commenttype
 	FROM comments
 	JOIN movies ON comments.movie_id = movies.id
 	WHERE comments.user_id = $1;
@@ -47,4 +48,12 @@ const (
 	WHERE users_playlists.user_id = $1
 	ORDER BY playlists.id;
 	`
+	queryGetUserRatingsAndComments = `
+	SELECT C.COMMENTTYPE, R.RATING, C.MOVIE_ID, M.TITLE, M.POSTER,  C.CONTENT, C.COMMENTTYPE 
+	FROM COMMENTS C
+	JOIN RATINGS R ON C.movie_id = R.movie_id 
+	JOIN MOVIES M ON C.MOVIE_ID = M.ID 
+	WHERE C.movie_id = 1000001 and C.user_id = 1;
+	`
+
 )

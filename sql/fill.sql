@@ -320,27 +320,31 @@ VALUES
         77
     );
 
--- INSERT INTO
---     comments (
---         user_id,
---         movie_id,
---         commentdate,
---         commenttype,
---         content
---     )
--- VALUES
---     (
---         1,
---         1000001,
---         '2022-04-10 15:47:24',
---         'good',
---         'Любимый фильм. Енто шыэдевр!'
---     );
+INSERT INTO
+    comments (
+        user_id,
+        movie_id,
+        commentdate,
+        commenttype,
+        content
+    )
+VALUES
+    (
+        1,1000001,'2022-04-10 15:47:24','good','Любимый фильм. Енто шыэдевр!'
+    ),
+    (
+        1,
+        1000003,
+        '2022-04-10 15:47:24',
+        'good',
+        'Нормуль фильмец!'
+    );
 
--- INSERT INTO
---     ratings (user_id, movie_id, rating)
--- VALUES
---     (1, 1000002, 10);
+INSERT INTO
+    ratings (user_id, movie_id, rating)
+VALUES
+    (1, 1000001, 8),
+    (1, 1000002, 10);
 
 INSERT INTO
     actors_actors (actor_id, relation_id)

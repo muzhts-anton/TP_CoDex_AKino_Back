@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"encoding/json"
 
 	"github.com/gorilla/mux"
 	"github.com/mailru/easyjson"
@@ -117,7 +118,7 @@ func (handler *UserHandler) GetUserReviews(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	out, err := easyjson.Marshal(domain.UserReviewResp{
+	out, err := json.Marshal(domain.UserReviewResp{
 		Id:      userId,
 		Reviews: usrRev,
 	})

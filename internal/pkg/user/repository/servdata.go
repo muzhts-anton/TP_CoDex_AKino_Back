@@ -95,27 +95,41 @@ func (ur *dbUserRepository) UpdateUser(id uint64, upd domain.UpdUser) (domain.Us
 	return usr, nil
 }
 
+func setFeedbackType(feedbackType string, review *domain.UserReview){
+	// ft := cast.ToString(resp[i][5])
+	if feedbackType == "good" {
+		(*review).FeedbackType = "1"
+	} else if feedbackType == "bad" {
+		(*review).FeedbackType = "3"
+	} else {
+		(*review).FeedbackType = "2"
+	}
+}
+
 func (ur *dbUserRepository) GetUserReviews(id uint64) ([]domain.UserReview, error) {
+
 	// get rating
+	out := make(map[uint64]domain.UserReview)
 	resp, err := ur.dbm.Query(queryGetUserRatings, id)
 	if err != nil {
 		log.Warn("{GetUserReviews} in query: " + queryGetUserRatings)
 		log.Error(err)
 		return []domain.UserReview{}, domain.Err.ErrObj.InternalServer
 	}
-	out := make([]domain.UserReview, 0)
 	if len(resp) != 0 {
 		for i := range resp {
-			out = append(out, domain.UserReview{
-				MovieId: cast.IntToStr(cast.ToUint64(resp[i][0])),
-				Type:    "1",
-
-				Rating: cast.IntToStr(cast.ToUint64(resp[i][1])),
-
+			// out[]
+			review := domain.UserReview{
+				Type:         "1",
+				Rating:       cast.IntToStr(cast.ToUint64(resp[i][0])),
 				Date:         "",
+				MovieId:      cast.IntToStr(cast.ToUint64(resp[i][1])),
+				MovieTitle:   cast.ToString(resp[i][2]),
+				MoviePoster:  cast.ToString(resp[i][3]),
+				Text:         "",
 				FeedbackType: "",
-				MovieTitle:   "",
-			})
+			}
+			out[cast.ToUint64(resp[i][1])] = review
 		}
 	}
 
@@ -128,31 +142,38 @@ func (ur *dbUserRepository) GetUserReviews(id uint64) ([]domain.UserReview, erro
 	}
 	if len(resp) != 0 {
 		for i := range resp {
-			tmp := domain.UserReview{
-				MovieId: cast.IntToStr(cast.ToUint64(resp[i][0])),
-				Type:    "2",
-
-				Rating: "",
-
-				Date:         cast.TimeToStr(cast.ToTime(resp[i][1]), true),
-				FeedbackType: "",
-				MovieTitle:   cast.ToString(resp[i][3]),
+			currentReview, ok := out[cast.ToUint64(resp[i][1])]
+			if ok {
+				currentReview.Type = "3"
+				currentReview.Date =  cast.TimeToStr(cast.ToTime(resp[i][0]), false)
+				currentReview.MovieId = cast.IntToStr(cast.ToUint64(resp[i][1]))
+				currentReview.MovieTitle = cast.ToString(resp[i][2])
+				currentReview.MoviePoster = cast.ToString(resp[i][3])
+				currentReview.Text = cast.ToString(resp[i][4])
+				setFeedbackType(cast.ToString(resp[i][5]), &currentReview)
+				out[cast.ToUint64(resp[i][1])] = currentReview
+			}else{
+				review := domain.UserReview{
+					Type:         "2",
+					Rating:       "",
+					Date:         cast.TimeToStr(cast.ToTime(resp[i][0]), false),
+					MovieId:      cast.IntToStr(cast.ToUint64(resp[i][1])),
+					MovieTitle:   cast.ToString(resp[i][2]),
+					MoviePoster:  cast.ToString(resp[i][3]),
+					Text:         cast.ToString(resp[i][4]),
+					FeedbackType: "",
+				}
+				setFeedbackType(cast.ToString(resp[i][5]), &review)
+				out[cast.ToUint64(resp[i][1])] = review
 			}
-
-			ft := cast.ToString(resp[i][2])
-			if ft == "good" {
-				tmp.FeedbackType = "1"
-			} else if ft == "bad" {
-				tmp.FeedbackType = "3"
-			} else {
-				tmp.FeedbackType = "2"
-			}
-
-			out = append(out, tmp)
 		}
 	}
+	outArray := make([]domain.UserReview, 0)
+	for _, value := range out {
+		outArray = append(outArray, value)
+	}
 
-	return out, nil
+	return outArray, nil
 }
 
 func (ur *dbUserRepository) UpdateAvatar(clientId uint64, url string) (domain.User, error) {
