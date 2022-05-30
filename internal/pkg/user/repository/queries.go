@@ -48,12 +48,5 @@ const (
 	WHERE users_playlists.user_id = $1
 	ORDER BY playlists.id;
 	`
-	queryGetUserRatingsAndComments = `
-	SELECT C.COMMENTTYPE, R.RATING, C.MOVIE_ID, M.TITLE, M.POSTER,  C.CONTENT, C.COMMENTTYPE 
-	FROM COMMENTS C
-	JOIN RATINGS R ON C.movie_id = R.movie_id 
-	JOIN MOVIES M ON C.MOVIE_ID = M.ID 
-	WHERE C.movie_id = 1000001 and C.user_id = 1;
-	`
 
 )
