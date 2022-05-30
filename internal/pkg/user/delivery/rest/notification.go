@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"firebase.google.com/go"
+	firebase "firebase.google.com/go"
 	"github.com/mailru/easyjson"
 	"google.golang.org/api/option"
 )
