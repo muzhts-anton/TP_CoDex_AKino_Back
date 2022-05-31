@@ -14,7 +14,8 @@ const (
 		id, poster, title, rating, info, description
 	FROM movies
 	JOIN movies_actors on movies_actors.movie_id = movies.id
-	WHERE movies_actors.actor_id = $1;
+	WHERE movies_actors.actor_id = $1
+	ORDER BY movies.releaseyear;
 	`
 
 	queryGetRelated = `
