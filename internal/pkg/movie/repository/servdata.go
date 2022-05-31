@@ -20,14 +20,15 @@ func reverse(str string) (result string) {
 }
 
 func addSpaces(budget string) string {
-	budgetLength := len(budget)
 	var sb strings.Builder
+	budgetRune := []rune(budget)
+	budgetLength := len(budgetRune)
 	if(budgetLength > 1){
 		counter := 0
-		sb.WriteString(string(budget[budgetLength - 1]))
-		sb.WriteString(string(budget[budgetLength - 2]))
+		sb.WriteRune(budgetRune[budgetLength - 1])
+		sb.WriteRune(budgetRune[budgetLength - 2])
 		for i := budgetLength - 3; i >= 0; i-- {
-			sb.WriteString(string(budget[i]))
+			sb.WriteRune(budgetRune[i])
 			counter++
 			if counter%3 == 0 {
 				sb.WriteString(" ")
@@ -78,8 +79,6 @@ func (mr *dbMovieRepository) GetMovie(id uint64) (domain.Movie, error) {
 		Actors:        []domain.Cast{},
 		Genres:        []domain.GenreInMovie{},
 	}
-
-
 
 	resp, err = mr.dbm.Query(queryGetMovieCast, id)
 	if err != nil {
