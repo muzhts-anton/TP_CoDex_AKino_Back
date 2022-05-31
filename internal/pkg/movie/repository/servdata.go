@@ -174,17 +174,6 @@ func (mr *dbMovieRepository) GetComments(id uint64) ([]domain.Comment, error) {
 			Rating:   "",
 		}
 
-		tmp, err := mr.dbm.Query(queryGetRatingCount, comm.UserId)
-		if err != nil {
-			log.Warn("{GetComments} in query: " + queryGetRatingCount)
-			log.Error(err)
-			return nil, domain.Err.ErrObj.InternalServer
-		}
-
-		if cast.ToUint64(tmp[0][0]) == 1 {
-			comm.Rating = cast.IntToStr(cast.ToUint64(resp[i][6]))
-		}
-
 		out = append(out, comm)
 	}
 
