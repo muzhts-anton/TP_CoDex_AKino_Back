@@ -46,7 +46,7 @@ func (mr *dbCommentRepository) PostComment(movieId uint64, userId uint64, conten
 	}
 
 	// post comment
-	_, err = mr.dbm.Query(queryPostComment, userId, movieId, time.Now().Format("2006-01-02 15:04:05"), comtype, content)
+	_, err = mr.dbm.Query(queryPostComment, userId, movieId, time.Now().Format("2006.01.02 15:04:05"), comtype, content)
 	if err != nil {
 		log.Warn("{PostComment} in query: " + queryPostComment)
 		log.Error(err)
