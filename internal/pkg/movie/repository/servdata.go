@@ -22,17 +22,21 @@ func reverse(str string) (result string) {
 func addSpaces(budget string) string {
 	budgetLength := len(budget)
 	var sb strings.Builder
-	counter := 0
-	sb.WriteString(string(budget[budgetLength - 1]))
-	sb.WriteString(string(budget[budgetLength - 2]))
-	for i := budgetLength - 3; i >= 0; i-- {
-		sb.WriteString(string(budget[i]))
-		counter++
-		if counter%3 == 0 {
-			sb.WriteString(" ")
+	if(budgetLength > 1){
+		counter := 0
+		sb.WriteString(string(budget[budgetLength - 1]))
+		sb.WriteString(string(budget[budgetLength - 2]))
+		for i := budgetLength - 3; i >= 0; i-- {
+			sb.WriteString(string(budget[i]))
+			counter++
+			if counter%3 == 0 {
+				sb.WriteString(" ")
+			}
 		}
+		return reverse(sb.String())
+	}else{
+		return budget
 	}
-	return reverse(sb.String())
 }
 
 func InitMovRep(manager *database.DBManager) domain.MovieRepository {
