@@ -5,7 +5,6 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/sessions"
 	"codex/internal/pkg/utils/sanitizer"
-	"codex/internal/pkg/utils/log"
 
 	"context"
 	"io/ioutil"
@@ -99,9 +98,7 @@ func (handler *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	})
 	
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		w.WriteHeader(http.StatusBadRequest) // TO DO: why 200?
-		log.Info("Login grpc error")
+		http.Error(w, err.Error(), http.StatusBadRequest) // FIXME: wtf
 		return
 	}
 
