@@ -15,7 +15,7 @@ const (
 	FROM movies
 	JOIN movies_actors on movies_actors.movie_id = movies.id
 	WHERE movies_actors.actor_id = $1
-	ORDER BY movies.releaseyear;
+	ORDER BY movies.releaseyear DESC;
 	`
 
 	queryGetRelated = `
