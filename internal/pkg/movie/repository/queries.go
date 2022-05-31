@@ -38,11 +38,10 @@ const (
 	queryGetComment = `
 	SELECT
 		users.imgsrc, users.username, users.id, comments.commentdate,
-		comments.content, comments.commenttype, ratings.rating
+		comments.content, comments.commenttype
 	FROM comments
 	JOIN movies ON comments.movie_id = movies.id
 	JOIN users on comments.user_id = users.id
-	LEFT JOIN ratings ON comments.user_id = ratings.user_id
 	WHERE movies.id = $1
 	ORDER BY comments.commentdate DESC;
 	`
