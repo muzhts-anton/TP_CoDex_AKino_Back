@@ -69,8 +69,8 @@ func ToBool(src []byte) bool {
 func DateToStringUnderscore(src []byte) (string, error) {
 	timeBuffer := pgtype.Date{}
 	err := timeBuffer.DecodeBinary(nil, src)
-	timeString := timeBuffer.Time.Format("2006-01-02")
-	if timeString == "0001-01-01" {
+	timeString := timeBuffer.Time.Format("2006.01.02")
+	if timeString == "0001.01.01" {
 		return "", err
 	}
 	return timeString, err
