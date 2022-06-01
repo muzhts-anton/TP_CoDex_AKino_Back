@@ -31,7 +31,7 @@ VALUES
 INSERT INTO
     playlists (title, description, poster)
 VALUES
-    ('Топ 256', 'must see', 'top.webp'),
+    ('Топ 256', 'Лучшие из лучших', 'top.webp'),
     ('Приключения', 'Захватывающий мир путешествий', 'adventures.webp'),
     ('Для детей', 'Самые маленькие оценят', 'childish.webp'),
     ('По комиксам', 'Экранизация культовых комиксов', 'comics.webp'),
@@ -387,11 +387,11 @@ VALUES
     ('cartoons', 'Cartoons.webp', 'Описание к cartoons', 'Мультфилмы'),
     ('comedy', 'Comedy.webp', 'Описание к comedy', 'Комедия'),
     ('criminal', 'Criminal.webp', 'Описание к criminal', 'Криминал'),
-    ('detective', 'Detective.webp', 'Описание к detective', 'Деткктив'),
+    ('detective', 'Detective.webp', 'Описание к detective', 'Детектив'),
     ('documental', 'Documental.webp', 'Описание к documental', 'Документальное'),
     ('drama', 'Drama.webp', 'Описание к drama', 'Драма'),
     ('family', 'Family.webp', 'Описание к family', 'Для всей семьи'),
-    ('fantasy', 'Fantasy.webp', 'Описание к fantasy', 'Фантастика'),
+    ('fantasy', 'Fantasy.webp', 'Описание к fantasy', 'фэнтези'),
     ('historical', 'Historical.webp', 'Описание к historical', 'Историческое'),
     ('horror', 'Horror.webp', 'Описание к horror', 'Хоррор'),
     ('melodrama', 'Melodrama.webp', 'Описание к melodrama', 'Мелодрама'),
@@ -501,6 +501,50 @@ VALUES
         '2022-05-23',
         'США',
         'Джеймс Ганн'
+    ),
+        (
+        'blackAdam.webp',
+        'Чёрный Адам',
+        'Black Adam',
+        '-',
+        'Почти через 5000 лет после того, как он был наделен всемогущими силами египетских богов - и так же быстро заключен в тюрьму - Черный Адам освобожден из своей земной могилы, готовый обрушить свою уникальную форму правосудия на современный мир.',
+        'https://www.youtube.com/watch?v=FPxheU-E0Tg',
+        '2022-10-20',
+        'США',
+        'Жауме Кольет-Серра'
+    ),
+    (
+        'shazam2.webp',
+        'Шазам! 2',
+        'Shazam! Fury of the Gods',
+        '-',
+        'Шазам сразится со злодейками Гесперой и Калипсо, дочерьми греческого титана Атласа.',
+        'https://www.youtube.com/watch?v=ASv687MKU80',
+        '2022-12-22',
+        'CША',
+        'Дэвид Ф. Сандберг'
+    ),
+    (
+        'nope.webp',
+        'Нет',
+        'Nope',
+        '-',
+        'Облако непонятного присхождения сильно портит жизнь владельцам небольшого ранчо.',
+        'https://www.youtube.com/watch?v=In8fuzj3gck',
+        '2022-08-11',
+        'США',
+        'Джордан Пил'
+    ),
+    (
+        'pussInBootsTheLastWish.webp',
+        'Кот в сапогах 2: Последнее желание',
+        'Puss in Boots: The Last Wish',
+	'-',
+        'Say hola to his little friends',
+        'https://www.youtube.com/watch?v=xgZLXyqbYOc',
+        '2022-12-22',
+        'США',
+        'Джоэль Кроуфорд, Хануэль Меркадо'
     );
 
 INSERT INTO

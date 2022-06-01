@@ -14,7 +14,8 @@ const (
 	FROM movies_actors
 	JOIN actors ON movies_actors.actor_id = actors.id
 	WHERE movies_actors.movie_id = $1
-	ORDER BY actors.id;
+	ORDER BY actors.id
+	LIMIT 10;
 	`
 
 	queryGetMovieGenres = `
