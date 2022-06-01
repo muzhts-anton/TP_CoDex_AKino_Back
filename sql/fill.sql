@@ -380,7 +380,7 @@ VALUES
 INSERT INTO
     genres (genre, imgsrc, description, title)
 VALUES
-    ('action', 'Action.webp', 'Описание к action', 'Экшен'),
+    ('action', 'Action.webp', 'Описание к action', 'Боевики'),
     ('adventure', 'Adventure.webp', 'Описание к adventure', 'Приключения'),
     ('anime', 'Anime.webp', 'Описание к anime', 'Аниме'),
     ('biography', 'Biography.webp', 'Описание к biography', 'Биография'),

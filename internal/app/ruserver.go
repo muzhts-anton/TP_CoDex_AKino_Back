@@ -139,7 +139,7 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 					Notification: &messaging.Notification{
 						Title: "Сегодня премьера фильма",
 						Body:  v.Title,
-						ImageURL:  v.Poster,
+						// ImageURL:  v.Poster,
 					},
 					Topic: "all",
 				}
