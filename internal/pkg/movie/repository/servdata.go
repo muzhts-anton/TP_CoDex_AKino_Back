@@ -79,6 +79,8 @@ func (mr *dbMovieRepository) GetMovie(id uint64) (domain.Movie, error) {
 		Actors:        []domain.Cast{},
 		Genres:        []domain.GenreInMovie{},
 	}
+	log.Info("out.Budget" + out.Budget)
+	log.Info("out.Gross" + out.Gross)
 
 	resp, err = mr.dbm.Query(queryGetMovieCast, id)
 	if err != nil {
