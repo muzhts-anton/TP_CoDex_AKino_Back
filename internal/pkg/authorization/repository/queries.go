@@ -24,7 +24,7 @@ const (
     INSERT INTO
         playlists (title)
     VALUES
-        ('Избранное'),
+        ('Посмотреть позже'),
 		('Мне нравится')
     RETURNING id;
 	`
