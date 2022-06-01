@@ -112,6 +112,7 @@ func (mr *dbRatingRepository) PostRating(movieId uint64, userId uint64, rating i
 	if isOldRating == 0 {
 		_, err = mr.dbm.Query(queryIncrementVotesnum, movieId)
 		if err != nil {
+			log.Info("INCREMENT VOTESNUM")
 			log.Warn("{PostRating} in query: " + queryIncrementVotesnum)
 			log.Error(err)
 			return 0.0, domain.Err.ErrObj.InternalServer
@@ -134,7 +135,7 @@ func (mr *dbRatingRepository) PostRating(movieId uint64, userId uint64, rating i
 			return 0.0, domain.Err.ErrObj.InternalServer
 		}
 	} else {
-		_, err = mr.dbm.Query(queryChangeRating, rating, userId)
+		_, err = mr.dbm.Query(queryChangeRating, rating, userId, movieId)
 		if err != nil {
 			log.Warn("{PostRating} in query: " + queryChangeRating)
 			log.Error(err)
