@@ -27,10 +27,11 @@ func (handler *CollectionsHandler) GetCollection(w http.ResponseWriter, r *http.
 	
 	var userId uint64
 	if (!isPublic){
-		if userId, err = sessions.CheckSession(r); err != domain.Err.ErrObj.UserNotLoggedIn {
-			http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
-			return
-		}
+		userId, _ = sessions.CheckSession(r)
+		// if userId, err = sessions.CheckSession(r); err != domain.Err.ErrObj.UserNotLoggedIn {
+		// 	http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
+		// 	return
+		// }
 		collUserId, err := handler.CollectionsUsecase.GetCollectionUserId(colId)
 		if err != nil {
 			http.Error(w, domain.Err.ErrObj.ParseId.Error(), http.StatusBadRequest)
