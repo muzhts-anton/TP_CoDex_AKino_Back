@@ -19,19 +19,7 @@ func InitColRep(manager *database.DBManager) domain.CollectionsRepository {
 }
 
 func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, error) {
-	resp, err := cr.dbm.Query(queryCheckUserAccess, id)
-	if err != nil {
-		log.Warn("{GetCollection} in query: " + queryCheckUserAccess)
-		log.Error(err)
-		return domain.Collection{}, domain.Err.ErrObj.InternalServer
-	}
-	if len(resp) == 0 {
-		log.Warn("{GetCollection}")
-		log.Error(domain.Err.ErrObj.SmallDb)
-		return domain.Collection{}, domain.Err.ErrObj.SmallDb
-	}
-
-	resp, err = cr.dbm.Query(queryGetCollectionBasic, id)
+	resp, err := cr.dbm.Query(queryGetCollectionBasic, id)
 	if err != nil {
 		log.Warn("{GetCollection} in query: " + queryGetCollectionBasic)
 		log.Error(err)
