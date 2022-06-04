@@ -57,9 +57,9 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 	}
 	out.MovieList = movies
 
-	resp, err = cr.dbm.Query(queryGetPlaylistIsPublic, id)
+	resp, err = cr.dbm.Query(queryCheckUserAccess, id)
 	if err != nil {
-		log.Warn("{GetCollection} in query: " + queryGetPlaylistIsPublic)
+		log.Warn("{GetCollection} in query: " + queryCheckUserAccess)
 		log.Error(err)
 		return domain.Collection{}, domain.Err.ErrObj.InternalServer
 	}
@@ -102,7 +102,7 @@ func (cr *dbCollectionsRepository) GetFeed() (domain.FeedResponse, error) {
 func (cr *dbCollectionsRepository) GetCollectionPublic(colId uint64) (bool, error) {
 	resp, err := cr.dbm.Query(queryGetPlaylistIsPublic, colId)
 	if err != nil {
-		log.Warn("{GetFeed} in query: " + queryGetFeed)
+		log.Warn("{GetFeed} in query: " + queryGetPlaylistIsPublic)
 		log.Error(err)
 		return false, domain.Err.ErrObj.InternalServer
 	}
