@@ -34,7 +34,6 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 		Title:       cast.ToString(resp[0][0]),
 		Description: cast.ToString(resp[0][1]),
 		Public:      cast.ToBool(resp[0][2]),
-		UserId:      cast.IntToStr(cast.ToUint64(resp[0][3])),
 	}
 
 	resp, err = cr.dbm.Query(queryGetCollectionMovies, id)
