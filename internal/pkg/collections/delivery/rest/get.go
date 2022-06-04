@@ -2,6 +2,7 @@ package coldelivery
 
 import (
 	"codex/internal/pkg/domain"
+	"codex/internal/pkg/sessions"
 
 	"github.com/gorilla/mux"
 	"net/http"
@@ -18,7 +19,21 @@ func (handler *CollectionsHandler) GetCollection(w http.ResponseWriter, r *http.
 		return
 	}
 
-	coll, err := handler.CollectionsUsecase.GetCollection(colId)
+	isPublic, err := handler.CollectionsUsecase.GetCollectionPublic(colId)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.ParseId.Error(), http.StatusBadRequest)
+		return
+	}
+	
+	var userId uint64
+	if (!isPublic){
+		if userId, err = sessions.CheckSession(r); err != domain.Err.ErrObj.UserNotLoggedIn {
+			http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
+			return
+		}
+
+	}
+	coll, err := handler.CollectionsUsecase.GetCollection(colId, userId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

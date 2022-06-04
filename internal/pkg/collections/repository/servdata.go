@@ -18,8 +18,23 @@ func InitColRep(manager *database.DBManager) domain.CollectionsRepository {
 	}
 }
 
-func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, error) {
-	resp, err := cr.dbm.Query(queryGetCollectionBasic, id)
+func (cr *dbCollectionsRepository) GetCollection(id uint64, userId uint64) (domain.Collection, error) {
+	resp, err := cr.dbm.Query(queryCheckUserAccess, id)
+	if err != nil {
+		log.Warn("{GetCollection} in query: " + queryCheckUserAccess)
+		log.Error(err)
+		return domain.Collection{}, domain.Err.ErrObj.InternalServer
+	}
+	if len(resp) == 0 {
+		log.Warn("{GetCollection}")
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return domain.Collection{}, domain.Err.ErrObj.SmallDb
+	}
+	if cast.ToUint64(resp[0][0]) != userId{
+		return domain.Collection{}, domain.Err.ErrObj.UserAccess
+	}
+
+	resp, err = cr.dbm.Query(queryGetCollectionBasic, id)
 	if err != nil {
 		log.Warn("{GetCollection} in query: " + queryGetCollectionBasic)
 		log.Error(err)
@@ -97,4 +112,21 @@ func (cr *dbCollectionsRepository) GetFeed() (domain.FeedResponse, error) {
 	}
 
 	return out, nil
+}
+
+func (cr *dbCollectionsRepository) GetCollectionPublic(colId uint64) (bool, error) {
+	resp, err := cr.dbm.Query(queryGetPlaylistIsPublic, colId)
+	if err != nil {
+		log.Warn("{GetFeed} in query: " + queryGetFeed)
+		log.Error(err)
+		return false, domain.Err.ErrObj.InternalServer
+	}
+	if len(resp) == 0 {
+		log.Warn("{GetMovies}")
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return false, domain.Err.ErrObj.SmallDb
+	}
+
+	isPublic := cast.ToBool(resp[0][0])
+	return isPublic, nil
 }

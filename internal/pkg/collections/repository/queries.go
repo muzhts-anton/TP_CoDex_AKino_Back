@@ -34,4 +34,16 @@ const (
 	ORDER BY feed.id
 	LIMIT $1;
 	`
+
+	queryCheckUserAccess = `
+	SELECT user_id
+	FROM users_playlists
+	WHERE playlist_id = $1
+	`
+
+	queryGetPlaylistIsPublic = `
+	SELECT public
+	FROM playlists
+	WHERE id = $1;
+	`
 )

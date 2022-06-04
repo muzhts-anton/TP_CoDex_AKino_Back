@@ -40,6 +40,8 @@ type errObj struct {
 
 	InvalidTitle  error
 	PlaylistExist error
+
+	UserAccess error
 }
 
 type err struct {
@@ -83,5 +85,6 @@ var Err = err{
 
 		InvalidTitle:  errors.New("Invalid title"),
 		PlaylistExist: errors.New("Playlist with this title already exist"),
+		UserAccess: errors.New("Permission denied"),
 	},
 }
