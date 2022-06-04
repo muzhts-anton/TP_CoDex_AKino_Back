@@ -4,9 +4,8 @@ const (
 
 	queryGetCollectionBasic = `
 	SELECT
-		playlists.title, playlists.description, playlists.public, users_playlists.user_id
+		playlists.title, playlists.description, playlists.public
 	FROM playlists
-	JOIN users_playlists ON users_playlists.playlist_id = playlists.id
 	WHERE playlists.id = $1;
 	`
 
