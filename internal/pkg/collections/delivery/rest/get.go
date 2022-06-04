@@ -31,9 +31,17 @@ func (handler *CollectionsHandler) GetCollection(w http.ResponseWriter, r *http.
 			http.Error(w, domain.Err.ErrObj.AlreadyIn.Error(), http.StatusBadRequest)
 			return
 		}
-
+		collUserId, err := handler.CollectionsUsecase.GetCollectionUserId(colId)
+		if err != nil {
+			http.Error(w, domain.Err.ErrObj.ParseId.Error(), http.StatusBadRequest)
+			return
+		}
+		if userId != collUserId {
+			http.Error(w, domain.Err.ErrObj.ParseId.Error(), http.StatusBadRequest)
+			return
+		}
 	}
-	coll, err := handler.CollectionsUsecase.GetCollection(colId, userId)
+	coll, err := handler.CollectionsUsecase.GetCollection(colId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

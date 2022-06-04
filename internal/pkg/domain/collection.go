@@ -20,14 +20,16 @@ type Collection struct {
 }
 
 type CollectionsRepository interface {
-	GetCollection(id uint64, userId uint64) (Collection, error)
+	GetCollection(id uint64) (Collection, error)
 	GetFeed() (FeedResponse, error)
 	GetCollectionPublic(colId uint64) (bool, error)
+	GetCollectionUserId(colId uint64) (uint64, error)
 }
 
 // mockgen -destination=../collections/usecase/mock/usecase_mock.go  -package=mock codex/internal/pkg/domain CollectionsUsecase
 type CollectionsUsecase interface {
-	GetCollection(id uint64, userId uint64) (Collection, error)
+	GetCollection(id uint64) (Collection, error)
 	GetFeed() (FeedResponse, error)
 	GetCollectionPublic(colId uint64) (bool, error)
+	GetCollectionUserId(colId uint64) (uint64, error)
 }

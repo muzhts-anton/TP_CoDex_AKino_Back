@@ -15,8 +15,8 @@ func InitColUsc(cr domain.CollectionsRepository) domain.CollectionsUsecase {
 	}
 }
 
-func (cu collectionsUsecase) GetCollection(id uint64, userId uint64) (domain.Collection, error) {
-	coll, err := cu.collectionsRepo.GetCollection(id, userId)
+func (cu collectionsUsecase) GetCollection(id uint64) (domain.Collection, error) {
+	coll, err := cu.collectionsRepo.GetCollection(id)
 	if err != nil {
 		return domain.Collection{}, err
 	}
@@ -38,7 +38,6 @@ func (cu collectionsUsecase) GetFeed() (domain.FeedResponse, error) {
 	return feed, nil
 }
 
-
 func (cu collectionsUsecase) GetCollectionPublic(colId uint64) ( bool, error) {
 	isPublic, err := cu.collectionsRepo.GetCollectionPublic(colId)
 	
@@ -47,4 +46,14 @@ func (cu collectionsUsecase) GetCollectionPublic(colId uint64) ( bool, error) {
 	}
 
 	return isPublic, nil
+}
+
+func (cu collectionsUsecase) GetCollectionUserId(colId uint64) (uint64, error) {
+	userId, err := cu.collectionsRepo.GetCollectionUserId(colId)
+	
+	if err != nil {
+		return 0, err
+	}
+
+	return userId, nil
 }

@@ -18,7 +18,7 @@ func InitColRep(manager *database.DBManager) domain.CollectionsRepository {
 	}
 }
 
-func (cr *dbCollectionsRepository) GetCollection(id uint64, userId uint64) (domain.Collection, error) {
+func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, error) {
 	resp, err := cr.dbm.Query(queryCheckUserAccess, id)
 	if err != nil {
 		log.Warn("{GetCollection} in query: " + queryCheckUserAccess)
@@ -30,9 +30,10 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64, userId uint64) (doma
 		log.Error(domain.Err.ErrObj.SmallDb)
 		return domain.Collection{}, domain.Err.ErrObj.SmallDb
 	}
-	if cast.ToUint64(resp[0][0]) != userId{
-		return domain.Collection{}, domain.Err.ErrObj.UserAccess
-	}
+	
+	// if cast.ToUint64(resp[0][0]) != userId{
+	// 	return domain.Collection{}, domain.Err.ErrObj.UserAccess
+	// }
 
 	resp, err = cr.dbm.Query(queryGetCollectionBasic, id)
 	if err != nil {
@@ -71,15 +72,15 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64, userId uint64) (doma
 	}
 	out.MovieList = movies
 
-	resp, err = cr.dbm.Query(queryGetCollectionUserId, id)
-	if err != nil {
-		log.Warn("{GetCollection} in query: " + queryGetCollectionUserId)
-		log.Error(err)
-		return domain.Collection{}, domain.Err.ErrObj.InternalServer
-	}
-	if len(resp) != 0 {
-		out.UserId = cast.IntToStr(cast.ToUint64(resp[0][0]))
-	}
+	// resp, err = cr.dbm.Query(queryGetCollectionUserId, id)
+	// if err != nil {
+	// 	log.Warn("{GetCollection} in query: " + queryGetCollectionUserId)
+	// 	log.Error(err)
+	// 	return domain.Collection{}, domain.Err.ErrObj.InternalServer
+	// }
+	// if len(resp) != 0 {
+	// 	out.UserId = cast.IntToStr(cast.ToUint64(resp[0][0]))
+	// }
 
 	return out, nil
 }
@@ -129,4 +130,21 @@ func (cr *dbCollectionsRepository) GetCollectionPublic(colId uint64) (bool, erro
 
 	isPublic := cast.ToBool(resp[0][0])
 	return isPublic, nil
+}
+
+func (cr *dbCollectionsRepository) GetCollectionUserId(colId uint64) (uint64 ,error) {
+
+	resp, err := cr.dbm.Query(queryCheckUserAccess, colId)
+	if err != nil {
+		log.Warn("{GetCollection} in query: " + queryCheckUserAccess)
+		log.Error(err)
+		return  0, domain.Err.ErrObj.InternalServer
+	}
+	var userId uint64
+	if len(resp) != 0 {
+		userId = cast.ToUint64(resp[0][0])
+	}else{
+		return 0, domain.Err.ErrObj.SmallDb
+	}
+	return userId, err
 }
