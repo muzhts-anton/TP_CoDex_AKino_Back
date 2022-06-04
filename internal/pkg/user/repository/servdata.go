@@ -157,7 +157,6 @@ func (ur *dbUserRepository) GetUserReviews(id uint64) ([]domain.UserReview, erro
 					MovieTitle:   cast.ToString(resp[i][2]),
 					MoviePoster:  cast.ToString(resp[i][3]),
 					Text:         cast.ToString(resp[i][4]),
-					// FeedbackType: "",
 				}
 				setFeedbackType(cast.ToString(resp[i][5]), &review)
 				out[cast.ToUint64(resp[i][1])] = review

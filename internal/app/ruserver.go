@@ -157,7 +157,7 @@ func notificationWorker(announcedRepo domain.AnnouncedRepository) {
 			}
 			comingAnnounced.RUnlock()
 		}
-		time.Sleep(5 * time.Second)
+		time.Sleep(24 * time.Hour)
 	}
 }
 
