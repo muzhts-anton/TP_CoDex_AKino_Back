@@ -30,10 +30,6 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 		log.Error(domain.Err.ErrObj.SmallDb)
 		return domain.Collection{}, domain.Err.ErrObj.SmallDb
 	}
-	
-	// if cast.ToUint64(resp[0][0]) != userId{
-	// 	return domain.Collection{}, domain.Err.ErrObj.UserAccess
-	// }
 
 	resp, err = cr.dbm.Query(queryGetCollectionBasic, id)
 	if err != nil {
@@ -71,17 +67,6 @@ func (cr *dbCollectionsRepository) GetCollection(id uint64) (domain.Collection, 
 		})
 	}
 	out.MovieList = movies
-
-	// resp, err = cr.dbm.Query(queryGetCollectionUserId, id)
-	// if err != nil {
-	// 	log.Warn("{GetCollection} in query: " + queryGetCollectionUserId)
-	// 	log.Error(err)
-	// 	return domain.Collection{}, domain.Err.ErrObj.InternalServer
-	// }
-	// if len(resp) != 0 {
-	// 	out.UserId = cast.IntToStr(cast.ToUint64(resp[0][0]))
-	// }
-
 	return out, nil
 }
 
