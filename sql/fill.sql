@@ -391,7 +391,7 @@ VALUES
     ('documental', 'Documental.webp', 'Описание к documental', 'Документальное'),
     ('drama', 'Drama.webp', 'Описание к drama', 'Драма'),
     ('family', 'Family.webp', 'Описание к family', 'Для всей семьи'),
-    ('fantasy', 'Fantasy.webp', 'Описание к fantasy', 'фэнтези'),
+    ('fantasy', 'Fantasy.webp', 'Описание к fantasy', 'Фэнтези'),
     ('historical', 'Historical.webp', 'Описание к historical', 'Историческое'),
     ('horror', 'Horror.webp', 'Описание к horror', 'Хоррор'),
     ('melodrama', 'Melodrama.webp', 'Описание к melodrama', 'Мелодрама'),
@@ -502,7 +502,7 @@ VALUES
         'США',
         'Джеймс Ганн'
     ),
-        (
+    (
         'blackAdam.webp',
         'Чёрный Адам',
         'Black Adam',
@@ -556,11 +556,15 @@ VALUES
     (3630, 1),
     -- (1000010, 2);
     (3613, 2),
-
     (15106, 3),
     (10483, 4),
     (39550, 5),
-    (242, 6);
+    (242, 6),
+
+    (44520, 9),
+    (9550, 7),
+    (6368, 8),
+    (2695, 10);
 
 
 INSERT INTO
@@ -586,7 +590,17 @@ VALUES
     (5, 'thriller'),
     (5, 'adventure'),
     (6, 'thriller'),
-    (6, 'action');
+    (6, 'action'),
+
+    (9, 'fantasy'),
+    (9, 'horror'),
+    (7, 'fantasy'),
+    (7, 'action'),
+    (8, 'action'),
+    (8, 'thriller'),
+    (8, 'fantasy'),
+    (10, 'adventure'),
+    (10, 'comedy');
 
 INSERT INTO
     announced_announced (announced_id, relation_id)
@@ -603,7 +617,14 @@ VALUES
     (3, 4),
     (4, 3),
     (6, 2),
-    (2, 6);
+    (2, 6),
+
+    (9, 5),
+    (5, 9),
+    (7, 2),
+    (8, 1),
+    (8, 4),
+    (10, 8);
 
 INSERT INTO 
     playlists_movies (playlist_id, movie_id)

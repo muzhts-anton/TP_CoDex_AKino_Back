@@ -12,7 +12,8 @@ const (
 	SELECT r.rating, r.movie_id, m.title, m.poster
 	FROM ratings r
 	JOIN movies m ON r.movie_id = m.id
-	WHERE user_id = $1;
+	WHERE user_id = $1
+	ORDER BY r.movie_id;
 	`
 	
 	queryUpdateUser = `
@@ -25,7 +26,8 @@ const (
 	SELECT comments.commentdate, movies.id, movies.title, movies.poster, comments.content, comments.commenttype
 	FROM comments
 	JOIN movies ON comments.movie_id = movies.id
-	WHERE comments.user_id = $1;
+	WHERE comments.user_id = $1
+	ORDER BY movies.id;
 	`
 
 	queryUpdAvatarByUsID = `
