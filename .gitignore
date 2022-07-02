@@ -16,3 +16,17 @@
 
 # Go workspace file
 go.work
+
+# Env
+.vscode/
+
+# Tests
+cover
+
+# Local
+logs.txt
+oldbd.txt
+remarks.txt
+old/
+trash.txt
+firebasePrivateKey.json

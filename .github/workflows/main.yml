@@ -1,0 +1,203 @@
+name: Simple Build
+
+on:
+  push:
+    branches:
+     - rk4
+  pull_request:
+    branches:
+     - rk4
+
+jobs:
+  golangci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install libsnmp-dev
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.29
+
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17.x
+          
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Main Test
+        run: go test -coverprofile=coverage1.out -coverpkg=./... -cover ./... && cat coverage1.out | grep -v _mock | grep -v pb.go > cover.out &&go tool cover -func=cover.out
+
+  # Build
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17.x
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build API
+        run: go build cmd/main.go
+
+      - name: Build auth
+        run: go build cmd/authorization/auth.go
+
+      - name: Build comments
+        run: go build cmd/comment/comt.go
+
+      - name: Build ratings
+        run: go build cmd/rating/rtng.go
+      
+      # Artifacts
+      - name: Upload build result
+        uses: actions/upload-artifact@v1
+        with:
+          name: bin
+          path: ./main
+
+      - name: Upload build result
+        uses: actions/upload-artifact@v1
+        with:
+          name: bin
+          path: ./auth
+
+      - name: Upload build result
+        uses: actions/upload-artifact@v1
+        with:
+          name: bin
+          path: ./comt
+
+      - name: Upload build result
+        uses: actions/upload-artifact@v1
+        with:
+          name: bin
+          path: ./rtng
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build, tests, golangci]
+    steps:
+      - name: Download bin file
+        uses: actions/download-artifact@v1
+        with:
+          name: bin
+
+      - name: Transfer bin1 file to server 1
+        uses: appleboy/scp-action@v0.0.10
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "bin/main"
+          target: "/home/ubuntu/back-end"
+
+      - name: Transfer bin2 file to server 1
+        uses: appleboy/scp-action@v0.0.10
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "bin/auth"
+          target: "/home/ubuntu/back-end"
+
+      - name: Transfer bin3 file to server 1
+        uses: appleboy/scp-action@v0.0.10
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "bin/comt"
+          target: "/home/ubuntu/back-end"
+
+      - name: Transfer bin4 file to server 1
+        uses: appleboy/scp-action@v0.0.10
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "bin/rtng"
+          target: "/home/ubuntu/back-end"
+
+#     Giving rights     
+      - name: chmod
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: chmod 755 /home/ubuntu/back-end/bin/main
+
+      - name: chmod
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: chmod 755 /home/ubuntu/back-end/bin/auth
+
+      - name: chmod
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: chmod 755 /home/ubuntu/back-end/bin/comt
+
+      - name: chmod
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: chmod 755 /home/ubuntu/back-end/bin/rtng
+      
+      # Restart
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart api.service
+
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart auth.service
+
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart comt.service
+
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 89.208.197.150
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart rtng.service
+

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package Comm;
+
+option go_package = "./internal/pkg/comment/delivery/grpc/";
+
+message Comment {
+  string imgsrc = 1;
+  string username = 2;
+  string userId = 3;
+  string rating = 4;
+  string date = 5;
+  string content = 6;
+  string type = 7;
+}
+
+message Data {
+  uint64 movieId = 1;
+  uint64 userId = 2;
+  string content = 3;
+  int32 commentType = 4;
+}
+
+service Poster { rpc PostComment(Data) returns (Comment); }
