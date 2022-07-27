@@ -5,6 +5,7 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/cast"
 	"codex/internal/pkg/utils/log"
+	"time"
 
 	"fmt"
 )
@@ -227,8 +228,10 @@ func (fr *dbAnnouncedRepository) GetAnnouncedByMonthYear(month int, year int) (d
 		}
 		announced.Releasedate = dateString
 
+		if cast.ToDate((resp[i][7])).After(time.Now()){
+			bufferAnnounced = append(bufferAnnounced, announced)
 
-		bufferAnnounced = append(bufferAnnounced, announced)
+		}
 	}
 	announcedList := domain.AnnouncedList{
 		AnnouncedList:  bufferAnnounced,
