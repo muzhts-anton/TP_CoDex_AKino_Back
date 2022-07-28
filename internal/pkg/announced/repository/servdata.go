@@ -75,14 +75,16 @@ func (ar *dbAnnouncedRepository) GetMovies() (domain.AnnouncedBasicResponse, err
 			log.Error(err)
 			return domain.AnnouncedBasicResponse{}, domain.Err.ErrObj.InternalServer
 		}
-		movies = append(movies, domain.AnnouncedBasic{
-			Id:            cast.IntToStr(cast.ToUint64(resp[i][0])),
-			Poster:        cast.ToString(resp[i][1]),
-			Title:         cast.ToString(resp[i][2]),
-			OriginalTitle: cast.ToString(resp[i][3]),
-			PremierMonth:  PremierMonth,
-			PremierDay:    cast.ToString(resp[i][5]),
-		})
+		if cast.ToDate((resp[i][6])).After(time.Now()){
+			movies = append(movies, domain.AnnouncedBasic{
+				Id:            cast.IntToStr(cast.ToUint64(resp[i][0])),
+				Poster:        cast.ToString(resp[i][1]),
+				Title:         cast.ToString(resp[i][2]),
+				OriginalTitle: cast.ToString(resp[i][3]),
+				PremierMonth:  PremierMonth,
+				PremierDay:    cast.ToString(resp[i][5]),
+			})
+		}
 	}
 	var movieResponse domain.AnnouncedBasicResponse
 	movieResponse.MovieList = movies

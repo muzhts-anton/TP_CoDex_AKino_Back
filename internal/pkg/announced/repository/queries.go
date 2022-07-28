@@ -3,7 +3,7 @@ package annrepository
 const (
 	queryGetMovies = `
 	SELECT
-		id, poster, title, titleoriginal, (date_part('month', releasedate))::int::varchar(255), (date_part('day', releasedate))::int::varchar(255)
+		id, poster, title, titleoriginal, (date_part('month', releasedate))::int::varchar(255), (date_part('day', releasedate))::int::varchar(255), releasedate
 	FROM announced
 	ORDER BY releasedate;
 	`
