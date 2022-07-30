@@ -22,10 +22,10 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
-        with:
-          version: v1.29
+      # - name: golangci-lint
+        # uses: golangci/golangci-lint-action@v3
+        # with:
+          # version: v1.29
 
   tests:
     runs-on: ubuntu-latest
