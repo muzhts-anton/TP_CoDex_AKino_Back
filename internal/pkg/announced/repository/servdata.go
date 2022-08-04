@@ -5,7 +5,7 @@ import (
 	"codex/internal/pkg/domain"
 	"codex/internal/pkg/utils/cast"
 	"codex/internal/pkg/utils/log"
-	"time"
+	// "time"
 
 	"fmt"
 )
@@ -75,7 +75,7 @@ func (ar *dbAnnouncedRepository) GetMovies() (domain.AnnouncedBasicResponse, err
 			log.Error(err)
 			return domain.AnnouncedBasicResponse{}, domain.Err.ErrObj.InternalServer
 		}
-		if cast.ToDate((resp[i][6])).After(time.Now()){
+		// if cast.ToDate((resp[i][6])).After(time.Now()){
 			movies = append(movies, domain.AnnouncedBasic{
 				Id:            cast.IntToStr(cast.ToUint64(resp[i][0])),
 				Poster:        cast.ToString(resp[i][1]),
@@ -84,7 +84,7 @@ func (ar *dbAnnouncedRepository) GetMovies() (domain.AnnouncedBasicResponse, err
 				PremierMonth:  PremierMonth,
 				PremierDay:    cast.ToString(resp[i][5]),
 			})
-		}
+		// }
 	}
 	var movieResponse domain.AnnouncedBasicResponse
 	movieResponse.MovieList = movies
@@ -230,10 +230,9 @@ func (fr *dbAnnouncedRepository) GetAnnouncedByMonthYear(month int, year int) (d
 		}
 		announced.Releasedate = dateString
 
-		if cast.ToDate((resp[i][7])).After(time.Now()){
+		// if cast.ToDate((resp[i][7])).After(time.Now()){
 			bufferAnnounced = append(bufferAnnounced, announced)
-
-		}
+		// }
 	}
 	announcedList := domain.AnnouncedList{
 		AnnouncedList:  bufferAnnounced,
