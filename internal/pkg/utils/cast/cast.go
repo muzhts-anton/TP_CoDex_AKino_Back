@@ -47,7 +47,7 @@ func ToTime(src []byte) time.Time {
 }
 
 func ToDate(src []byte) time.Time {
-	tmp := pgtype.Timestamp{}
+	tmp := pgtype.Date{}
 	err := tmp.DecodeBinary(nil, src)
 	if (err != nil){
 		log.Error(err)
